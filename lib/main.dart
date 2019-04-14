@@ -41,6 +41,26 @@ class _MyHomePageState extends State<MyApp> {
           title: Text('AirHive'),
           backgroundColor: Colors.yellow[700],
         ),
+        drawer: new Drawer(
+            child: new ListView(
+              children: <Widget> [
+                new DrawerHeader(child: new Text('AirHive'),),
+                new ListTile(
+                  title: new Text('Roba uno'),
+                  onTap: () {},
+                ),
+                new ListTile(
+                  title: new Text('Roba due'),
+                  onTap: () {},
+                ),
+                new Divider(),
+                new ListTile(
+                  title: new Text('We are what we breathe.'),
+                  onTap: () {},
+                ),
+              ],
+            )
+        ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
