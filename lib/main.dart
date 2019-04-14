@@ -26,15 +26,27 @@ class MyApp extends StatefulWidget {
 
 class _MyHomePageState extends State<MyApp> {
   Completer<GoogleMapController> _controller = Completer();
-
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  static final CameraPosition _initialCamera = CameraPosition(
+    target: LatLng(0, 0),
+    zoom: 4,
+  );
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
 
+  GoogleMap googleMap;
+
   @override
   Widget build(BuildContext context) {
+
+    googleMap = GoogleMap(
+      onMapCreated: _onMapCreated,
+      myLocationEnabled: true,
+      initialCameraPosition: _initialCamera,
+      mapType: MapType.terrain,
+    );
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -61,14 +73,7 @@ class _MyHomePageState extends State<MyApp> {
               ],
             )
         ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-          mapType: MapType.terrain,
-        ),
+        body: googleMap,
       ),
     );
   }
