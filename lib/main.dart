@@ -1,8 +1,121 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
+
+Future<Sensori> fetchPhotos(http.Client client) async {
+  final response =
+  await client.get('https://jsonplaceholder.typicode.com/photos');
+
+  // Use the compute function to run parsePhotos in a separate isolate
+  return compute(parsePhotos, response.body);
+}
+
+// A function that converts a response body into a List<Photo>
+Sensori parsePhotos(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+
+  return parsed.map<Sensori>((json) => Sensori.fromJson(json)).toList();
+}
+
+class Properties{
+  final String id_sensore;
+  final double pm_10;
+  final double pm_10_1;
+  final double pm_10_2;
+  final double pm_10_3;
+  final double temp;
+  final double umi;
+  final double prec;
+  final double vento;
+
+  Properties({
+    this.id_sensore,
+    this.pm_10,
+    this.pm_10_1,
+    this.pm_10_2,
+    this.pm_10_3,
+    this.temp,
+    this.umi,
+    this.prec,
+    this.vento,
+  });
+
+  factory Properties.fromJson(Map<String, dynamic> json) {
+    return Properties(
+      id_sensore: json['id_sensore'] as String,
+      pm_10: json['pm10'] as double,
+      pm_10_1: json['pm10-1'] as double,
+      pm_10_2: json['pm10-2'] as double,
+      pm_10_3: json['pm10-3'] as double,
+      temp: json['temp'] as double,
+      umi: json['umi'] as double,
+      prec: json['prec'] as double,
+      vento: json['vento'] as double,
+    );
+  }
+}
+
+class Geometry{
+  final String type;
+  final List<double> coordinates;
+  final Properties properties;
+
+  Geometry({
+    this.type,
+    this.coordinates,
+    this.properties,
+  });
+
+  factory Geometry.fromJson(Map<String, dynamic> json) {
+    return Geometry(
+      type: json['type'] as String,
+      coordinates: json['coordinates'] as List<double>,
+      properties: json['properties'] as Properties,
+    );
+  }
+}
+
+class Features{
+  final String type;
+  final List<Geometry> geometry;
+
+  Features({
+    this.type,
+    this.geometry,
+  });
+
+  factory Features.fromJson(Map<String, dynamic> json) {
+    return Features(
+      type: json['type'] as String,
+      geometry: json['geometry'] as List<Geometry>,
+    );
+  }
+}
+
+class Sensori {
+  final String type;
+  final String tempo;
+  final List<Features> features;
+
+  Sensori({
+    this.type,
+    this.tempo,
+    this.features,
+  });
+
+  factory Sensori.fromJson(Map<String, dynamic> json) {
+    return Sensori(
+      type: json['type'] as String,
+      tempo: json['tempo'] as String,
+      features: json['features'] as List<Features>,
+    );
+  }
+}
 
 void main() => runApp(MyApp());
 
@@ -84,7 +197,7 @@ class _MyHomePageState extends State<MyApp> {
                   //background: Paint()..color = Colors.blue,
                 ),),
                   backgroundColor: Colors.transparent,
-                  elevation: 1.0, //Shadow gone
+                  elevation: 1.0, //Shadow
                 ),),
             ], ),
         floatingActionButton: new FloatingActionButton(
@@ -116,7 +229,6 @@ class _MyHomePageState extends State<MyApp> {
       ),
     ));
   }
-
 }
 
 
