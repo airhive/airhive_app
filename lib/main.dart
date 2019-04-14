@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
             target: _center,
             zoom: 11.0,
           ),
+          mapType: MapType.terrain,
         ),
       ),
     );
