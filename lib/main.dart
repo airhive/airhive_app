@@ -87,10 +87,10 @@ class _MyHomePageState extends State<MyApp> {
                   elevation: 1.0, //Shadow gone
                 ),),
             ], ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: _currentLocation,
-          label: Text('Localizzami'),
-          icon: Icon(Icons.location_on),
+        floatingActionButton: new FloatingActionButton(
+          onPressed: () => _currentLocation(),
+          tooltip: 'Localizzami',
+          child: Icon(Icons.location_on),
           backgroundColor: Colors.transparent,
           elevation: 1.0,
         ),
