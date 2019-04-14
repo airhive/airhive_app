@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs access to location when open.</string>
+    <string>Questa app necessita dei permessi GPS.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Questa app necessita dei permessi GPS.</string>
     <key>io.flutter.embedded_views_preview</key>
     <true/>
 	<key>CFBundleDevelopmentRegion</key>
