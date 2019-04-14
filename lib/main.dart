@@ -36,9 +36,31 @@ class _MyHomePageState extends State<MyApp> {
   }
 
   GoogleMap googleMap;
+  Drawer MenuLaterale;
 
   @override
   Widget build(BuildContext context) {
+
+    MenuLaterale = new Drawer(
+        child: new ListView(
+          children: <Widget> [
+            new DrawerHeader(child: new Text('AirHive'),),
+            new ListTile(
+              title: new Text('Roba uno'),
+              onTap: () {},
+            ),
+            new ListTile(
+              title: new Text('Roba due'),
+              onTap: () {},
+            ),
+            new Divider(),
+            new ListTile(
+              title: new Text('We are what we breathe.'),
+              onTap: () {},
+            ),
+          ],
+        )
+    );
 
     googleMap = GoogleMap(
       onMapCreated: _onMapCreated,
@@ -49,32 +71,23 @@ class _MyHomePageState extends State<MyApp> {
 
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('AirHive'),
-          backgroundColor: Colors.yellow[700],
+          drawer: MenuLaterale,
+        body: Stack(
+            children: <Widget>[
+              googleMap,
+              new Positioned( //Place it at the top, and not use the entire screen
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: AppBar(title: Text('AirHive', style: TextStyle(
+                  color: Colors.white,
+                  //background: Paint()..color = Colors.blue,
+                ),),
+                  backgroundColor: Colors.transparent,
+                  elevation: 1.0, //Shadow gone
+                ),),
+            ], )
         ),
-        drawer: new Drawer(
-            child: new ListView(
-              children: <Widget> [
-                new DrawerHeader(child: new Text('AirHive'),),
-                new ListTile(
-                  title: new Text('Roba uno'),
-                  onTap: () {},
-                ),
-                new ListTile(
-                  title: new Text('Roba due'),
-                  onTap: () {},
-                ),
-                new Divider(),
-                new ListTile(
-                  title: new Text('We are what we breathe.'),
-                  onTap: () {},
-                ),
-              ],
-            )
-        ),
-        body: googleMap,
-      ),
     );
   }
 }
