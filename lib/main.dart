@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 Future<Sensori> fetchPhotos(http.Client client) async {
   final response =
-  await client.get('https://jsonplaceholder.typicode.com/photos');
+  await client.get('https://house.zan-tech.com/dati/');
 
   // Use the compute function to run parsePhotos in a separate isolate
   return compute(parsePhotos, response.body);
@@ -18,6 +18,8 @@ Future<Sensori> fetchPhotos(http.Client client) async {
 // A function that converts a response body into a List<Photo>
 Sensori parsePhotos(String responseBody) {
   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+
+  print(parsed);
 
   return parsed.map<Sensori>((json) => Sensori.fromJson(json)).toList();
 }
@@ -63,36 +65,37 @@ class Properties{
 class Geometry{
   final String type;
   final List<double> coordinates;
-  final Properties properties;
 
   Geometry({
     this.type,
     this.coordinates,
-    this.properties,
   });
 
   factory Geometry.fromJson(Map<String, dynamic> json) {
     return Geometry(
       type: json['type'] as String,
       coordinates: json['coordinates'] as List<double>,
-      properties: json['properties'] as Properties,
     );
   }
 }
 
 class Features{
   final String type;
-  final List<Geometry> geometry;
+  final Geometry geometry;
+  final Properties properties;
 
   Features({
     this.type,
     this.geometry,
+    this.properties,
   });
 
   factory Features.fromJson(Map<String, dynamic> json) {
+
     return Features(
       type: json['type'] as String,
-      geometry: json['geometry'] as List<Geometry>,
+      geometry : Geometry.fromJson(json['geometry']),
+      properties : Properties.fromJson(json['properties']),
     );
   }
 }
@@ -109,10 +112,14 @@ class Sensori {
   });
 
   factory Sensori.fromJson(Map<String, dynamic> json) {
+    var list = json['features'] as List;
+    print(list);
+    List<Features> featureslist = list.map((i) => Features.fromJson(i)).toList();
+
     return Sensori(
       type: json['type'] as String,
       tempo: json['tempo'] as String,
-      features: json['features'] as List<Features>,
+      features: featureslist,
     );
   }
 }
@@ -225,7 +232,7 @@ class _MyHomePageState extends State<MyApp> {
       CameraPosition(
         bearing: 0,
         target: LatLng(currentLocation.latitude, currentLocation.longitude),
-        zoom: 17.0,
+        zoom: 16.0,
       ),
     ));
   }
