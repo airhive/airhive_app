@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyApp> {
 
     googleMap = GoogleMap(
       onMapCreated: _onMapCreated,
-      myLocationEnabled: true,
+      //myLocationEnabled: true,
       initialCameraPosition: _initialCamera,
       mapType: MapType.terrain,
     );
@@ -86,8 +86,37 @@ class _MyHomePageState extends State<MyApp> {
                   backgroundColor: Colors.transparent,
                   elevation: 1.0, //Shadow gone
                 ),),
-            ], )
+            ], ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: _currentLocation,
+          label: Text('Localizzami'),
+          icon: Icon(Icons.location_on),
+          backgroundColor: Colors.transparent,
+          elevation: 1.0,
         ),
+      ),
     );
   }
+
+  void _currentLocation() async {
+    final GoogleMapController controller = await _controller.future;
+    LocationData currentLocation;
+    var location = new Location();
+    try {
+      currentLocation = await location.getLocation();
+    } on Exception {
+      currentLocation = null;
+    }
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        bearing: 0,
+        target: LatLng(currentLocation.latitude, currentLocation.longitude),
+        zoom: 17.0,
+      ),
+    ));
+  }
+
 }
+
+
