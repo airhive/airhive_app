@@ -129,15 +129,6 @@ void main() => runApp(MyApp());
 class MyApp extends StatefulWidget {
   MyApp({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -158,6 +149,8 @@ class _MyHomePageState extends State<MyApp> {
 
   GoogleMap googleMap;
   Drawer MenuLaterale;
+
+  bool pressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -198,24 +191,45 @@ class _MyHomePageState extends State<MyApp> {
             children: <Widget>[
               googleMap,
               new Align(
-                    alignment: FractionalOffset(0.05, 0.05),
-                    child: FloatingActionButton(
-                      onPressed: () => _scaffoldKey.currentState.openDrawer(),
-                      tooltip: 'Menu',
-                      child: Icon(Icons.settings),
-                      backgroundColor: Colors.transparent,
-                      elevation: 1.0,
-                    ),),
+                alignment: FractionalOffset(0.01, 0.02),
+                child: GestureDetector(
+                  onTap: () {
+                    _scaffoldKey.currentState.openDrawer();
+                  },
+                  child: new Image.asset(
+                      "immagini/airhive.png",
+                      scale: 7.5,
+                  ),
+                ),),
               new Align(
-                      alignment: FractionalOffset(0.9, 0.95),
+                      alignment: FractionalOffset(0.95, 0.87),
                       child: FloatingActionButton(
                         onPressed: () => _currentLocation(),
                         tooltip: 'Localizzami',
                         child: Icon(Icons.location_on),
-                        backgroundColor: Colors.transparent,
+                        backgroundColor: Colors.yellow[700].withOpacity(0.95),
                         elevation: 1.0,
                       )
                   ),
+              new Align(
+                  alignment: FractionalOffset(0.95, 0.96),
+                  child: FloatingActionButton(
+                    onPressed: () => {},
+                    tooltip: 'Cerca',
+                    child: Icon(Icons.search),
+                    backgroundColor: Colors.yellow[700].withOpacity(0.95),
+                    elevation: 1.0,
+                  )
+              ),
+              pressed ? Text(" text is here ") : SizedBox(),
+              RaisedButton(
+                child: Text(pressed.toString()),
+                onPressed: () {
+                  setState(() {
+                    pressed = true;
+                  });
+                },
+              )
             ], ),
       ),
     );
