@@ -150,7 +150,7 @@ class _MyHomePageState extends State<MyApp> {
   GoogleMap googleMap;
   Drawer MenuLaterale;
 
-  bool pressed = false;
+  final Set<Marker> _posizione = {};
 
   @override
   Widget build(BuildContext context) {
@@ -181,6 +181,7 @@ class _MyHomePageState extends State<MyApp> {
       //myLocationEnabled: true,
       initialCameraPosition: _initialCamera,
       mapType: MapType.terrain,
+      markers: _posizione,
     );
 
     return MaterialApp(
@@ -221,15 +222,6 @@ class _MyHomePageState extends State<MyApp> {
                     elevation: 1.0,
                   )
               ),
-              pressed ? Text(" text is here ") : SizedBox(),
-              RaisedButton(
-                child: Text(pressed.toString()),
-                onPressed: () {
-                  setState(() {
-                    pressed = true;
-                  });
-                },
-              )
             ], ),
       ),
     );
@@ -252,6 +244,19 @@ class _MyHomePageState extends State<MyApp> {
         zoom: 16.0,
       ),
     ));
+
+    setState(() {
+      _posizione.add(Marker(
+        // This marker id can be anything that uniquely identifies each marker.
+        markerId: MarkerId("Posizione"),
+        position: LatLng(currentLocation.latitude, currentLocation.longitude),
+        infoWindow: InfoWindow(
+          title: 'Really cool place',
+          snippet: '5 Star Rating',
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+      ));
+    });
   }
 }
 
