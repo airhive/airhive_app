@@ -218,16 +218,20 @@ class _MyHomePageState extends State<MyApp> {
     for(var i = 0; i < features.length; i++) {
       Geometry geometry = features[i].geometry;
       Properties properties = features[i].properties;
+      //Trucchetto per decidere di che colore mettere il marker
+      String colore = properties.pm_10 < 50 ? "arancio" : "rosso";
+      colore = properties.pm_10 < 30 ? colore = "giallo" : colore;
+      colore = properties.pm_10 < 15 ? colore = "blu" : colore;
       setState(() {
       _markers.add(Marker(
-        // This marker id can be anything that uniquely identifies each marker.
         markerId: MarkerId(properties.id_sensore),
         position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
+        alpha : 0.6,
         infoWindow: InfoWindow(
           title: properties.id_sensore,
           snippet: properties.pm_10.toString(),
         ),
-        icon: properties.pm_10 < 50 ? BitmapDescriptor.fromAsset("immagini/punto_blu.png") : BitmapDescriptor.fromAsset("immagini/punto_rosso.png"),
+        icon: BitmapDescriptor.fromAsset("immagini/punto_$colore.png"),
       ));
     });
     }
