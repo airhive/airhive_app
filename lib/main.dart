@@ -265,7 +265,7 @@ class _MyHomePageState extends State<MyApp> {
           title: 'Really cool place',
           snippet: '5 Star Rating',
         ),
-        icon: BitmapDescriptor.fromAsset("immagini/ape.bmp"),
+        icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
       ));
     });
   }
