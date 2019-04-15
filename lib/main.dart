@@ -7,23 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 
-Future<Sensori> fetchPhotos(http.Client client) async {
-  final response =
-  await client.get('https://house.zan-tech.com/dati/');
-
-  // Use the compute function to run parsePhotos in a separate isolate
-  return compute(parsePhotos, response.body);
-}
-
-// A function that converts a response body into a List<Photo>
-Sensori parsePhotos(String responseBody) {
-  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-
-  print(parsed);
-
-  return parsed.map<Sensori>((json) => Sensori.fromJson(json)).toList();
-}
-
 class Properties{
   final String id_sensore;
   final double pm_10;
@@ -64,7 +47,7 @@ class Properties{
 
 class Geometry{
   final String type;
-  final List<double> coordinates;
+  final List<dynamic> coordinates;
 
   Geometry({
     this.type,
@@ -74,7 +57,7 @@ class Geometry{
   factory Geometry.fromJson(Map<String, dynamic> json) {
     return Geometry(
       type: json['type'] as String,
-      coordinates: json['coordinates'] as List<double>,
+      coordinates: json['coordinates'] as List<dynamic>,
     );
   }
 }
@@ -113,7 +96,6 @@ class Sensori {
 
   factory Sensori.fromJson(Map<String, dynamic> json) {
     var list = json['features'] as List;
-    print(list);
     List<Features> featureslist = list.map((i) => Features.fromJson(i)).toList();
 
     return Sensori(
@@ -143,14 +125,11 @@ class _MyHomePageState extends State<MyApp> {
     zoom: 4,
   );
 
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-  }
-
   GoogleMap googleMap;
   Drawer MenuLaterale;
 
   final Set<Marker> _posizione = {};
+  final Set<Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +156,7 @@ class _MyHomePageState extends State<MyApp> {
     );
 
     googleMap = GoogleMap(
+      compassEnabled: false,
       onMapCreated: _onMapCreated,
       //myLocationEnabled: true,
       initialCameraPosition: _initialCamera,
@@ -227,6 +207,35 @@ class _MyHomePageState extends State<MyApp> {
     );
   }
 
+  Future<void> fetchData(http.Client client) async {
+    final response =
+    await client.get('https://house.zan-tech.com/dati/');
+    final parsed = json.decode(response.body);
+
+    Sensori res =  Sensori.fromJson(parsed);
+    String tempo = res.tempo;
+    List<Features> features = res.features;
+    print(res.type);
+    /*setState(() {
+      _posizione.add(Marker(
+        // This marker id can be anything that uniquely identifies each marker.
+        markerId: MarkerId("Posizione"),
+        position: LatLng(currentLocation.latitude, currentLocation.longitude),
+        infoWindow: InfoWindow(
+          title: 'Really cool place',
+          snippet: '5 Star Rating',
+        ),
+        icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+      ));
+    }); */
+
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+    fetchData(http.Client());
+  }
+
   void _currentLocation() async {
     final GoogleMapController controller = await _controller.future;
     LocationData currentLocation;
@@ -254,7 +263,7 @@ class _MyHomePageState extends State<MyApp> {
           title: 'Really cool place',
           snippet: '5 Star Rating',
         ),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+        icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
       ));
     });
   }
