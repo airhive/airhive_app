@@ -227,7 +227,7 @@ class _MyHomePageState extends State<MyApp> {
           title: properties.id_sensore,
           snippet: properties.pm_10.toString(),
         ),
-        icon: BitmapDescriptor.defaultMarker,
+        icon: properties.pm_10 < 50 ? BitmapDescriptor.fromAsset("immagini/punto_blu.png") : BitmapDescriptor.fromAsset("immagini/punto_rosso.png"),
       ));
     });
     }
