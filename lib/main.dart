@@ -145,6 +145,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyApp> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _initialCamera = CameraPosition(
     target: LatLng(0, 0),
@@ -191,29 +192,31 @@ class _MyHomePageState extends State<MyApp> {
 
     return MaterialApp(
       home: Scaffold(
-          drawer: MenuLaterale,
+        key: _scaffoldKey,
+        drawer: MenuLaterale,
         body: Stack(
             children: <Widget>[
               googleMap,
-              new Positioned( //Place it at the top, and not use the entire screen
-                top: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: AppBar(title: Text('AirHive', style: TextStyle(
-                  color: Colors.white,
-                  //background: Paint()..color = Colors.blue,
-                ),),
-                  backgroundColor: Colors.transparent,
-                  elevation: 1.0, //Shadow
-                ),),
+              new Align(
+                    alignment: FractionalOffset(0.05, 0.05),
+                    child: FloatingActionButton(
+                      onPressed: () => _scaffoldKey.currentState.openDrawer(),
+                      tooltip: 'Menu',
+                      child: Icon(Icons.settings),
+                      backgroundColor: Colors.transparent,
+                      elevation: 1.0,
+                    ),),
+              new Align(
+                      alignment: FractionalOffset(0.9, 0.95),
+                      child: FloatingActionButton(
+                        onPressed: () => _currentLocation(),
+                        tooltip: 'Localizzami',
+                        child: Icon(Icons.location_on),
+                        backgroundColor: Colors.transparent,
+                        elevation: 1.0,
+                      )
+                  ),
             ], ),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: () => _currentLocation(),
-          tooltip: 'Localizzami',
-          child: Icon(Icons.location_on),
-          backgroundColor: Colors.transparent,
-          elevation: 1.0,
-        ),
       ),
     );
   }
