@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyApp> {
       //myLocationEnabled: true,
       initialCameraPosition: _initialCamera,
       mapType: MapType.terrain,
-      markers: _posizione,
+      markers: _markers,
     );
 
     return MaterialApp(
@@ -215,20 +215,22 @@ class _MyHomePageState extends State<MyApp> {
     Sensori res =  Sensori.fromJson(parsed);
     String tempo = res.tempo;
     List<Features> features = res.features;
-    print(res.type);
-    /*setState(() {
-      _posizione.add(Marker(
+    for(var i = 0; i < features.length; i++) {
+      Geometry geometry = features[i].geometry;
+      Properties properties = features[i].properties;
+      setState(() {
+      _markers.add(Marker(
         // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId("Posizione"),
-        position: LatLng(currentLocation.latitude, currentLocation.longitude),
+        markerId: MarkerId(properties.id_sensore),
+        position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
         infoWindow: InfoWindow(
-          title: 'Really cool place',
-          snippet: '5 Star Rating',
+          title: properties.id_sensore,
+          snippet: properties.pm_10.toString(),
         ),
-        icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+        icon: BitmapDescriptor.defaultMarker,
       ));
-    }); */
-
+    });
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -255,7 +257,7 @@ class _MyHomePageState extends State<MyApp> {
     ));
 
     setState(() {
-      _posizione.add(Marker(
+      _markers.add(Marker(
         // This marker id can be anything that uniquely identifies each marker.
         markerId: MarkerId("Posizione"),
         position: LatLng(currentLocation.latitude, currentLocation.longitude),
@@ -263,7 +265,7 @@ class _MyHomePageState extends State<MyApp> {
           title: 'Really cool place',
           snippet: '5 Star Rating',
         ),
-        icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+        icon: BitmapDescriptor.fromAsset("immagini/ape.bmp"),
       ));
     });
   }
