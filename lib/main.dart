@@ -44,7 +44,7 @@ class Properties{
     );
   }
 }
-
+//dz
 class Geometry{
   final String type;
   final List<dynamic> coordinates;
