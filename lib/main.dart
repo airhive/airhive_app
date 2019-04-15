@@ -44,7 +44,7 @@ class Properties{
     );
   }
 }
-//dz
+
 class Geometry{
   final String type;
   final List<dynamic> coordinates;
@@ -117,6 +117,20 @@ class MyApp extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+//Writing login page code
+class LoginPage extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Login"),
+      ),
+      body: new Text("Qui sarà inserita la pagina di login"),
+    );
+  }
+
+}
+
 class _MyHomePageState extends State<MyApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
@@ -140,7 +154,9 @@ class _MyHomePageState extends State<MyApp> {
             new DrawerHeader(child: new Text('AirHive'),),
             new ListTile(
               title: new Text('Roba uno'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, new MaterialPageRoute(builder: (context) => new LoginPage()),);
+              },
             ),
             new ListTile(
               title: new Text('Roba due'),
@@ -270,5 +286,3 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 }
-
-
