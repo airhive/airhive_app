@@ -124,6 +124,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        drawer: menulaterale(context),
         appBar: new AppBar(
           title: new Text("Login"),
         ),
@@ -186,28 +187,7 @@ class _MyHomePageState extends State<MyApp> {
       home: Builder(
       builder: (context) => Scaffold(
         key: _scaffoldKey,
-        drawer: Drawer(
-            child: new ListView(
-              children: <Widget> [
-                new DrawerHeader(child: new Text('AirHive'),),
-                new ListTile(
-                  title: new Text('Roba uno'),
-                  onTap: () {
-                    Navigator.push(context, new MaterialPageRoute(builder: (context) => new LoginPage()),);
-                  },
-                ),
-                new ListTile(
-                  title: new Text('Roba due'),
-                  onTap: () {},
-                ),
-                new Divider(),
-                new ListTile(
-                  title: new Text('We are what we breathe.'),
-                  onTap: () {},
-                ),
-              ],
-            )
-        ),
+        drawer: menulaterale(context),
         body: Stack(
             children: <Widget>[
               googleMap,
@@ -316,4 +296,32 @@ class _MyHomePageState extends State<MyApp> {
       ));
     });
   }
+}
+
+// Funzione che genera il menu laterale nel giusto context
+Drawer menulaterale(context){
+  return Drawer(
+      child: new ListView(
+        children: <Widget> [
+          new DrawerHeader(child: new Text('AirHive'),),
+          new ListTile(
+            title: new Text('Mappa'),
+            onTap: () {
+              Navigator.push(context, new MaterialPageRoute(builder: (context) => new MyApp()),);
+            },
+          ),
+          new ListTile(
+            title: new Text('Login'),
+            onTap: () {
+              Navigator.push(context, new MaterialPageRoute(builder: (context) => new LoginPage()),);
+            },
+          ),
+          new Divider(),
+          new ListTile(
+            title: new Text('We are what we breathe.'),
+            onTap: () {},
+          ),
+        ],
+      )
+  );
 }
