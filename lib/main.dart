@@ -289,8 +289,8 @@ class _MyHomePageState extends State<MyApp> {
 
   CameraPosition posizione_camera() {
     return CameraPosition(
-      target: posizione_assoluta,
-      zoom: 1,
+      target: LatLng(45.4510525, 9.4126428),
+      zoom: 0.1,
     );
   }
 
@@ -316,7 +316,7 @@ class _MyHomePageState extends State<MyApp> {
         CameraPosition(
           bearing: 0,
           target: LatLng(currentLocation.latitude, currentLocation.longitude),
-          zoom: 16.0,
+          zoom: 13.0,
         ),
       ));
 
@@ -337,10 +337,23 @@ class _MyHomePageState extends State<MyApp> {
 
 // Funzione che genera il menu laterale nel giusto context
 Drawer menulaterale(context){
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   return Drawer(
       child: new ListView(
         children: <Widget> [
-          new DrawerHeader(child: new Text('AirHive'),),
+          new DrawerHeader(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                },
+                child: new Image.asset(
+                  "immagini/airhive.png",
+                  scale: 7.5,
+           ), ),
+            decoration: BoxDecoration(
+              color: Colors.yellow[700],
+            ),
+          ),
           new ListTile(
             title: new Text('Mappa'),
             onTap: () {
