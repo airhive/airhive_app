@@ -190,16 +190,13 @@ class _MyHomePageState extends State<MyApp> {
   Widget build(BuildContext context) {
 
     googleMap = GoogleMap(
+      onTap: _googlemaptap,
       compassEnabled: false,
       onMapCreated: _onMapCreated,
       myLocationEnabled: false,
       initialCameraPosition: _initialCamera,
       mapType: MapType.terrain,
       markers: _markers,
-      /*onTap: {
-        setState(() {
-            apri_info = false;
-          }),*/
     );
 
     return MaterialApp(
@@ -273,7 +270,7 @@ class _MyHomePageState extends State<MyApp> {
                     });
                     },
                     child:Container(
-                      child: Center(child:Text(testo_info)),
+                      child: Center(child:Text("PM: $testo_info")),
                       color: Colors.white,
                       height : 200,
                   ),
@@ -284,6 +281,12 @@ class _MyHomePageState extends State<MyApp> {
       ),
       ),
     );
+  }
+
+  void _googlemaptap(LatLng pos){
+    setState(() {
+      apri_info = false;
+    });
   }
 
   Future<void> fetchData(http.Client client) async {
