@@ -131,22 +131,22 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        drawer: menulaterale(context),
-        appBar: new AppBar(
-          title: new Text("Impostazioni"),
-          backgroundColor: Colors.yellow[700],
-        ),
-        body: new PreferencePage([
-          PreferenceTitle("Mappa")
+      home: Builder(
+        builder: (context) => Scaffold(
+          drawer: menulaterale(context),
+          appBar: new AppBar(
+            title: new Text("Impostazioni"),
+            backgroundColor: Colors.yellow[700],
+          ),
+          body: new PreferencePage([
+            PreferenceTitle("Mappa"),
+          ]),
+
+
 
           ),
-        ]),
-
-
-
-        ),
-      );
+      ),
+    );
   }
 }
 
@@ -156,13 +156,15 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        drawer: menulaterale(context),
-        appBar: new AppBar(
-          title: new Text("Account"),
-          backgroundColor: Colors.yellow[700],
+      home: Builder(
+        builder: (context) => Scaffold(
+          drawer: menulaterale(context),
+          appBar: new AppBar(
+            title: new Text("Account"),
+            backgroundColor: Colors.yellow[700],
+          ),
+          body: new Text("Qui sarà inserita la pagina di relativa all'account"),
         ),
-        body: new Text("Qui sarà inserita la pagina di relativa all'account"),
       ),
     );
   }
@@ -173,8 +175,8 @@ class _MyHomePageState extends State<MyApp> {
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _initialCamera = CameraPosition(
-    target: posizione_assoluta,
-    zoom: 4,
+    target: LatLng(45.4510525, 9.4126428),
+    zoom: 0.1,
   );
 
   GoogleMap googleMap;
@@ -190,7 +192,7 @@ class _MyHomePageState extends State<MyApp> {
       compassEnabled: false,
       onMapCreated: _onMapCreated,
       //myLocationEnabled: true,
-      initialCameraPosition: posizione_camera(),
+      initialCameraPosition: _initialCamera,
       mapType: MapType.terrain,
       markers: _markers,
     );
@@ -290,13 +292,6 @@ class _MyHomePageState extends State<MyApp> {
     }
   }
 
-  CameraPosition posizione_camera() {
-    return CameraPosition(
-      target: LatLng(45.4510525, 9.4126428),
-      zoom: 0.1,
-    );
-  }
-
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
     fetchData(http.Client());
@@ -340,7 +335,6 @@ class _MyHomePageState extends State<MyApp> {
 
 // Funzione che genera il menu laterale nel giusto context
 Drawer menulaterale(context){
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   return Drawer(
       child: new ListView(
         children: <Widget> [
@@ -379,7 +373,6 @@ Drawer menulaterale(context){
           new Divider(),
           new ListTile(
             title: new Text('We are what we breathe.'),
-            onTap: () {},
           ),
         ],
       )
