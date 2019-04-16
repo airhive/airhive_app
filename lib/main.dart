@@ -283,12 +283,7 @@ class _MyHomePageState extends State<MyApp> {
     );
   }
 
-  void _googlemaptap(LatLng pos){
-    setState(() {
-      apri_info = false;
-    });
-  }
-
+  //Scarica il JSON e prepara i marker
   Future<void> fetchData(http.Client client) async {
     final response =
     await client.get('https://house.zan-tech.com/dati/');
@@ -322,12 +317,21 @@ class _MyHomePageState extends State<MyApp> {
     }
   }
 
+  //Chiude le informazioni del marker toccando la mappa
+  void _googlemaptap(LatLng posizione_toccata){
+    setState(() {
+      apri_info = false;
+    });
+  }
+
+  //Alla creazione della mappa scarica il JSON e centra nella giusta posizione
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
     fetchData(http.Client());
     _currentLocation();
   }
 
+  //Centra nella posizione e aggiunge il marker con l'ape
   void _currentLocation() async {
     final GoogleMapController controller = await _controller.future;
     LocationData currentLocation;
@@ -363,7 +367,7 @@ class _MyHomePageState extends State<MyApp> {
    }
 }
 
-// Funzione che genera il menu laterale nel giusto context
+// Genera il menu laterale nel giusto context
 Drawer menulaterale(context){
   return Drawer(
       child: new ListView(
@@ -375,7 +379,7 @@ Drawer menulaterale(context){
                 },
                 child: new Image.asset(
                   "immagini/airhive.png",
-                  scale: 7.5,
+                  scale: 5.5,
            ), ),
             decoration: BoxDecoration(
               color: Colors.yellow[700],
