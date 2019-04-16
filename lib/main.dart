@@ -118,17 +118,19 @@ class MyApp extends StatefulWidget {
 }
 
 //Writing login page code
-class LoginPage extends State<MyApp> {
+class LoginPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Login"),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: new AppBar(
+          title: new Text("Login"),
+        ),
+        body: new Text("Qui sarà inserita la pagina di login"),
       ),
-      body: new Text("Qui sarà inserita la pagina di login"),
     );
   }
-
 }
 
 class _MyHomePageState extends State<MyApp> {
@@ -148,7 +150,7 @@ class _MyHomePageState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
-    MenuLaterale = new Drawer(
+    /*MenuLaterale = Drawer(
         child: new ListView(
           children: <Widget> [
             new DrawerHeader(child: new Text('AirHive'),),
@@ -169,7 +171,7 @@ class _MyHomePageState extends State<MyApp> {
             ),
           ],
         )
-    );
+    );*/
 
     googleMap = GoogleMap(
       compassEnabled: false,
@@ -181,9 +183,31 @@ class _MyHomePageState extends State<MyApp> {
     );
 
     return MaterialApp(
-      home: Scaffold(
+      home: Builder(
+      builder: (context) => Scaffold(
         key: _scaffoldKey,
-        drawer: MenuLaterale,
+        drawer: Drawer(
+            child: new ListView(
+              children: <Widget> [
+                new DrawerHeader(child: new Text('AirHive'),),
+                new ListTile(
+                  title: new Text('Roba uno'),
+                  onTap: () {
+                    Navigator.push(context, new MaterialPageRoute(builder: (context) => new LoginPage()),);
+                  },
+                ),
+                new ListTile(
+                  title: new Text('Roba due'),
+                  onTap: () {},
+                ),
+                new Divider(),
+                new ListTile(
+                  title: new Text('We are what we breathe.'),
+                  onTap: () {},
+                ),
+              ],
+            )
+        ),
         body: Stack(
             children: <Widget>[
               googleMap,
@@ -201,6 +225,7 @@ class _MyHomePageState extends State<MyApp> {
               new Align(
                       alignment: FractionalOffset(0.95, 0.87),
                       child: FloatingActionButton(
+                        heroTag: "localizzazione",
                         onPressed: () => _currentLocation(),
                         tooltip: 'Localizzami',
                         child: Icon(Icons.location_on),
@@ -211,6 +236,7 @@ class _MyHomePageState extends State<MyApp> {
               new Align(
                   alignment: FractionalOffset(0.95, 0.96),
                   child: FloatingActionButton(
+                    heroTag: "cerca",
                     onPressed: () => {},
                     tooltip: 'Cerca',
                     child: Icon(Icons.search),
@@ -219,6 +245,7 @@ class _MyHomePageState extends State<MyApp> {
                   )
               ),
             ], ),
+      ),
       ),
     );
   }
