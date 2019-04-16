@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:preferences/preferences.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
@@ -108,7 +109,12 @@ class Sensori {
   }
 }
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
+main() async {
+  await PrefService.init(prefix: 'pref_');
+  runApp(MyApp());
+}
+
 
 class MyApp extends StatefulWidget {
   MyApp({Key key, this.title}) : super(key: key);
@@ -131,14 +137,11 @@ class SettingsPage extends StatelessWidget {
           title: new Text("Impostazioni"),
           backgroundColor: Colors.yellow[700],
         ),
-        body: new ListView(
-          children: <Widget>[
-            ListTile(
-              title: new Text("Stile mappa"),
-              subtitle: new Text("Seleziona lo stile preferito della mappa"),
-            ),
-          ],
-        ),
+        body: new PreferencePage([
+          PreferenceTitle("Mappa")
+
+          ),
+        ]),
 
 
 
