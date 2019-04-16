@@ -290,7 +290,7 @@ class _MyHomePageState extends State<MyApp> {
   CameraPosition posizione_camera() {
     return CameraPosition(
       target: posizione_assoluta,
-      zoom: 50,
+      zoom: 1,
     );
   }
 
@@ -315,7 +315,7 @@ class _MyHomePageState extends State<MyApp> {
       controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: 0,
-          target: posizione_assoluta,
+          target: LatLng(currentLocation.latitude, currentLocation.longitude),
           zoom: 16.0,
         ),
       ));
