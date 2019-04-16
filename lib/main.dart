@@ -180,9 +180,10 @@ class _MyHomePageState extends State<MyApp> {
   );
 
   GoogleMap googleMap;
-  Drawer MenuLaterale;
 
-  final Set<Marker> _posizione = {};
+  bool apri_info = false;
+  String testo_info;
+
   final Set<Marker> _markers = {};
 
   @override
@@ -191,10 +192,14 @@ class _MyHomePageState extends State<MyApp> {
     googleMap = GoogleMap(
       compassEnabled: false,
       onMapCreated: _onMapCreated,
-      //myLocationEnabled: true,
+      myLocationEnabled: false,
       initialCameraPosition: _initialCamera,
       mapType: MapType.terrain,
       markers: _markers,
+      /*onTap: {
+        setState(() {
+            apri_info = false;
+          }),*/
     );
 
     return MaterialApp(
@@ -256,6 +261,25 @@ class _MyHomePageState extends State<MyApp> {
                   SizedBox(width: 15),
                 ]),
                 ),
+              apri_info ? new Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      apri_info = false;
+                    });
+                    },
+                    child:Container(
+                      child: Center(child:Text(testo_info)),
+                      color: Colors.white,
+                      height : 200,
+                  ),
+                  ),
+                ],
+              ) : new Container(),
             ], ),
       ),
       ),
@@ -282,10 +306,13 @@ class _MyHomePageState extends State<MyApp> {
         markerId: MarkerId(properties.id_sensore),
         position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
         alpha : 0.6,
-        infoWindow: InfoWindow(
-          title: properties.id_sensore,
-          snippet: properties.pm_10.toString(),
-        ),
+        onTap: () {
+          setState(() {
+            apri_info = true;
+            testo_info = properties.pm_10.toString();
+          });
+        //_scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Are you talkin\' to me?')));
+        },
         icon: BitmapDescriptor.fromAsset("immagini/punto_$colore.png"),
       ));
     });
