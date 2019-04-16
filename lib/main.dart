@@ -7,6 +7,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 
+LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
+
 class Properties{
   final String id_sensore;
   final double pm_10;
@@ -166,8 +168,9 @@ class AccountPage extends StatelessWidget {
 class _MyHomePageState extends State<MyApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
+
   static final CameraPosition _initialCamera = CameraPosition(
-    target: LatLng(0, 0),
+    target: posizione_assoluta,
     zoom: 4,
   );
 
@@ -180,34 +183,11 @@ class _MyHomePageState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
-    /*MenuLaterale = Drawer(
-        child: new ListView(
-          children: <Widget> [
-            new DrawerHeader(child: new Text('AirHive'),),
-            new ListTile(
-              title: new Text('Roba uno'),
-              onTap: () {
-                Navigator.push(context, new MaterialPageRoute(builder: (context) => new AccountPage()),);
-              },
-            ),
-            new ListTile(
-              title: new Text('Roba due'),
-              onTap: () {},
-            ),
-            new Divider(),
-            new ListTile(
-              title: new Text('We are what we breathe.'),
-              onTap: () {},
-            ),
-          ],
-        )
-    );*/
-
     googleMap = GoogleMap(
       compassEnabled: false,
       onMapCreated: _onMapCreated,
       //myLocationEnabled: true,
-      initialCameraPosition: _initialCamera,
+      initialCameraPosition: posizione_camera(),
       mapType: MapType.terrain,
       markers: _markers,
     );
@@ -307,9 +287,17 @@ class _MyHomePageState extends State<MyApp> {
     }
   }
 
+  CameraPosition posizione_camera() {
+    return CameraPosition(
+      target: posizione_assoluta,
+      zoom: 50,
+    );
+  }
+
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
     fetchData(http.Client());
+    _currentLocation();
   }
 
   void _currentLocation() async {
@@ -322,27 +310,29 @@ class _MyHomePageState extends State<MyApp> {
       currentLocation = null;
     }
 
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        bearing: 0,
-        target: LatLng(currentLocation.latitude, currentLocation.longitude),
-        zoom: 16.0,
-      ),
-    ));
+    posizione_assoluta = LatLng(currentLocation.latitude, currentLocation.longitude);
 
-    setState(() {
-      _markers.add(Marker(
-        // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId("Posizione"),
-        position: LatLng(currentLocation.latitude, currentLocation.longitude),
-        infoWindow: InfoWindow(
-          title: 'Really cool place',
-          snippet: '5 Star Rating',
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0,
+          target: posizione_assoluta,
+          zoom: 16.0,
         ),
-        icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
       ));
-    });
-  }
+
+      setState(() {
+        _markers.add(Marker(
+          // This marker id can be anything that uniquely identifies each marker.
+          markerId: MarkerId("Posizione"),
+          position: posizione_assoluta,
+          infoWindow: InfoWindow(
+            title: 'Really cool place',
+            snippet: '5 Star Rating',
+          ),
+          icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+        ));
+      });
+   }
 }
 
 // Funzione che genera il menu laterale nel giusto context
