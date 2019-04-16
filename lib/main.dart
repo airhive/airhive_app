@@ -117,8 +117,8 @@ class MyApp extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-//Writing login page code
-class LoginPage extends StatelessWidget {
+//Writing Settings page code
+class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +126,26 @@ class LoginPage extends StatelessWidget {
       home: Scaffold(
         drawer: menulaterale(context),
         appBar: new AppBar(
-          title: new Text("Login"),
+          title: new Text("Impostazioni"),
         ),
-        body: new Text("Qui sarà inserita la pagina di login"),
+        body: new Text("Qui sarà inserita la pagina delle impostazioni"),
+      ),
+    );
+  }
+}
+
+//Writing account page code
+class AccountPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        drawer: menulaterale(context),
+        appBar: new AppBar(
+          title: new Text("Account"),
+        ),
+        body: new Text("Qui sarà inserita la pagina di relativa all'account"),
       ),
     );
   }
@@ -158,7 +175,7 @@ class _MyHomePageState extends State<MyApp> {
             new ListTile(
               title: new Text('Roba uno'),
               onTap: () {
-                Navigator.push(context, new MaterialPageRoute(builder: (context) => new LoginPage()),);
+                Navigator.push(context, new MaterialPageRoute(builder: (context) => new AccountPage()),);
               },
             ),
             new ListTile(
@@ -311,9 +328,16 @@ Drawer menulaterale(context){
             },
           ),
           new ListTile(
-            title: new Text('Login'),
+            title: new Text('Account'),
             onTap: () {
-              Navigator.push(context, new MaterialPageRoute(builder: (context) => new LoginPage()),);
+              Navigator.push(context, new MaterialPageRoute(builder: (context) => new AccountPage()),);
+            },
+          ),
+          new Divider(),
+          new ListTile(
+            title: new Text('Impostazioni'),
+            onTap: (){
+              Navigator.push(context, new MaterialPageRoute(builder: (context) => new SettingsPage()),);
             },
           ),
           new Divider(),
