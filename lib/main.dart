@@ -256,7 +256,7 @@ class _MyHomePageState extends State<MyApp> {
                       ),
                     ),
                   ]),
-                  SizedBox(width: 10),
+                  SizedBox(width: 15),
                 ]),
                 ),
             ], ),
