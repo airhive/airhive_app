@@ -127,10 +127,21 @@ class SettingsPage extends StatelessWidget {
         drawer: menulaterale(context),
         appBar: new AppBar(
           title: new Text("Impostazioni"),
+          backgroundColor: Colors.yellow[700],
         ),
-        body: new Text("Qui sarà inserita la pagina delle impostazioni"),
-      ),
-    );
+        body: new ListView(
+          children: <Widget>[
+            ListTile(
+              title: new Text("Stile mappa"),
+              subtitle: new Text("Seleziona lo stile preferito della mappa"),
+            ),
+          ],
+        ),
+
+
+
+        ),
+      );
   }
 }
 
@@ -144,6 +155,7 @@ class AccountPage extends StatelessWidget {
         drawer: menulaterale(context),
         appBar: new AppBar(
           title: new Text("Account"),
+          backgroundColor: Colors.yellow[700],
         ),
         body: new Text("Qui sarà inserita la pagina di relativa all'account"),
       ),
