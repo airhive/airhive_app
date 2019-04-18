@@ -311,7 +311,6 @@ class _MyHomePageState extends State<MyApp> {
             apri_info = true;
             testo_info = properties.pm_10.toString();
           });
-        //_scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Are you talkin\' to me?')));
         },
         icon: BitmapDescriptor.fromAsset("immagini/punto_$colore.png"),
       ));
