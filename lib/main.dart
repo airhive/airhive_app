@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -320,6 +321,8 @@ class _MyHomePageState extends State<MyApp> {
 
   //Chiude le informazioni del marker toccando la mappa
   void _googlemaptap(LatLng posizione_toccata){
+    //Ritardo studiato per tenere nascosti i pulsanti non nascondibili di gmaps
+    sleep(const Duration(milliseconds:100));
     setState(() {
       apri_info = false;
     });
