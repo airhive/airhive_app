@@ -181,6 +181,7 @@ class _MyHomePageState extends State<MyApp> {
 
   GoogleMap googleMap;
 
+  // apri_info decide se la barra con le info dei marker deve essere aperta o meno
   bool apri_info = false;
   String testo_info;
 
