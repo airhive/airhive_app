@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:preferences/preferences.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -139,7 +140,30 @@ class SettingsPage extends StatelessWidget {
             backgroundColor: Colors.yellow[700],
           ),
           body: new PreferencePage([
-            PreferenceTitle("Mappa"),
+            PreferenceTitle("Stile mappa"),
+            RadioPreference(
+              'Rilievi',
+              'TERRAIN',
+              'ui_theme',
+              isDefault: true,
+            ),
+            RadioPreference(
+              'Normale',
+              'ROADMAP',
+              'map_theme',
+            ),
+            RadioPreference(
+              'Dark',
+              'DARK',
+              'map_theme',
+            ),
+
+            RadioPreference(
+              'Satellite',
+              'SATELLITE',
+              'ui_theme',
+            ),
+
           ]),
 
 
