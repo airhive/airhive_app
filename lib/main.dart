@@ -226,38 +226,38 @@ class _MyHomePageState extends State<MyApp> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    new Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      new Align(
+                      new Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        new Align(
+                            alignment: Alignment.bottomRight,
+                            child: FloatingActionButton(
+                              heroTag: "localizzazione",
+                              onPressed: () => _currentLocation(),
+                              tooltip: 'Localizzami',
+                              child: Icon(Icons.location_on),
+                              backgroundColor: Colors.yellow[700].withOpacity(0.95),
+                              elevation: 1.0,
+                            )
+                        ),
+                        SizedBox(height: 10),
+                        new Align(
                           alignment: Alignment.bottomRight,
                           child: FloatingActionButton(
-                            heroTag: "localizzazione",
-                            onPressed: () => _currentLocation(),
-                            tooltip: 'Localizzami',
-                            child: Icon(Icons.location_on),
+                            heroTag: "cerca",
+                            onPressed: () => {},
+                            tooltip: 'Cerca',
+                            child: Icon(Icons.search),
                             backgroundColor: Colors.yellow[700].withOpacity(0.95),
                             elevation: 1.0,
-                          )
+                        ),
                       ),
-                      SizedBox(height: 10),
-                      new Align(
-                        alignment: Alignment.bottomRight,
-                        child: FloatingActionButton(
-                          heroTag: "cerca",
-                          onPressed: () => {},
-                          tooltip: 'Cerca',
-                          child: Icon(Icons.search),
-                          backgroundColor: Colors.yellow[700].withOpacity(0.95),
-                          elevation: 1.0,
-                      ),
-                    ),
+                    ]),
+                    SizedBox(width: 15),
                   ]),
-                  SizedBox(width: 15),
-                ]),
                 ),
               apri_info ? new Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -354,6 +354,7 @@ class _MyHomePageState extends State<MyApp> {
       ));
 
       setState(() {
+        _markers.remove(MarkerId("Posizione"));
         _markers.add(Marker(
           // This marker id can be anything that uniquely identifies each marker.
           markerId: MarkerId("Posizione"),
