@@ -154,6 +154,7 @@ class SettingsPage extends StatelessWidget {
               isDefault: true,
               onSelect: (){
                 _currentMapType = MapType.terrain;
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
               },
             ),
             RadioPreference(
@@ -162,6 +163,7 @@ class SettingsPage extends StatelessWidget {
               'map_theme',
               onSelect: (){
                 _currentMapType = MapType.normal;
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
               },
             ),
             RadioPreference(
@@ -176,6 +178,7 @@ class SettingsPage extends StatelessWidget {
               'map_theme',
               onSelect: (){
                 _currentMapType = MapType.satellite;
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
               },
             ),
 
