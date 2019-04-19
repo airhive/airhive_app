@@ -9,6 +9,7 @@ import 'package:preferences/preferences.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 
@@ -198,6 +199,9 @@ class SettingsPage extends StatelessWidget {
 //Writing account page code
 class AccountPage extends StatelessWidget {
 
+
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -218,6 +222,7 @@ class AccountPage extends StatelessWidget {
 class _MyHomePageState extends State<MyApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   static final CameraPosition _initialCamera = CameraPosition(
     target: LatLng(45.4510525, 9.4126428),
