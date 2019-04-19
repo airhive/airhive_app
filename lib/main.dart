@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:preferences/preferences.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 //PER DEBUG DA CANCELLARE @ZANATTA_1310
 MapType _currentMapType = MapType.terrain;
+
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 
 class Properties{
@@ -268,6 +270,8 @@ class _MyHomePageState extends State<MyApp> {
   Completer<GoogleMapController> _controller = Completer();
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  final _textcontroller = TextEditingController();
+
   static final CameraPosition _initialCamera = CameraPosition(
     target: LatLng(45.4510525, 9.4126428),
     zoom: 0.1,
@@ -278,6 +282,8 @@ class _MyHomePageState extends State<MyApp> {
   // apri_info decide se la barra con le info dei marker deve essere aperta o meno
   bool apri_info = false;
   String testo_info;
+
+  bool apri_ricerca = false;
 
   final Set<Marker> _markers = {};
 
@@ -342,7 +348,12 @@ class _MyHomePageState extends State<MyApp> {
                           alignment: Alignment.bottomRight,
                           child: FloatingActionButton(
                             heroTag: "cerca",
-                            onPressed: () => {},
+                            onPressed: () => {
+                              setState(() {
+                                apri_ricerca = true;
+                              }
+                              )
+                            },
                             tooltip: 'Cerca',
                             child: Icon(Icons.search),
                             backgroundColor: Colors.yellow[700].withOpacity(0.95),
@@ -369,6 +380,29 @@ class _MyHomePageState extends State<MyApp> {
                       color: Colors.white,
                       height : 200,
                   ),
+                  ),
+                ],
+              ) : new Container(),
+              apri_ricerca ? new Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Container(
+                      child: TextField(
+                        controller: _textcontroller,
+                        textInputAction: TextInputAction.search,
+                        textCapitalization: TextCapitalization.characters,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            hintText: "Cerca",
+                            hintStyle: TextStyle(fontWeight: FontWeight.w300)
+                        ),
+                        textAlign: TextAlign.center,
+                        onSubmitted: ricerca,
+                      ),
+                      color: Colors.white,
+                      height : 50,
                   ),
                 ],
               ) : new Container(),
@@ -404,6 +438,7 @@ class _MyHomePageState extends State<MyApp> {
         onTap: () {
           setState(() {
             apri_info = true;
+            apri_ricerca = false;
             testo_info = aqi_loc.toString();
           });
         },
@@ -419,6 +454,7 @@ class _MyHomePageState extends State<MyApp> {
     sleep(const Duration(milliseconds:100));
     setState(() {
       apri_info = false;
+      apri_ricerca = false;
     });
   }
 
@@ -465,6 +501,39 @@ class _MyHomePageState extends State<MyApp> {
         ));
       });
    }
+
+  void ricerca(String testo) async {
+    final GoogleMapController controller = await _controller.future;
+    List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(testo);
+    Position posizione_coo = posizione_info[0].position;
+    LatLng posizione = LatLng(posizione_coo.latitude, posizione_coo.longitude);
+
+    //_textcontroller.clear();
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        bearing: 0,
+        target: posizione,
+        zoom: 13.0,
+      ),
+    ));
+
+    setState(() {
+      _markers.remove(MarkerId("Ricerca"));
+    });
+
+    setState(() {
+      _markers.add(Marker(
+        // This marker id can be anything that uniquely identifies each marker.
+        markerId: MarkerId("Ricerca"),
+        position: posizione,
+        infoWindow: InfoWindow(
+          title: 'Posto cercato',
+        ),
+      ));
+      apri_ricerca = false;
+    });
+  }
 }
 
 // Genera il menu laterale nel giusto context
