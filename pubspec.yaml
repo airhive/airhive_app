@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_maps_flutter:
+  geolocator:
   location:
   http:
   dynamic_theme:

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>363013463834-27blkmuo76f0luln7qcr0cd8qa7vm8gp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.363013463834-27blkmuo76f0luln7qcr0cd8qa7vm8gp</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBdrlDl4i787ptWQv7v1INcR0VwRH8Q1rg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>363013463834</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>it.airhive.app</string>
+	<key>PROJECT_ID</key>
+	<string>airhive-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>airhive-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:363013463834:ios:00ebbddfaf7e0473</string>
+	<key>DATABASE_URL</key>
+	<string>https://airhive-app.firebaseio.com</string>
+</dict>
+</plist>
