@@ -112,6 +112,25 @@ class Sensori {
   }
 }
 
+
+//Creating map settings class
+class CurrSettings{
+  MapType currMapType;
+
+  CurrSettings({
+    this.currMapType,
+
+  });
+
+}
+//Creating a map to store settings
+Map<String, dynamic> preferences = {
+  'typeofmap': currMapType as MapType,
+};
+
+
+
+
 //void main() => runApp(MyApp());
 main() async {
   await PrefService.init(prefix: 'pref_');
@@ -127,9 +146,6 @@ class MyApp extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
-//A variable to store the map type
-MapType _currentMapType = MapType.terrain;
 
 //Writing Settings page code
 class SettingsPage extends StatelessWidget {
