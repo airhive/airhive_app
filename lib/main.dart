@@ -23,6 +23,8 @@ class Properties{
   final double umi;
   final double prec;
   final double vento;
+  final double no2;
+  final double o3;
 
   Properties({
     this.id_sensore,
@@ -34,6 +36,8 @@ class Properties{
     this.umi,
     this.prec,
     this.vento,
+    this.no2,
+    this.o3,
   });
 
   factory Properties.fromJson(Map<String, dynamic> json) {
@@ -47,6 +51,8 @@ class Properties{
       umi: json['umi'] as double,
       prec: json['prec'] as double,
       vento: json['vento'] as double,
+      no2: json["no2"] as double,
+      o3: json["o3"] as double,
     );
   }
 }
