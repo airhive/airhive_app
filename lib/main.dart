@@ -132,6 +132,10 @@ class CurrSettings{
 
   });
 
+  factory CurrSettings.fromJson(Map<String, dynamic> prefjson) {
+
+    return CurrSettings();
+  }
 }
 //Creating a map to store settings
 Map<String, dynamic> preferences = {
@@ -277,7 +281,7 @@ class _MyHomePageState extends State<MyApp> {
       myLocationEnabled: false,
       initialCameraPosition: _initialCamera,
       markers: _markers,
-      mapType: _currentMapType, //Also change map type
+      mapType: MapType.terrain, //Also change map type
     );
 
     return MaterialApp(
