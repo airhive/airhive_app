@@ -127,6 +127,9 @@ class MyApp extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+//A variable to store the map type
+MapType _currentMapType = MapType.terrain;
+
 //Writing Settings page code
 class SettingsPage extends StatelessWidget {
 
@@ -141,17 +144,25 @@ class SettingsPage extends StatelessWidget {
             backgroundColor: Colors.yellow[700],
           ),
           body: new PreferencePage([
+
+            //Impostazioni stile mappa
             PreferenceTitle("Stile mappa"),
             RadioPreference(
               'Rilievi',
               'TERRAIN',
-              'ui_theme',
+              'map_theme',
               isDefault: true,
+              onSelect: (){
+                _currentMapType = MapType.terrain;
+              },
             ),
             RadioPreference(
               'Normale',
               'ROADMAP',
               'map_theme',
+              onSelect: (){
+                _currentMapType = MapType.normal;
+              },
             ),
             RadioPreference(
               'Dark',
@@ -162,9 +173,15 @@ class SettingsPage extends StatelessWidget {
             RadioPreference(
               'Satellite',
               'SATELLITE',
-              'ui_theme',
+              'map_theme',
+              onSelect: (){
+                _currentMapType = MapType.satellite;
+              },
             ),
 
+
+            //Impostazioni tipo indice qualità aria
+            PreferenceTitle("Stile mappa"),
           ]),
 
 
@@ -221,8 +238,8 @@ class _MyHomePageState extends State<MyApp> {
       onMapCreated: _onMapCreated,
       myLocationEnabled: false,
       initialCameraPosition: _initialCamera,
-      mapType: MapType.terrain,
       markers: _markers,
+      mapType: _currentMapType, //Also change map type
     );
 
     return MaterialApp(
@@ -351,6 +368,7 @@ class _MyHomePageState extends State<MyApp> {
       apri_info = false;
     });
   }
+
 
   //Alla creazione della mappa scarica il JSON e centra nella giusta posizione
   void _onMapCreated(GoogleMapController controller) {
