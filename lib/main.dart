@@ -11,6 +11,8 @@ import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+//PER DEBUG DA CANCELLARE @ZANATTA_1310
+MapType _currentMapType = MapType.terrain;
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 
 class Properties{
@@ -131,7 +133,7 @@ class CurrSettings{
 }
 //Creating a map to store settings
 Map<String, dynamic> preferences = {
-  'typeofmap': currMapType as MapType,
+  //'typeofmap': currMapType as MapType,
 };
 
 
@@ -343,7 +345,7 @@ class _MyHomePageState extends State<MyApp> {
                     });
                     },
                     child:Container(
-                      child: Center(child:Text("PM: $testo_info")),
+                      child: Center(child:Text("AQI: $testo_info")),
                       color: Colors.white,
                       height : 200,
                   ),
@@ -368,10 +370,12 @@ class _MyHomePageState extends State<MyApp> {
     for(var i = 0; i < features.length; i++) {
       Geometry geometry = features[i].geometry;
       Properties properties = features[i].properties;
+      double aqi_loc = (properties.pm_10 + properties.no2 / 4 + properties.o3 / 2.4) / 3;
       //Trucchetto per decidere di che colore mettere il marker
-      String colore = properties.pm_10 < 50 ? "arancio" : "rosso";
-      colore = properties.pm_10 < 30 ? colore = "giallo" : colore;
-      colore = properties.pm_10 < 15 ? colore = "blu" : colore;
+      String colore = aqi_loc < 100 ? "high" : "very_high";
+      colore = aqi_loc < 75 ? colore = "medium" : colore;
+      colore = aqi_loc < 50 ? colore = "low" : colore;
+      colore = aqi_loc < 25 ? colore = "very_low" : colore;
       setState(() {
       _markers.add(Marker(
         markerId: MarkerId(properties.id_sensore),
@@ -380,10 +384,10 @@ class _MyHomePageState extends State<MyApp> {
         onTap: () {
           setState(() {
             apri_info = true;
-            testo_info = properties.pm_10.toString();
+            testo_info = aqi_loc.toString();
           });
         },
-        icon: BitmapDescriptor.fromAsset("immagini/punto_$colore.png"),
+        icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
       ));
     });
     }
