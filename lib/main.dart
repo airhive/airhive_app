@@ -121,25 +121,39 @@ class Sensori {
 }
 
 
-//Creating map settings class
+//Creating a class to store preferences
 class CurrSettings{
   MapType currMapType;
+  String currAqiType;
 
   CurrSettings({
     this.currMapType,
+    this.currAqiType,
 
   });
 
   factory CurrSettings.fromJson(Map<String, dynamic> prefjson) {
 
+    currMapType: prefjson['currMapType'] as MapType;
+    currAqiType: prefjson['currAqiType'] as String;
+
     return CurrSettings();
   }
 }
-//Creating a map to store settings
-Map<String, dynamic> preferences = {
-  //'typeofmap': currMapType as MapType,
-};
 
+//Creating a class storing default values for preferences
+class DefaultSettings{
+  MapType DefaultMapType = MapType.terrain;
+  String DefaultAqiType = 'CAQI';
+
+  DefaultSettings({
+
+    this.DefaultMapType,
+    this.DefaultAqiType,
+  });
+
+
+}
 
 
 
@@ -161,6 +175,8 @@ class MyApp extends StatefulWidget {
 
 //Writing Settings page code
 class SettingsPage extends StatelessWidget {
+
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
