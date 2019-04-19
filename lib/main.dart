@@ -380,7 +380,7 @@ class _MyHomePageState extends State<MyApp> {
                         decoration: InputDecoration(
                             prefixIcon: Icon(Icons.search),
                             hintText: "Cerca",
-                            hintStyle: TextStyle(fontWeight: FontWeight.w300, color: Colors.yellow[700])
+                            hintStyle: TextStyle(fontWeight: FontWeight.w300)
                         ),
                         textAlign: TextAlign.center,
                         onSubmitted: ricerca,
@@ -504,6 +504,9 @@ class _MyHomePageState extends State<MyApp> {
 
     setState(() {
       _markers.remove(MarkerId("Ricerca"));
+    });
+
+    setState(() {
       _markers.add(Marker(
         // This marker id can be anything that uniquely identifies each marker.
         markerId: MarkerId("Ricerca"),
