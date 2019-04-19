@@ -275,7 +275,7 @@ class _MyHomePageState extends State<MyApp> {
       myLocationEnabled: false,
       initialCameraPosition: _initialCamera,
       markers: _markers,
-      mapType: currMapType, //Also change map type
+      mapType: MapType.terrain, //Also change map type
     );
 
     return MaterialApp(
