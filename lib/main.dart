@@ -145,25 +145,19 @@ class CurrSettings{
 
 }
 
-//Defining a class storing default values for preferences
-class DefaultSettings{
-  MapType DefaultMapType = MapType.terrain;
-  String DefaultAqiType = 'CAQI';
-  String DefaultLang = 'IT';
+//Defining a function to set default values for preferences
+CurrSettings setDefSettings(CurrSettings sett) {
+    sett.currMapType = MapType.terrain;
+    sett.currAqiType = 'CAQI';
+    sett.currLang = 'IT';
 
-  DefaultSettings({
-
-    this.DefaultMapType,
-    this.DefaultAqiType,
-    this.DefaultLang,
-  });
-
+    return sett;
 
 }
 
 //Creating a function to check for the presence of a preference file in shared_preferences
 //If the file does not exist create one with dafault values
-getSettings() async{
+Future<CurrSettings> getSettings() async{
   SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
   String controlvalue = sharedPreferences.getString('prefs');
   if (controlvalue != null) {
@@ -172,9 +166,10 @@ getSettings() async{
     return settings;
   } else {
 
-    DefaultSettings settings = DefaultSettings();
+    CurrSettings settings;
+    settings = setDefSettings(settings);
     String prefjson = jsonEncode(settings);
-    await sharedPreferences.setString('prefs', prefjson);
+    sharedPreferences.setString('prefs', prefjson);
     return settings;
 
   }
@@ -192,6 +187,7 @@ class MyApp extends StatefulWidget {
 
   final String title;
 
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -199,7 +195,6 @@ class MyApp extends StatefulWidget {
 //Writing Settings page code
 class SettingsPage extends StatelessWidget {
 
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -267,7 +262,6 @@ class SettingsPage extends StatelessWidget {
 class AccountPage extends StatelessWidget {
 
 
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +283,8 @@ class AccountPage extends StatelessWidget {
 class _MyHomePageState extends State<MyApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  Future<CurrSettings> preferences = GetSettings();
 
   final _textcontroller = TextEditingController();
 
