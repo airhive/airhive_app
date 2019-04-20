@@ -121,7 +121,7 @@ class Sensori {
 }
 
 
-/*
+
 //Defining a class to store preferences
 class CurrSettings{
   final MapType currMapType; //Type of Map
@@ -155,15 +155,15 @@ class CurrSettings{
 }
 
 //Defining a function to set default values for preferences
-/*CurrSettings setDefSettings(CurrSettings sett) {
+CurrSettings setDefSettings(CurrSettings sett) {
   sett.currMapType = MapType.terrain;
   sett.currAqiType = 'CAQI';
   sett.currLang = 'IT';
 
   return sett;
 
-}*/
-*/
+}
+
 //Defining a class to store preferences
 class Preferences{
   final MapType typeOfMap;
@@ -190,16 +190,16 @@ class Preferences{
 
 }
 
-/*
+
 //Creating a function to check for the presence of a preference file in shared_preferences
 //If the file does not exist create one with default values
-Future<Void> getSettings(CurrSettings sett) async {
+Future<void> getSettings(CurrSettings sett) async {
   SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
   String controlvalue = sharedPreferences.getString('prefs');
   if (controlvalue != null) {
-    Map sett = jsonDecode(controlvalue);
-    CurrSettings settings = CurrSettings.fromJson(sett);
-    sett = settings;
+    Map last_sett = jsonDecode(controlvalue);
+    CurrSettings settings = CurrSettings.fromJson(last_sett);
+    CurrSettings sett = settings;
   } else {
 
     CurrSettings settings;
@@ -210,7 +210,7 @@ Future<Void> getSettings(CurrSettings sett) async {
 
   }
 }
-*/
+
 
 //void main() => runApp(MyApp());
 main() async {
@@ -312,7 +312,7 @@ class AccountPage extends StatelessWidget {
             title: new Text("Account"),
             backgroundColor: Colors.yellow[700],
           ),
-          body: new Text("Qui sarà inserita la pagina di relativa all'account"),
+          body: new Text("Qui sarà inserita la pagina relativa all'account"),
         ),
       ),
     );
@@ -367,7 +367,7 @@ class _MyHomePageState extends State<MyApp> {
       home: Builder(
       builder: (context) => Scaffold(
         key: _scaffoldKey,
-        //resizeToAvoidBottomPadding: false,
+        //resizeToAvoidBottomInset: false,
         drawer: menulaterale(context),
         body: Stack(
             children: <Widget>[
@@ -402,7 +402,7 @@ class _MyHomePageState extends State<MyApp> {
                               heroTag: "localizzazione",
                               onPressed: () => _currentLocation(),
                               tooltip: 'Localizzami',
-                              child: Icon(Icons.location_on),
+                              child: Icon(Icons.location_on, color: Colors.white),
                               backgroundColor: Colors.yellow[700].withOpacity(0.95),
                               elevation: 1.0,
                             )
@@ -419,7 +419,7 @@ class _MyHomePageState extends State<MyApp> {
                               )
                             },
                             tooltip: 'Cerca',
-                            child: Icon(Icons.search),
+                            child: Icon(Icons.search, color: Colors.white),
                             backgroundColor: Colors.yellow[700].withOpacity(0.95),
                             elevation: 1.0,
                         ),
@@ -580,6 +580,7 @@ class _MyHomePageState extends State<MyApp> {
       });
   }
 
+  // Prende il testo della ricerca in real time e controlla se è un posto
   void gettestoricerca(String testo_parziale) async {
     List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
         testo_parziale,
@@ -591,6 +592,7 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 
+  // Se premi su invio nella ricerca parte questo
   void ricerca(String testo) async {
     List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(testo);
     setState(() {
@@ -599,6 +601,7 @@ class _MyHomePageState extends State<MyApp> {
     vaaposizione();
   }
 
+  // Muove la camera fino alla posizione risultato_ricerca
   void vaaposizione() async {
     final GoogleMapController controller = await _controller.future;
     LatLng posizione = LatLng(risultato_ricerca.latitude, risultato_ricerca.longitude);
@@ -635,6 +638,10 @@ ThemeData app_theme(){
     brightness: Brightness.light,
     primaryColor: Colors.yellow[700],
     accentColor: Colors.white,
+
+    iconTheme: IconThemeData(
+        color: Colors.white,
+    ),
 
     //fontFamily: 'Montserrat',
 
