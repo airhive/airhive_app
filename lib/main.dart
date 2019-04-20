@@ -343,6 +343,8 @@ class _MyHomePageState extends State<MyApp> {
   String testo_info;
 
   bool apri_ricerca = false;
+  String testo_ricerca = "";
+  Position risultato_ricerca;
 
   final Set<Marker> _markers = {};
 
@@ -453,7 +455,7 @@ class _MyHomePageState extends State<MyApp> {
                       child: TextField(
                         controller: _textcontroller,
                         textInputAction: TextInputAction.search,
-                        textCapitalization: TextCapitalization.characters,
+                        textCapitalization: TextCapitalization.sentences,
                         cursorColor: Colors.yellow[700],
                         decoration: InputDecoration(
                           fillColor: Colors.yellow[700],
@@ -461,16 +463,21 @@ class _MyHomePageState extends State<MyApp> {
                           hintText: "Cerca",
                           hintStyle: TextStyle(fontWeight: FontWeight.w300)
                         ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                         onSubmitted: ricerca,
+                        onChanged: gettestoricerca,
                       ),
                       color: Colors.white,
                       height : 50,
                   ),
                   Container(
-                    child: Text(_textcontroller.text),
+                    child: FlatButton(
+                        child: Text(testo_ricerca),
+                        color: Colors.yellow[700],
+                        onPressed: vaaposizione,
+                    ),
                     color: Colors.white,
-                    height : 150,
+                    height : 50,
                   ),
                 ],
               ) : new Container(),
@@ -516,7 +523,7 @@ class _MyHomePageState extends State<MyApp> {
     }
   }
 
-  //Chiude le informazioni del marker toccando la mappa
+  //Chiude robe toccando la mappa
   void _googlemaptap(LatLng posizione_toccata){
     //Ritardo studiato per tenere nascosti i pulsanti non nascondibili di gmaps
     sleep(const Duration(milliseconds:100));
@@ -569,14 +576,33 @@ class _MyHomePageState extends State<MyApp> {
           icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
         ));
       });
-   }
+  }
+
+  void gettestoricerca(String testo_parziale) async {
+    if(testo_parziale == ""){
+      testo_parziale = "Milan";
+    }
+    List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
+        testo_parziale,
+        localeIdentifier: "it_IT"
+    );
+    setState(() {
+      testo_ricerca = posizione_info[0].locality;
+      risultato_ricerca = posizione_info[0].position;
+    });
+  }
 
   void ricerca(String testo) async {
-    final GoogleMapController controller = await _controller.future;
     List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(testo);
-    print(posizione_info);
-    Position posizione_coo = posizione_info[0].position;
-    LatLng posizione = LatLng(posizione_coo.latitude, posizione_coo.longitude);
+    setState(() {
+      risultato_ricerca = posizione_info[0].position;
+    });
+    vaaposizione();
+  }
+
+  void vaaposizione() async {
+    final GoogleMapController controller = await _controller.future;
+    LatLng posizione = LatLng(risultato_ricerca.latitude, risultato_ricerca.longitude);
 
     //_textcontroller.clear();
 
@@ -609,7 +635,7 @@ ThemeData app_theme(){
   return ThemeData(
     brightness: Brightness.light,
     primaryColor: Colors.yellow[700],
-    accentColor: Colors.yellow[700],
+    accentColor: Colors.white,
 
     //fontFamily: 'Montserrat',
 
