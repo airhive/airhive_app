@@ -461,6 +461,11 @@ class _MyHomePageState extends State<MyApp> {
                         decoration: InputDecoration(
                           fillColor: Colors.yellow[700],
                           prefixIcon: Icon(Icons.search),
+                            suffixIcon: IconButton(
+                                icon: Icon(Icons.clear),
+                                onPressed: () {
+                                  _textcontroller.clear();
+                                }),
                           hintText: "Cerca",
                           hintStyle: TextStyle(fontWeight: FontWeight.w300)
                         ),
