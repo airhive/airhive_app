@@ -307,6 +307,7 @@ class _MyHomePageState extends State<MyApp> {
   String testo_info;
 
   bool apri_ricerca = false;
+  String testo_ricerca = "";
 
   final Set<Marker> _markers = {};
 
@@ -426,12 +427,13 @@ class _MyHomePageState extends State<MyApp> {
                         ),
                         textAlign: TextAlign.center,
                         onSubmitted: ricerca,
+                        onChanged: gettestoricerca,
                       ),
                       color: Colors.white,
                       height : 50,
                   ),
                   Container(
-                    child: Text(_textcontroller.text),
+                    child: Text(testo_ricerca),
                     color: Colors.white,
                     height : 150,
                   ),
@@ -479,7 +481,7 @@ class _MyHomePageState extends State<MyApp> {
     }
   }
 
-  //Chiude le informazioni del marker toccando la mappa
+  //Chiude robe toccando la mappa
   void _googlemaptap(LatLng posizione_toccata){
     //Ritardo studiato per tenere nascosti i pulsanti non nascondibili di gmaps
     sleep(const Duration(milliseconds:100));
@@ -532,12 +534,18 @@ class _MyHomePageState extends State<MyApp> {
           icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
         ));
       });
-   }
+  }
+
+  void gettestoricerca(String testo_parziale) async {
+    List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(testo_parziale);
+    setState(() {
+      testo_ricerca = posizione_info[0].locality;
+    });
+  }
 
   void ricerca(String testo) async {
     final GoogleMapController controller = await _controller.future;
     List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(testo);
-    print(posizione_info);
     Position posizione_coo = posizione_info[0].position;
     LatLng posizione = LatLng(posizione_coo.latitude, posizione_coo.longitude);
 
@@ -571,7 +579,7 @@ ThemeData app_theme(){
   return ThemeData(
     brightness: Brightness.light,
     primaryColor: Colors.yellow[700],
-    accentColor: Colors.yellow[700],
+    accentColor: Colors.white,
 
     //fontFamily: 'Montserrat',
 
