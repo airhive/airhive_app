@@ -199,6 +199,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: app_theme(),
       home: Builder(
         builder: (context) => Scaffold(
           drawer: menulaterale(context),
@@ -266,6 +267,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: app_theme(),
       home: Builder(
         builder: (context) => Scaffold(
           drawer: menulaterale(context),
@@ -317,6 +319,7 @@ class _MyHomePageState extends State<MyApp> {
     );
 
     return MaterialApp(
+      theme: app_theme(),
       home: Builder(
       builder: (context) => Scaffold(
         key: _scaffoldKey,
@@ -388,7 +391,7 @@ class _MyHomePageState extends State<MyApp> {
                   GestureDetector(
                   onTap: () {
                     setState(() {
-                      apri_info = false;
+                      //apri_info = false;
                     });
                     },
                     child:Container(
@@ -409,16 +412,23 @@ class _MyHomePageState extends State<MyApp> {
                         controller: _textcontroller,
                         textInputAction: TextInputAction.search,
                         textCapitalization: TextCapitalization.characters,
+                        cursorColor: Colors.yellow[700],
                         decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.search),
-                            hintText: "Cerca",
-                            hintStyle: TextStyle(fontWeight: FontWeight.w300)
+                          fillColor: Colors.yellow[700],
+                          prefixIcon: Icon(Icons.search),
+                          hintText: "Cerca",
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300)
                         ),
                         textAlign: TextAlign.center,
                         onSubmitted: ricerca,
                       ),
                       color: Colors.white,
                       height : 50,
+                  ),
+                  Container(
+                    child: Text(_textcontroller.text),
+                    color: Colors.white,
+                    height : 150,
                   ),
                 ],
               ) : new Container(),
@@ -443,9 +453,9 @@ class _MyHomePageState extends State<MyApp> {
       double aqi_loc = (properties.pm_10 + properties.no2 / 4 + properties.o3 / 2.4) / 3;
       //Trucchetto per decidere di che colore mettere il marker
       String colore = aqi_loc < 100 ? "high" : "very_high";
-      colore = aqi_loc < 75 ? colore = "medium" : colore;
-      colore = aqi_loc < 50 ? colore = "low" : colore;
-      colore = aqi_loc < 25 ? colore = "very_low" : colore;
+      colore = aqi_loc < 75 ? "medium" : colore;
+      colore = aqi_loc < 50 ? "low" : colore;
+      colore = aqi_loc < 25 ? "very_low" : colore;
       setState(() {
       _markers.add(Marker(
         markerId: MarkerId(properties.id_sensore),
@@ -471,6 +481,7 @@ class _MyHomePageState extends State<MyApp> {
     setState(() {
       apri_info = false;
       apri_ricerca = false;
+      _markers.remove(Marker(markerId: MarkerId("Ricerca")));
     });
   }
 
@@ -504,7 +515,7 @@ class _MyHomePageState extends State<MyApp> {
       ));
 
       setState(() {
-        _markers.remove(MarkerId("Posizione"));
+        _markers.remove(Marker(markerId: MarkerId("Posizione")));
         _markers.add(Marker(
           // This marker id can be anything that uniquely identifies each marker.
           markerId: MarkerId("Posizione"),
@@ -521,6 +532,7 @@ class _MyHomePageState extends State<MyApp> {
   void ricerca(String testo) async {
     final GoogleMapController controller = await _controller.future;
     List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(testo);
+    print(posizione_info);
     Position posizione_coo = posizione_info[0].position;
     LatLng posizione = LatLng(posizione_coo.latitude, posizione_coo.longitude);
 
@@ -535,10 +547,7 @@ class _MyHomePageState extends State<MyApp> {
     ));
 
     setState(() {
-      _markers.remove(MarkerId("Ricerca"));
-    });
-
-    setState(() {
+      _markers.remove(Marker(markerId: MarkerId("Ricerca")));
       _markers.add(Marker(
         // This marker id can be anything that uniquely identifies each marker.
         markerId: MarkerId("Ricerca"),
@@ -550,6 +559,23 @@ class _MyHomePageState extends State<MyApp> {
       apri_ricerca = false;
     });
   }
+}
+
+// Il tema della app
+ThemeData app_theme(){
+  return ThemeData(
+    brightness: Brightness.light,
+    primaryColor: Colors.yellow[700],
+    accentColor: Colors.yellow[700],
+
+    //fontFamily: 'Montserrat',
+
+    textTheme: TextTheme(
+      headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+      title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+      body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+    ),
+  );
 }
 
 // Genera il menu laterale nel giusto context
