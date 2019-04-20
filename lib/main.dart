@@ -458,75 +458,59 @@ class _MyHomePageState extends State<MyApp> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                DefaultTabController(
-                  length: 3,
-                  child: PreferredSize(
-                    preferredSize: Size.fromHeight(10.0),
-                    child: AppBar(
-                      leading: Container(),
-                      flexibleSpace: Column(
-                        //mainAxisAlignment: MainAxisAlignment.,
-                        children: [
-                          TabBar(
-                            tabs: [
-                              new Tab(icon: new Icon(Icons.today)),
-                              new Tab(icon: new Icon(Icons.show_chart)),
-                              new Tab(icon: new Icon(Icons.navigate_next)),
+                  Container(
+                    height : 200,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget> [
+                        Container(
+                          color: Colors.white,
+                          width: 300,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              LinearPercentIndicator(
+                                trailing: Expanded(child: Text("CAQI")),
+                                width: 140.0,
+                                lineHeight: 14.0,
+                                percent: valori_sensore.caqi / 150,
+                                backgroundColor: Colors.green,
+                                progressColor: Colors.red,
+                              ),
+                              LinearPercentIndicator(
+                                trailing: Expanded(child: Text("PM10")),
+                                width: 140.0,
+                                lineHeight: 14.0,
+                                percent: valori_sensore.pm_10 / 150,
+                                backgroundColor: Colors.green,
+                                progressColor: Colors.red,
+                              ),
+                              LinearPercentIndicator(
+                                trailing: Expanded(child: Text("NO2")),
+                                width: 140.0,
+                                lineHeight: 14.0,
+                                percent: valori_sensore.no2 / 500,
+                                backgroundColor: Colors.green,
+                                progressColor: Colors.red,
+                              ),
+                              LinearPercentIndicator(
+                                trailing: Expanded(child: Text("O3")),
+                                width: 140.0,
+                                lineHeight: 14.0,
+                                percent: valori_sensore.o3 / 400,
+                                backgroundColor: Colors.green,
+                                progressColor: Colors.red,
+                              ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          width: 160.0,
+                          color: Colors.blue,
+                        ),
+                      ]
                     ),
-                  ),
-                  ),
-                  GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      //apri_info = false;
-                    });
-                    },
-                    child:Container(
-                      color: Colors.white,
-                      height : 200,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          LinearPercentIndicator(
-                            trailing: Expanded(child: Text("CAQI")),
-                            width: 140.0,
-                            lineHeight: 14.0,
-                            percent: valori_sensore.caqi / 150,
-                            backgroundColor: Colors.green,
-                            progressColor: Colors.red,
-                          ),
-                          LinearPercentIndicator(
-                            trailing: Expanded(child: Text("PM10")),
-                            width: 140.0,
-                            lineHeight: 14.0,
-                            percent: valori_sensore.pm_10 / 150,
-                            backgroundColor: Colors.green,
-                            progressColor: Colors.red,
-                          ),
-                          LinearPercentIndicator(
-                            trailing: Expanded(child: Text("NO2")),
-                            width: 140.0,
-                            lineHeight: 14.0,
-                            percent: valori_sensore.no2 / 500,
-                            backgroundColor: Colors.green,
-                            progressColor: Colors.red,
-                          ),
-                          LinearPercentIndicator(
-                            trailing: Expanded(child: Text("O3")),
-                            width: 140.0,
-                            lineHeight: 14.0,
-                            percent: valori_sensore.o3 / 400,
-                            backgroundColor: Colors.green,
-                            progressColor: Colors.red,
-                          ),
-                        ],
-                      ),
-                  ),
                   ),
                 ],
               ) : new Container(),
