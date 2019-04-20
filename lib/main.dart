@@ -12,8 +12,6 @@ import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-//PER DEBUG DA CANCELLARE @ZANATTA_1310
-MapType _currentMapType = MapType.terrain;
 
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 
@@ -123,41 +121,64 @@ class Sensori {
 }
 
 
-//Creating a class to store preferences
+//Defining a class to store preferences
 class CurrSettings{
-  MapType currMapType;
-  String currAqiType;
+  MapType currMapType; //Type of Map
+  String currAqiType; //Type of Air Quality Index (AQI)
+  String currLang; //Language
 
   CurrSettings({
     this.currMapType,
     this.currAqiType,
+    this.currLang,
 
   });
 
   factory CurrSettings.fromJson(Map<String, dynamic> prefjson) {
 
-    currMapType: prefjson['currMapType'] as MapType;
-    currAqiType: prefjson['currAqiType'] as String;
-
-    return CurrSettings();
+    return CurrSettings(
+        currMapType: prefjson['currMapType'] as MapType,
+        currAqiType: prefjson['currAqiType'] as String,
+        currLang: prefjson['currLang'] as String,
+    );
   }
+
 }
 
-//Creating a class storing default values for preferences
+//Defining a class storing default values for preferences
 class DefaultSettings{
   MapType DefaultMapType = MapType.terrain;
   String DefaultAqiType = 'CAQI';
+  String DefaultLang = 'IT';
 
   DefaultSettings({
 
     this.DefaultMapType,
     this.DefaultAqiType,
+    this.DefaultLang,
   });
 
 
 }
 
+//Creating a function to check for the presence of a preference file in shared_preferences
+//If the file does not exist create one with dafault values
+getSettings() async{
+  SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+  String controlvalue = sharedPreferences.getString('prefs');
+  if (controlvalue != null) {
+    Map sett = jsonDecode(controlvalue);
+    var settings = CurrSettings.fromJson(sett);
+    return settings;
+  } else {
 
+    DefaultSettings settings = DefaultSettings();
+    String prefjson = jsonEncode(settings);
+    await sharedPreferences.setString('prefs', prefjson);
+    return settings;
+
+  }
+}
 
 //void main() => runApp(MyApp());
 main() async {
@@ -200,7 +221,7 @@ class SettingsPage extends StatelessWidget {
               'map_theme',
               isDefault: true,
               onSelect: (){
-                _currentMapType = MapType.terrain;
+                //_currentMapType = MapType.terrain;
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
               },
             ),
@@ -209,7 +230,7 @@ class SettingsPage extends StatelessWidget {
               'ROADMAP',
               'map_theme',
               onSelect: (){
-                _currentMapType = MapType.normal;
+                //_currentMapType = MapType.normal;
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
               },
             ),
@@ -224,7 +245,7 @@ class SettingsPage extends StatelessWidget {
               'SATELLITE',
               'map_theme',
               onSelect: (){
-                _currentMapType = MapType.satellite;
+                //_currentMapType = MapType.satellite;
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
               },
             ),
