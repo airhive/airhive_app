@@ -353,7 +353,6 @@ class _MyHomePageState extends State<MyApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
-  TabController _tabController;
   final _textcontroller = TextEditingController();
 
   static final CameraPosition _initialCamera = CameraPosition(
@@ -459,6 +458,27 @@ class _MyHomePageState extends State<MyApp> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
+                DefaultTabController(
+                  length: 3,
+                  child: PreferredSize(
+                    preferredSize: Size.fromHeight(10.0),
+                    child: AppBar(
+                      leading: Container(),
+                      flexibleSpace: Column(
+                        //mainAxisAlignment: MainAxisAlignment.,
+                        children: [
+                          TabBar(
+                            tabs: [
+                              new Tab(icon: new Icon(Icons.today)),
+                              new Tab(icon: new Icon(Icons.show_chart)),
+                              new Tab(icon: new Icon(Icons.navigate_next)),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  ),
                   GestureDetector(
                   onTap: () {
                     setState(() {
