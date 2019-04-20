@@ -11,7 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:percent_indicator/percent_indicator.dart';
 
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 
@@ -36,6 +36,7 @@ class Properties{
   final double o3_2;
   final double o3_3;
   final double o3_4;
+  final double caqi;
 
   Properties({
     this.id_sensore,
@@ -58,6 +59,7 @@ class Properties{
     this.o3_2,
     this.o3_3,
     this.o3_4,
+    this.caqi,
   });
 
   factory Properties.fromJson(Map<String, dynamic> json) {
@@ -73,15 +75,16 @@ class Properties{
       prec: json['prec'] as double,
       vento: json['vento'] as double,
       no2: json["no2"] as double,
-      no2_1: json['pm10-1'] as double,
-      no2_2: json['pm10-2'] as double,
-      no2_3: json['pm10-3'] as double,
-      no2_4: json['pm10-4'] as double,
+      no2_1: json['no2-1'] as double,
+      no2_2: json['no2-2'] as double,
+      no2_3: json['no2-3'] as double,
+      no2_4: json['no2-4'] as double,
       o3: json["o3"] as double,
-      o3_1: json['pm10-1'] as double,
-      o3_2: json['pm10-2'] as double,
-      o3_3: json['pm10-3'] as double,
-      o3_4: json['pm10-4'] as double,
+      o3_1: json['o3-1'] as double,
+      o3_2: json['o3-2'] as double,
+      o3_3: json['o3-3'] as double,
+      o3_4: json['o3-4'] as double,
+      caqi: (json['pm10'] + json["no2"] / 4 + json["o3"] / 2.4) / 3 as double,
     );
   }
 }
@@ -182,7 +185,7 @@ class CurrSettings{
 }
 
 //Defining a function to set default values for preferences
-CurrSettings setDefSettings(CurrSettings sett) {
+/*CurrSettings setDefSettings(CurrSettings sett) {
   sett.currMapType = MapType.terrain;
   sett.currAqiType = 'CAQI';
   sett.currLang = 'IT';
@@ -215,7 +218,7 @@ class Preferences{
         'language': language,
       };
 
-}
+}*/
 
 
 //Creating a function to check for the presence of a preference file in shared_preferences
@@ -347,15 +350,10 @@ class AccountPage extends StatelessWidget {
 }
 
 class _MyHomePageState extends State<MyApp> {
-
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
-
-
-
-
+  TabController _tabController;
   final _textcontroller = TextEditingController();
 
   static final CameraPosition _initialCamera = CameraPosition(
@@ -367,7 +365,8 @@ class _MyHomePageState extends State<MyApp> {
 
   // apri_info decide se la barra con le info dei marker deve essere aperta o meno
   bool apri_info = false;
-  String testo_info;
+  double valore_aqi;
+  Properties valori_sensore;
 
   bool apri_ricerca = false;
   String testo_ricerca = "";
@@ -467,9 +466,46 @@ class _MyHomePageState extends State<MyApp> {
                     });
                     },
                     child:Container(
-                      child: Center(child:Text("AQI: $testo_info")),
                       color: Colors.white,
                       height : 200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          LinearPercentIndicator(
+                            trailing: Expanded(child: Text("CAQI")),
+                            width: 140.0,
+                            lineHeight: 14.0,
+                            percent: valori_sensore.caqi / 150,
+                            backgroundColor: Colors.green,
+                            progressColor: Colors.red,
+                          ),
+                          LinearPercentIndicator(
+                            trailing: Expanded(child: Text("PM10")),
+                            width: 140.0,
+                            lineHeight: 14.0,
+                            percent: valori_sensore.pm_10 / 150,
+                            backgroundColor: Colors.green,
+                            progressColor: Colors.red,
+                          ),
+                          LinearPercentIndicator(
+                            trailing: Expanded(child: Text("NO2")),
+                            width: 140.0,
+                            lineHeight: 14.0,
+                            percent: valori_sensore.no2 / 500,
+                            backgroundColor: Colors.green,
+                            progressColor: Colors.red,
+                          ),
+                          LinearPercentIndicator(
+                            trailing: Expanded(child: Text("O3")),
+                            width: 140.0,
+                            lineHeight: 14.0,
+                            percent: valori_sensore.o3 / 400,
+                            backgroundColor: Colors.green,
+                            progressColor: Colors.red,
+                          ),
+                        ],
+                      ),
                   ),
                   ),
                 ],
@@ -532,7 +568,7 @@ class _MyHomePageState extends State<MyApp> {
     for(var i = 0; i < features.length; i++) {
       Geometry geometry = features[i].geometry;
       Properties properties = features[i].properties;
-      double aqi_loc = (properties.pm_10 + properties.no2 / 4 + properties.o3 / 2.4) / 3;
+      double aqi_loc = properties.caqi;
       //Trucchetto per decidere di che colore mettere il marker
       String colore = aqi_loc < 100 ? "high" : "very_high";
       colore = aqi_loc < 75 ? "medium" : colore;
@@ -547,7 +583,7 @@ class _MyHomePageState extends State<MyApp> {
           setState(() {
             apri_info = true;
             apri_ricerca = false;
-            testo_info = aqi_loc.toString();
+            valori_sensore = properties;
           });
         },
         icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
