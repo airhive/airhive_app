@@ -367,6 +367,7 @@ class _MyHomePageState extends State<MyApp> {
       home: Builder(
       builder: (context) => Scaffold(
         key: _scaffoldKey,
+        //resizeToAvoidBottomPadding: false,
         drawer: menulaterale(context),
         body: Stack(
             children: <Widget>[
@@ -569,25 +570,18 @@ class _MyHomePageState extends State<MyApp> {
           // This marker id can be anything that uniquely identifies each marker.
           markerId: MarkerId("Posizione"),
           position: posizione_assoluta,
-          infoWindow: InfoWindow(
-            title: 'Really cool place',
-            snippet: '5 Star Rating',
-          ),
           icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
         ));
       });
   }
 
   void gettestoricerca(String testo_parziale) async {
-    if(testo_parziale == ""){
-      testo_parziale = "Milan";
-    }
     List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
         testo_parziale,
         localeIdentifier: "it_IT"
     );
     setState(() {
-      testo_ricerca = posizione_info[0].locality;
+      testo_ricerca = posizione_info[0].name + ", " + posizione_info[0].locality;
       risultato_ricerca = posizione_info[0].position;
     });
   }
@@ -604,7 +598,7 @@ class _MyHomePageState extends State<MyApp> {
     final GoogleMapController controller = await _controller.future;
     LatLng posizione = LatLng(risultato_ricerca.latitude, risultato_ricerca.longitude);
 
-    //_textcontroller.clear();
+    _textcontroller.clear();
 
     controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
