@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:preferences/preferences.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,12 +21,21 @@ class Properties{
   final double pm_10_1;
   final double pm_10_2;
   final double pm_10_3;
+  final double pm_10_4;
   final double temp;
   final double umi;
   final double prec;
   final double vento;
   final double no2;
+  final double no2_1;
+  final double no2_2;
+  final double no2_3;
+  final double no2_4;
   final double o3;
+  final double o3_1;
+  final double o3_2;
+  final double o3_3;
+  final double o3_4;
 
   Properties({
     this.id_sensore,
@@ -34,12 +43,21 @@ class Properties{
     this.pm_10_1,
     this.pm_10_2,
     this.pm_10_3,
+    this.pm_10_4,
     this.temp,
     this.umi,
     this.prec,
     this.vento,
     this.no2,
+    this.no2_1,
+    this.no2_2,
+    this.no2_3,
+    this.no2_4,
     this.o3,
+    this.o3_1,
+    this.o3_2,
+    this.o3_3,
+    this.o3_4,
   });
 
   factory Properties.fromJson(Map<String, dynamic> json) {
@@ -49,12 +67,21 @@ class Properties{
       pm_10_1: json['pm10-1'] as double,
       pm_10_2: json['pm10-2'] as double,
       pm_10_3: json['pm10-3'] as double,
+      pm_10_4: json['pm10-4'] as double,
       temp: json['temp'] as double,
       umi: json['umi'] as double,
       prec: json['prec'] as double,
       vento: json['vento'] as double,
       no2: json["no2"] as double,
+      no2_1: json['pm10-1'] as double,
+      no2_2: json['pm10-2'] as double,
+      no2_3: json['pm10-3'] as double,
+      no2_4: json['pm10-4'] as double,
       o3: json["o3"] as double,
+      o3_1: json['pm10-1'] as double,
+      o3_2: json['pm10-2'] as double,
+      o3_3: json['pm10-3'] as double,
+      o3_4: json['pm10-4'] as double,
     );
   }
 }
@@ -496,7 +523,7 @@ class _MyHomePageState extends State<MyApp> {
   //Scarica il JSON e prepara i marker
   Future<void> fetchData(http.Client client) async {
     final response =
-    await client.get('https://house.zan-tech.com/dati/');
+    await client.get('https://house.zan-tech.com/dati/storico.py');
     final parsed = json.decode(response.body);
 
     Sensori res =  Sensori.fromJson(parsed);
