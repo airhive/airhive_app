@@ -465,14 +465,90 @@ class _MyHomePageState extends State<MyApp> {
                       children: <Widget> [
                         Container(
                           color: Colors.white,
-                          width: 300,
+                          width: 50,
+                          child: Center(
+                            child: new RotatedBox(
+                                quarterTurns: -1,
+                                child: new Text(
+                                    "Adesso",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0
+                                    ),
+                                )
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: Colors.white,
+                          width: 250,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: <Widget>[
+                               LinearPercentIndicator(
+                                 trailing: Expanded(child: Text("CAQI")),
+                                 width: 160.0,
+                                 lineHeight: 14.0,
+                                 percent: valori_sensore.caqi / 150,
+                                 backgroundColor: Colors.green,
+                                 progressColor: Colors.red,
+                               ),
+                               LinearPercentIndicator(
+                                 trailing: Expanded(child: Text("PM10")),
+                                 width: 160.0,
+                                 lineHeight: 14.0,
+                                 percent: valori_sensore.pm_10 / 150,
+                                 backgroundColor: Colors.green,
+                                 progressColor: Colors.red,
+                               ),
+                               LinearPercentIndicator(
+                                 trailing: Expanded(child: Text("NO2")),
+                                 width: 160.0,
+                                 lineHeight: 14.0,
+                                 percent: valori_sensore.no2 / 500,
+                                 backgroundColor: Colors.green,
+                                 progressColor: Colors.red,
+                               ),
+                               LinearPercentIndicator(
+                                 trailing: Expanded(child: Text("O3")),
+                                 width: 160.0,
+                                 lineHeight: 14.0,
+                                 percent: valori_sensore.o3 / 400,
+                                 backgroundColor: Colors.green,
+                                 progressColor: Colors.red,
+                               ),
+                             ],
+                          ),
+                        ),
+                        Container(
+                          width: 20.0,
+                          color: Colors.yellow[700],
+                        ),
+                        Container(
+                          color: Colors.white,
+                          width: 50,
+                          child: Center(
+                            child: new RotatedBox(
+                                quarterTurns: -1,
+                                child: new Text(
+                                  "Storico",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0
+                                  ),
+                                )
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: Colors.white,
+                          width: 250,
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               LinearPercentIndicator(
                                 trailing: Expanded(child: Text("CAQI")),
-                                width: 140.0,
+                                width: 160.0,
                                 lineHeight: 14.0,
                                 percent: valori_sensore.caqi / 150,
                                 backgroundColor: Colors.green,
@@ -480,7 +556,7 @@ class _MyHomePageState extends State<MyApp> {
                               ),
                               LinearPercentIndicator(
                                 trailing: Expanded(child: Text("PM10")),
-                                width: 140.0,
+                                width: 160.0,
                                 lineHeight: 14.0,
                                 percent: valori_sensore.pm_10 / 150,
                                 backgroundColor: Colors.green,
@@ -488,7 +564,7 @@ class _MyHomePageState extends State<MyApp> {
                               ),
                               LinearPercentIndicator(
                                 trailing: Expanded(child: Text("NO2")),
-                                width: 140.0,
+                                width: 160.0,
                                 lineHeight: 14.0,
                                 percent: valori_sensore.no2 / 500,
                                 backgroundColor: Colors.green,
@@ -496,13 +572,33 @@ class _MyHomePageState extends State<MyApp> {
                               ),
                               LinearPercentIndicator(
                                 trailing: Expanded(child: Text("O3")),
-                                width: 140.0,
+                                width: 160.0,
                                 lineHeight: 14.0,
                                 percent: valori_sensore.o3 / 400,
                                 backgroundColor: Colors.green,
                                 progressColor: Colors.red,
                               ),
                             ],
+                          ),
+                        ),
+                        Container(
+                          width: 20.0,
+                          color: Colors.yellow[700],
+                        ),
+                        Container(
+                          color: Colors.white,
+                          width: 50,
+                          child: Center(
+                            child: new RotatedBox(
+                                quarterTurns: -1,
+                                child: new Text(
+                                  "Futuro",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0
+                                  ),
+                                )
+                            ),
                           ),
                         ),
                         Container(
