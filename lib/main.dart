@@ -157,7 +157,7 @@ CurrSettings setDefSettings(CurrSettings sett) {
 
 //Creating a function to check for the presence of a preference file in shared_preferences
 //If the file does not exist create one with dafault values
-Future<CurrSettings> getSettings() async{
+CurrSettings getSettings() {
   SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
   String controlvalue = sharedPreferences.getString('prefs');
   if (controlvalue != null) {
