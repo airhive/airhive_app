@@ -121,11 +121,12 @@ class Sensori {
 }
 
 
+/*
 //Defining a class to store preferences
 class CurrSettings{
-  MapType currMapType; //Type of Map
-  String currAqiType; //Type of Air Quality Index (AQI)
-  String currLang; //Language
+  final MapType currMapType; //Type of Map
+  final String currAqiType; //Type of Air Quality Index (AQI)
+  final String currLang; //Language
 
   CurrSettings({
     this.currMapType,
@@ -142,38 +143,74 @@ class CurrSettings{
         currLang: prefjson['currLang'] as String,
     );
   }
+  factory CurrSettings.setDefSettings(){
+
+    return CurrSettings(
+      currMapType: MapType.terrain,
+      currAqiType: 'CAQI',
+      currLang: 'IT',
+    );
+  }
 
 }
 
 //Defining a function to set default values for preferences
-CurrSettings setDefSettings(CurrSettings sett) {
-    sett.currMapType = MapType.terrain;
-    sett.currAqiType = 'CAQI';
-    sett.currLang = 'IT';
+/*CurrSettings setDefSettings(CurrSettings sett) {
+  sett.currMapType = MapType.terrain;
+  sett.currAqiType = 'CAQI';
+  sett.currLang = 'IT';
 
-    return sett;
+  return sett;
+
+}*/
+*/
+//Defining a class to store preferences
+class Preferences{
+  final MapType typeOfMap;
+  final String aqiType;
+  final String language;
+
+  Preferences(
+      this.typeOfMap,
+      this.aqiType,
+      this.language,
+      );
+
+  Preferences.fromJson(Map<String, dynamic> json)
+      : typeOfMap = json['typeofmap'],
+        aqiType = json['aqitype'],
+        language = json['language'];
+
+  Map<String, dynamic> toJson() =>
+      {
+        'typeofmap': typeOfMap,
+        'aqitype': aqiType,
+        'language': language,
+      };
 
 }
 
+/*
 //Creating a function to check for the presence of a preference file in shared_preferences
-//If the file does not exist create one with dafault values
-CurrSettings getSettings() {
+//If the file does not exist create one with default values
+Future<Void> getSettings(CurrSettings sett) async {
   SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
   String controlvalue = sharedPreferences.getString('prefs');
   if (controlvalue != null) {
     Map sett = jsonDecode(controlvalue);
-    var settings = CurrSettings.fromJson(sett);
-    return settings;
+    CurrSettings settings = CurrSettings.fromJson(sett);
+    sett = settings;
   } else {
 
     CurrSettings settings;
-    settings = setDefSettings(settings);
+    settings = CurrSettings.setDefSettings();
     String prefjson = jsonEncode(settings);
     sharedPreferences.setString('prefs', prefjson);
     return settings;
 
   }
 }
+*/
 
 //void main() => runApp(MyApp());
 main() async {
@@ -283,10 +320,14 @@ class AccountPage extends StatelessWidget {
 }
 
 class _MyHomePageState extends State<MyApp> {
+
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
-  Future<CurrSettings> preferences = GetSettings();
+
+
+
 
   final _textcontroller = TextEditingController();
 
@@ -304,6 +345,7 @@ class _MyHomePageState extends State<MyApp> {
   bool apri_ricerca = false;
 
   final Set<Marker> _markers = {};
+
 
   @override
   Widget build(BuildContext context) {
@@ -559,6 +601,7 @@ class _MyHomePageState extends State<MyApp> {
       apri_ricerca = false;
     });
   }
+
 }
 
 // Il tema della app
@@ -623,3 +666,4 @@ Drawer menulaterale(context){
       )
   );
 }
+
