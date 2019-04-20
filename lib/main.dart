@@ -509,7 +509,7 @@ class _MyHomePageState extends State<MyApp> {
       ));
 
       setState(() {
-        _markers.remove(MarkerId("Posizione"));
+        _markers.remove(Marker(markerId: MarkerId("Posizione")));
         _markers.add(Marker(
           // This marker id can be anything that uniquely identifies each marker.
           markerId: MarkerId("Posizione"),
@@ -540,10 +540,7 @@ class _MyHomePageState extends State<MyApp> {
     ));
 
     setState(() {
-      _markers.remove(MarkerId("Ricerca"));
-    });
-
-    setState(() {
+      _markers.remove(Marker(markerId: MarkerId("Ricerca")));
       _markers.add(Marker(
         // This marker id can be anything that uniquely identifies each marker.
         markerId: MarkerId("Ricerca"),
