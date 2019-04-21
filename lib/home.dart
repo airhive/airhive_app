@@ -383,11 +383,21 @@ class _MyHomePageState extends State<MyApp> {
                           ),
                           Container(
                             color: Colors.white,
-                            width: 250,
-                            child: new charts.LineChart(_datiChart(),
-                                defaultRenderer:
-                                new charts.LineRendererConfig(includeArea: true, stacked: true),
-                                animate: true),
+                            width: 350,
+                            child: new charts.LineChart(
+                                _datiChartStorico(),
+                                defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
+                                animate: true,
+                                behaviors: [
+                                  new charts.ChartTitle(
+                                    'Tempo',
+                                    behaviorPosition: charts.BehaviorPosition.bottom,
+                                    titleOutsideJustification:
+                                    charts.OutsideJustification.middleDrawArea),
+                                  new charts.SeriesLegend(
+                                      position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+                                ],
+                            ),
                           ),
                           Container(
                             width: 20.0,
@@ -410,7 +420,7 @@ class _MyHomePageState extends State<MyApp> {
                             ),
                           ),
                           Container(
-                            width: 160.0,
+                            width: 250.0,
                             color: Colors.blue,
                           ),
                         ]
@@ -601,7 +611,7 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 
-  List<charts.Series<GraficoLineare, int>> _datiChart() {
+  List<charts.Series<GraficoLineare, int>> _datiChartStorico() {
     final pmchartdata = [
       new GraficoLineare(0, valori_sensore.pm_10),
       new GraficoLineare(1, valori_sensore.pm_10_1),
@@ -629,6 +639,7 @@ class _MyHomePageState extends State<MyApp> {
     return [
       new charts.Series<GraficoLineare, int>(
         id: 'PM',
+        displayName: "PM",
         // colorFn specifies that the line will be blue.
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         // areaColorFn specifies that the area skirt will be light blue.
