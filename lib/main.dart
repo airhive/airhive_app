@@ -85,7 +85,7 @@ class Properties{
       o3_2: json['o3-2'] as double,
       o3_3: json['o3-3'] as double,
       o3_4: json['o3-4'] as double,
-      caqi: (json['pm10'] + json["no2"] / 4 + json["o3"] / 2.4) / 3 as double,
+      caqi: (json['pm10-4'] + json["no2-4"] / 4 + json["o3-4"] / 2.4) / 3 as double,
     );
   }
 }
@@ -599,7 +599,7 @@ class _MyHomePageState extends State<MyApp> {
                                  trailing: Expanded(child: Text("PM10")),
                                  width: 160.0,
                                  lineHeight: 14.0,
-                                 percent: valori_sensore.pm_10 / 150,
+                                 percent: valori_sensore.pm_10_4 / 150,
                                  backgroundColor: Colors.green,
                                  progressColor: Colors.red,
                                ),
@@ -607,7 +607,7 @@ class _MyHomePageState extends State<MyApp> {
                                  trailing: Expanded(child: Text("NO2")),
                                  width: 160.0,
                                  lineHeight: 14.0,
-                                 percent: valori_sensore.no2 / 500,
+                                 percent: valori_sensore.no2_4 / 500,
                                  backgroundColor: Colors.green,
                                  progressColor: Colors.red,
                                ),
@@ -615,7 +615,7 @@ class _MyHomePageState extends State<MyApp> {
                                  trailing: Expanded(child: Text("O3")),
                                  width: 160.0,
                                  lineHeight: 14.0,
-                                 percent: valori_sensore.o3 / 400,
+                                 percent: valori_sensore.o3_4 / 400,
                                  backgroundColor: Colors.green,
                                  progressColor: Colors.red,
                                ),
@@ -868,7 +868,7 @@ class _MyHomePageState extends State<MyApp> {
       new GraficoLineare(1, valori_sensore.pm_10_1),
       new GraficoLineare(2, valori_sensore.pm_10_2),
       new GraficoLineare(3, valori_sensore.pm_10_3),
-      new GraficoLineare(3, valori_sensore.pm_10_4),
+      new GraficoLineare(4, valori_sensore.pm_10_4),
     ];
 
     var no2chartdata = [
@@ -876,7 +876,7 @@ class _MyHomePageState extends State<MyApp> {
       new GraficoLineare(1, valori_sensore.no2_1 / 4),
       new GraficoLineare(2, valori_sensore.no2_2 / 4),
       new GraficoLineare(3, valori_sensore.no2_3 / 4),
-      new GraficoLineare(3, valori_sensore.no2_4 / 4),
+      new GraficoLineare(4, valori_sensore.no2_4 / 4),
     ];
 
     var o3chartdata = [
@@ -884,7 +884,7 @@ class _MyHomePageState extends State<MyApp> {
       new GraficoLineare(1, valori_sensore.o3_1 / 2.4),
       new GraficoLineare(2, valori_sensore.o3_2 / 2.4),
       new GraficoLineare(3, valori_sensore.o3_3 / 2.4),
-      new GraficoLineare(3, valori_sensore.o3_4 / 2.4),
+      new GraficoLineare(4, valori_sensore.o3_4 / 2.4),
     ];
 
     return [
