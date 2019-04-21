@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 
 class Properties{
@@ -151,7 +152,7 @@ class Sensori {
 }
 
 
-
+/*
 //Defining a class to store preferences
 class CurrSettings{
   final MapType currMapType; //Type of Map
@@ -185,14 +186,14 @@ class CurrSettings{
 }
 
 //Defining a function to set default values for preferences
-/*CurrSettings setDefSettings(CurrSettings sett) {
+CurrSettings setDefSettings(CurrSettings sett) {
   sett.currMapType = MapType.terrain;
   sett.currAqiType = 'CAQI';
   sett.currLang = 'IT';
 
   return sett;
 
-}
+}*/
 
 //Defining a class to store preferences
 class Preferences{
@@ -213,16 +214,49 @@ class Preferences{
 
   Map<String, dynamic> toJson() =>
       {
-        'typeofmap': typeOfMap,
+        'typeofmap': typeOfMap.toString(),
         'aqitype': aqiType,
         'language': language,
       };
 
-}*/
+}
 
+Preferences getDefaultsPrefs(){
+  return Preferences(
+      MapType.terrain,
+      'CAQI',
+      'IT',
+  );
+}
+
+/*
+METODO PER RACCOLTA PREFERENCES
+String _preferences;
+
+Future<void> getPrefs() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String _prefs = prefs.getString('prefs');
+  if(_prefs != null){
+    Map prefsMap = jsonDecode(_prefs);
+    //_preferences = new Preferences.fromJson(prefsMap);
+    _preferences = _prefs;
+    print(_preferences);
+  } else {
+    Preferences preferences = getDefaultsPrefs();
+    Map<String, dynamic> jsonpref = preferences.toJson();
+    print(jsonpref);
+    String prefjson = jsonEncode(jsonpref);
+    print(prefjson);
+    prefs.setString('prefs', prefjson);
+    _preferences = prefs.get('prefs');
+    print(_preferences);
+  }
+}
+*/
 
 //Creating a function to check for the presence of a preference file in shared_preferences
 //If the file does not exist create one with default values
+/*
 Future<void> getSettings(CurrSettings sett) async {
   SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
   String controlvalue = sharedPreferences.getString('prefs');
@@ -240,7 +274,7 @@ Future<void> getSettings(CurrSettings sett) async {
 
   }
 }
-
+*/
 
 //void main() => runApp(MyApp());
 main() async {
@@ -262,6 +296,23 @@ class MyApp extends StatefulWidget {
 //Writing Settings page code
 class SettingsPage extends StatelessWidget {
 
+  Preferences _preferences;
+
+  Future<void> getPrefs() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _prefs = prefs.getString('prefs');
+    if(_prefs != null){
+      Map<String, dynamic> prefsMap = jsonDecode(_prefs);
+      _preferences = new Preferences.fromJson(prefsMap);
+      print(_preferences);
+    } else {
+      Preferences preferences = getDefaultsPrefs();
+      Map<String, dynamic> jsonpref = preferences.toJson();
+      String prefjson = jsonEncode(jsonpref);
+      prefs.setString('prefs', prefjson);
+      _preferences = preferences;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -315,7 +366,6 @@ class SettingsPage extends StatelessWidget {
 
 
             //Impostazioni tipo indice qualità aria
-            PreferenceTitle("Stile mappa"),
           ]),
 
 
@@ -373,6 +423,48 @@ class _MyHomePageState extends State<MyApp> {
 
   final Set<Marker> _markers = {};
 
+/*
+  Preferences _preferences;
+
+  Future<Null> getPrefs() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _prefs = prefs.getString('prefs');
+    if(_prefs != null && _prefs != ''){
+      Map prefsMap = jsonDecode(_prefs);
+      _preferences = new Preferences.fromJson(prefsMap);
+    } else {
+      _preferences = getDefaultsPrefs();
+      String prefjson = jsonEncode(_preferences);
+      prefs.setString('prefs', prefjson);
+    }
+  }
+*/
+  Preferences _preferences;
+
+  Future<Preferences> getPrefs() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _prefs = prefs.getString('prefs');
+    if(_prefs != null){
+      Map<String, dynamic> prefsMap = jsonDecode(_prefs);
+      return new Preferences.fromJson(prefsMap);
+    } else {
+      Preferences preferences = getDefaultsPrefs();
+      Map<String, dynamic> jsonpref = preferences.toJson();
+      String prefjson = jsonEncode(jsonpref);
+      prefs.setString('prefs', prefjson);
+      return preferences;
+    }
+  }
+
+  Future<void> ResolvePrefs() async {
+    _preferences = await getPrefs();
+  }
+  @override
+
+  void initState() {
+    super.initState();
+    ResolvePrefs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -800,7 +892,7 @@ ThemeData app_theme(){
   return ThemeData(
     brightness: Brightness.light,
     primaryColor: Colors.yellow[700],
-    accentColor: Colors.white,
+    accentColor: Colors.yellow[700],
 
     iconTheme: IconThemeData(
         color: Colors.white,
