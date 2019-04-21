@@ -195,21 +195,27 @@ CurrSettings setDefSettings(CurrSettings sett) {
 
 }*/
 
-//Defining a map to assign string to maptype
-Map<String, MapType> typeofMaps = {
+//Defining a map to assign maptype to string
+Map<String, MapType> stringtomap = {
   'terrain':MapType.terrain,
   'hybrid':MapType.hybrid,
   'satellite':MapType.satellite,
   'normal':MapType.normal,
-  'dark':MapType.values
+};
 
+//Defining a class to assign string to maptype
+Map<MapType, String> maptostring = {
+  MapType.terrain:'terrain',
+  MapType.hybrid:'hybrid',
+  MapType.satellite:'satellite',
+  MapType.normal:'normal',
 };
 
 //Defining a class to store preferences
 class Preferences{
-  final MapType typeOfMap;
-  final String aqiType;
-  final String language;
+  String typeOfMap;
+  String aqiType;
+  String language;
 
   Preferences(
       this.typeOfMap,
@@ -224,7 +230,7 @@ class Preferences{
 
   Map<String, dynamic> toJson() =>
       {
-        'typeofmap': typeOfMap.toString(),
+        'typeofmap': typeOfMap,
         'aqitype': aqiType,
         'language': language,
       };
@@ -233,7 +239,7 @@ class Preferences{
 
 Preferences getDefaultsPrefs(){
   return Preferences(
-      MapType.terrain,
+      'terrain',
       'CAQI',
       'IT',
   );
@@ -469,6 +475,7 @@ class _MyHomePageState extends State<MyApp> {
   Future<void> ResolvePrefs() async {
     _preferences = await getPrefs();
   }
+
   @override
 
   void initState() {
