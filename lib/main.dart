@@ -195,6 +195,16 @@ CurrSettings setDefSettings(CurrSettings sett) {
 
 }*/
 
+//Defining a map to assign string to maptype
+Map<String, MapType> typeofMaps = {
+  'terrain':MapType.terrain,
+  'hybrid':MapType.hybrid,
+  'satellite':MapType.satellite,
+  'normal':MapType.normal,
+  'dark':MapType.values
+
+};
+
 //Defining a class to store preferences
 class Preferences{
   final MapType typeOfMap;
@@ -208,9 +218,9 @@ class Preferences{
       );
 
   Preferences.fromJson(Map<String, dynamic> json)
-      : typeOfMap = json['typeofmap'],
-        aqiType = json['aqitype'],
-        language = json['language'];
+      : typeOfMap = json['typeofmap'] as MapType,
+        aqiType = json['aqitype'] as String,
+        language = json['language']as String;
 
   Map<String, dynamic> toJson() =>
       {
@@ -464,6 +474,7 @@ class _MyHomePageState extends State<MyApp> {
   void initState() {
     super.initState();
     ResolvePrefs();
+    print(_preferences.typeOfMap);
   }
 
   @override
