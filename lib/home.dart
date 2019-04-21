@@ -537,7 +537,7 @@ class _MyHomePageState extends State<MyApp> {
                       ),
                       textAlign: TextAlign.left,
                       onSubmitted: ricerca,
-                      onChanged: gettestoricerca,
+                      onChanged: (val) => debounce(const Duration(milliseconds: 300), gettestoricerca, [val]),
                     ),
                     color: Colors.white,
                     height : 50,
@@ -651,8 +651,22 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 
+  // This map will track all your pending function calls
+  Map<Function, Timer> _timeouts = {};
+  void debounce(Duration timeout, Function target, [List arguments = const []]) {
+    if (_timeouts.containsKey(target)) {
+      _timeouts[target].cancel();
+    }
+
+    Timer timer = Timer(timeout, () {
+      Function.apply(target, arguments);
+    });
+
+    _timeouts[target] = timer;
+  }
+
   // Prende il testo della ricerca in real time e controlla se è un posto
-  void gettestoricerca(String testo_parziale) async {
+  Future<void> gettestoricerca(String testo_parziale) async {
     List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
         testo_parziale,
         localeIdentifier: "it_IT"
@@ -788,7 +802,6 @@ class _MyHomePageState extends State<MyApp> {
         ),
     ];
   }
-
 
   List<charts.Series<GraficoLineare, int>> _datiChartNO2() {
     var no2chartdata = [
