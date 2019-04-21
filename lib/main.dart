@@ -85,7 +85,7 @@ class Properties{
       o3_2: json['o3-2'] as double,
       o3_3: json['o3-3'] as double,
       o3_4: json['o3-4'] as double,
-      caqi: (json['pm10'] + json["no2"] / 4 + json["o3"] / 2.4) / 3 as double,
+      caqi: (json['pm10-4'] + json["no2-4"] / 4 + json["o3-4"] / 2.4) / 3 as double,
     );
   }
 }
@@ -195,27 +195,21 @@ CurrSettings setDefSettings(CurrSettings sett) {
 
 }*/
 
-//Defining a map to assign maptype to string
-Map<String, MapType> stringtomap = {
+//Defining a map to assign string to maptype
+Map<String, MapType> typeofMaps = {
   'terrain':MapType.terrain,
   'hybrid':MapType.hybrid,
   'satellite':MapType.satellite,
   'normal':MapType.normal,
-};
+  'dark':MapType.normal, //@ZANATTA1310 HO MODIFICATO QUA C'ERA .values
 
-//Defining a class to assign string to maptype
-Map<MapType, String> maptostring = {
-  MapType.terrain:'terrain',
-  MapType.hybrid:'hybrid',
-  MapType.satellite:'satellite',
-  MapType.normal:'normal',
 };
 
 //Defining a class to store preferences
 class Preferences{
-  String typeOfMap;
-  String aqiType;
-  String language;
+  final MapType typeOfMap;
+  final String aqiType;
+  final String language;
 
   Preferences(
       this.typeOfMap,
@@ -230,7 +224,7 @@ class Preferences{
 
   Map<String, dynamic> toJson() =>
       {
-        'typeofmap': typeOfMap,
+        'typeofmap': typeOfMap.toString(),
         'aqitype': aqiType,
         'language': language,
       };
@@ -239,7 +233,7 @@ class Preferences{
 
 Preferences getDefaultsPrefs(){
   return Preferences(
-      'terrain',
+      MapType.terrain,
       'CAQI',
       'IT',
   );
@@ -475,7 +469,6 @@ class _MyHomePageState extends State<MyApp> {
   Future<void> ResolvePrefs() async {
     _preferences = await getPrefs();
   }
-
   @override
 
   void initState() {
@@ -606,7 +599,7 @@ class _MyHomePageState extends State<MyApp> {
                                  trailing: Expanded(child: Text("PM10")),
                                  width: 160.0,
                                  lineHeight: 14.0,
-                                 percent: valori_sensore.pm_10 / 150,
+                                 percent: valori_sensore.pm_10_4 / 150,
                                  backgroundColor: Colors.green,
                                  progressColor: Colors.red,
                                ),
@@ -614,7 +607,7 @@ class _MyHomePageState extends State<MyApp> {
                                  trailing: Expanded(child: Text("NO2")),
                                  width: 160.0,
                                  lineHeight: 14.0,
-                                 percent: valori_sensore.no2 / 500,
+                                 percent: valori_sensore.no2_4 / 500,
                                  backgroundColor: Colors.green,
                                  progressColor: Colors.red,
                                ),
@@ -622,7 +615,7 @@ class _MyHomePageState extends State<MyApp> {
                                  trailing: Expanded(child: Text("O3")),
                                  width: 160.0,
                                  lineHeight: 14.0,
-                                 percent: valori_sensore.o3 / 400,
+                                 percent: valori_sensore.o3_4 / 400,
                                  backgroundColor: Colors.green,
                                  progressColor: Colors.red,
                                ),
@@ -652,43 +645,10 @@ class _MyHomePageState extends State<MyApp> {
                         Container(
                           color: Colors.white,
                           width: 250,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              LinearPercentIndicator(
-                                trailing: Expanded(child: Text("CAQI")),
-                                width: 160.0,
-                                lineHeight: 14.0,
-                                percent: valori_sensore.caqi / 150,
-                                backgroundColor: Colors.green,
-                                progressColor: Colors.red,
-                              ),
-                              LinearPercentIndicator(
-                                trailing: Expanded(child: Text("PM10")),
-                                width: 160.0,
-                                lineHeight: 14.0,
-                                percent: valori_sensore.pm_10 / 150,
-                                backgroundColor: Colors.green,
-                                progressColor: Colors.red,
-                              ),
-                              LinearPercentIndicator(
-                                trailing: Expanded(child: Text("NO2")),
-                                width: 160.0,
-                                lineHeight: 14.0,
-                                percent: valori_sensore.no2 / 500,
-                                backgroundColor: Colors.green,
-                                progressColor: Colors.red,
-                              ),
-                              LinearPercentIndicator(
-                                trailing: Expanded(child: Text("O3")),
-                                width: 160.0,
-                                lineHeight: 14.0,
-                                percent: valori_sensore.o3 / 400,
-                                backgroundColor: Colors.green,
-                                progressColor: Colors.red,
-                              ),
-                            ],
-                          ),
+                          child: new charts.LineChart(_datiChart(),
+                                  defaultRenderer:
+                                  new charts.LineRendererConfig(includeArea: true, stacked: true),
+                                  animate: true),
                         ),
                         Container(
                           width: 20.0,
@@ -902,6 +862,74 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 
+  List<charts.Series<GraficoLineare, int>> _datiChart() {
+    final pmchartdata = [
+      new GraficoLineare(0, valori_sensore.pm_10),
+      new GraficoLineare(1, valori_sensore.pm_10_1),
+      new GraficoLineare(2, valori_sensore.pm_10_2),
+      new GraficoLineare(3, valori_sensore.pm_10_3),
+      new GraficoLineare(4, valori_sensore.pm_10_4),
+    ];
+
+    var no2chartdata = [
+      new GraficoLineare(0, valori_sensore.no2 / 4),
+      new GraficoLineare(1, valori_sensore.no2_1 / 4),
+      new GraficoLineare(2, valori_sensore.no2_2 / 4),
+      new GraficoLineare(3, valori_sensore.no2_3 / 4),
+      new GraficoLineare(4, valori_sensore.no2_4 / 4),
+    ];
+
+    var o3chartdata = [
+      new GraficoLineare(0, valori_sensore.o3 / 2.4),
+      new GraficoLineare(1, valori_sensore.o3_1 / 2.4),
+      new GraficoLineare(2, valori_sensore.o3_2 / 2.4),
+      new GraficoLineare(3, valori_sensore.o3_3 / 2.4),
+      new GraficoLineare(4, valori_sensore.o3_4 / 2.4),
+    ];
+
+    return [
+      new charts.Series<GraficoLineare, int>(
+        id: 'Desktop',
+        // colorFn specifies that the line will be blue.
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light blue.
+        areaColorFn: (_, __) =>
+        charts.MaterialPalette.blue.shadeDefault.lighter,
+        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+        data: pmchartdata,
+      ),
+      new charts.Series<GraficoLineare, int>(
+        id: 'Tablet',
+        // colorFn specifies that the line will be red.
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light red.
+        areaColorFn: (_, __) => charts.MaterialPalette.red.shadeDefault.lighter,
+        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+        data: no2chartdata,
+      ),
+      new charts.Series<GraficoLineare, int>(
+        id: 'Mobile',
+        // colorFn specifies that the line will be green.
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light green.
+        areaColorFn: (_, __) =>
+        charts.MaterialPalette.green.shadeDefault.lighter,
+        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+        data: o3chartdata,
+      ),
+    ];
+  }
+
+}
+
+class GraficoLineare{
+  final int momento;
+  final double valore;
+
+  GraficoLineare(this.momento, this.valore);
 }
 
 // Il tema della app
