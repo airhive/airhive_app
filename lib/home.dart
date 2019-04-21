@@ -166,7 +166,10 @@ class _MyHomePageState extends State<MyApp> {
   String testo_ricerca = "";
   Position risultato_ricerca;
 
-  final Set<Marker> _markers = {};
+  Set<Marker> _markers = {};
+  Set<Marker> _oldmarker = {};
+  final Set<Marker> _markerscaqi = {};
+  final Set<Marker> _markerspm = {};
 
 /*
   Preferences _preferences;
@@ -493,7 +496,7 @@ class _MyHomePageState extends State<MyApp> {
       colore = aqi_loc < 50 ? "low" : colore;
       colore = aqi_loc < 25 ? "very_low" : colore;
       setState(() {
-        _markers.add(Marker(
+        _markerscaqi.add(Marker(
           markerId: MarkerId(properties.id_sensore),
           position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
           alpha : 0.6,
@@ -508,6 +511,11 @@ class _MyHomePageState extends State<MyApp> {
         ));
       });
     }
+    //Organizzato per poter cambiare tutti i marker tranne quello della posizione.
+    _oldmarker = _markers;
+    setState(() {
+      _markers = _oldmarker.union(_markerscaqi);
+    });
   }
 
   //Chiude robe toccando la mappa
@@ -599,14 +607,15 @@ class _MyHomePageState extends State<MyApp> {
 
     setState(() {
       _markers.remove(Marker(markerId: MarkerId("Ricerca")));
-      _markers.add(Marker(
-        // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId("Ricerca"),
-        position: posizione,
-        infoWindow: InfoWindow(
-          title: 'Posto cercato',
-        ),
-      ));
+      _markers.add(
+        Marker(
+          markerId: MarkerId("Ricerca"),
+          position: posizione,
+          infoWindow: InfoWindow(
+            title: 'Posto cercato',
+          ),
+        )
+      );
       apri_ricerca = false;
     });
   }
