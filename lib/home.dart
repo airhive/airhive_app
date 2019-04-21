@@ -393,7 +393,7 @@ class _MyHomePageState extends State<MyApp> {
                                   color: Colors.white,
                                   height: 200,
                                   child: new charts.LineChart(
-                                      _datiChartStorico("CAQI"),
+                                      _datiChartCAQI(),
                                       defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
                                       animate: true,
                                       behaviors: [
@@ -416,7 +416,7 @@ class _MyHomePageState extends State<MyApp> {
                                   color: Colors.white,
                                   height: 200,
                                   child: new charts.LineChart(
-                                    _datiChartStorico("PM"),
+                                    _datiChartPM(),
                                     defaultRenderer: new charts.LineRendererConfig(includeArea: true),
                                     animate: true,
                                     behaviors: [
@@ -439,7 +439,7 @@ class _MyHomePageState extends State<MyApp> {
                                   color: Colors.white,
                                   height: 200,
                                   child: new charts.LineChart(
-                                    _datiChartStorico("NO2"),
+                                    _datiChartNO2(),
                                     defaultRenderer: new charts.LineRendererConfig(includeArea: true),
                                     animate: true,
                                     behaviors: [
@@ -462,7 +462,7 @@ class _MyHomePageState extends State<MyApp> {
                                   color: Colors.white,
                                   height: 200,
                                   child: new charts.LineChart(
-                                    _datiChartStorico("O3"),
+                                    _datiChartO3(),
                                     defaultRenderer: new charts.LineRendererConfig(includeArea: true),
                                     animate: true,
                                     behaviors: [
@@ -702,7 +702,70 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 
-  List<charts.Series<GraficoLineare, int>> _datiChartStorico(String cosa) {
+  List<charts.Series<GraficoLineare, int>> _datiChartCAQI() {
+    final pmchartdata = [
+      new GraficoLineare(0, valori_sensore.pm_10 / 3),
+      new GraficoLineare(1, valori_sensore.pm_10_1 / 3),
+      new GraficoLineare(2, valori_sensore.pm_10_2 / 3),
+      new GraficoLineare(3, valori_sensore.pm_10_3 / 3),
+      new GraficoLineare(4, valori_sensore.pm_10_4 / 3),
+    ];
+
+    var no2chartdata = [
+      new GraficoLineare(0, valori_sensore.no2 / 12),
+      new GraficoLineare(1, valori_sensore.no2_1 / 12),
+      new GraficoLineare(2, valori_sensore.no2_2 / 12),
+      new GraficoLineare(3, valori_sensore.no2_3 / 12),
+      new GraficoLineare(4, valori_sensore.no2_4 / 12),
+    ];
+
+    var o3chartdata = [
+      new GraficoLineare(0, valori_sensore.o3 / (2.4*3)),
+      new GraficoLineare(1, valori_sensore.o3_1 / (2.4*3)),
+      new GraficoLineare(2, valori_sensore.o3_2 / (2.4*3)),
+      new GraficoLineare(3, valori_sensore.o3_3 / (2.4*3)),
+      new GraficoLineare(4, valori_sensore.o3_4 / (2.4*3)),
+    ];
+
+    return [
+      new charts.Series<GraficoLineare, int>(
+        id: 'PM',
+        displayName: "PM",
+        // colorFn specifies that the line will be blue.
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light blue.
+        areaColorFn: (_, __) =>
+        charts.MaterialPalette.blue.shadeDefault.lighter,
+        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+        data: pmchartdata,
+      ),
+      new charts.Series<GraficoLineare, int>(
+        id: 'NO2',
+        // colorFn specifies that the line will be red.
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light red.
+        areaColorFn: (_, __) =>
+        charts.MaterialPalette.red.shadeDefault.lighter,
+        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+        data: no2chartdata,
+      ),
+      new charts.Series<GraficoLineare, int>(
+        id: 'O3',
+        // colorFn specifies that the line will be green.
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light green.
+        areaColorFn: (_, __) =>
+        charts.MaterialPalette.green.shadeDefault.lighter,
+        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+        data: o3chartdata,
+      ),
+    ];
+  }
+
+  List<charts.Series<GraficoLineare, int>> _datiChartPM() {
     final pmchartdata = [
       new GraficoLineare(0, valori_sensore.pm_10),
       new GraficoLineare(1, valori_sensore.pm_10_1),
@@ -710,93 +773,56 @@ class _MyHomePageState extends State<MyApp> {
       new GraficoLineare(3, valori_sensore.pm_10_3),
       new GraficoLineare(4, valori_sensore.pm_10_4),
     ];
+    return [
+      new charts.Series<GraficoLineare, int>(
+          id: 'PM',
+          displayName: "PM",
+          // colorFn specifies that the line will be blue.
+          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          // areaColorFn specifies that the area skirt will be light blue.
+          areaColorFn: (_, __) =>
+          charts.MaterialPalette.blue.shadeDefault.lighter,
+          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+          data: pmchartdata,
+        ),
+    ];
+  }
 
+
+  List<charts.Series<GraficoLineare, int>> _datiChartNO2() {
     var no2chartdata = [
-      new GraficoLineare(0, valori_sensore.no2 / 4),
-      new GraficoLineare(1, valori_sensore.no2_1 / 4),
-      new GraficoLineare(2, valori_sensore.no2_2 / 4),
-      new GraficoLineare(3, valori_sensore.no2_3 / 4),
-      new GraficoLineare(4, valori_sensore.no2_4 / 4),
+      new GraficoLineare(0, valori_sensore.no2),
+      new GraficoLineare(1, valori_sensore.no2_1),
+      new GraficoLineare(2, valori_sensore.no2_2),
+      new GraficoLineare(3, valori_sensore.no2_3),
+      new GraficoLineare(4, valori_sensore.no2_4),
     ];
 
+    return [
+      new charts.Series<GraficoLineare, int>(
+          id: 'NO2',
+          // colorFn specifies that the line will be red.
+          colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+          // areaColorFn specifies that the area skirt will be light red.
+          areaColorFn: (_, __) =>
+          charts.MaterialPalette.red.shadeDefault.lighter,
+          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+          data: no2chartdata,
+        ),
+    ];
+  }
+
+  List<charts.Series<GraficoLineare, int>> _datiChartO3() {
     var o3chartdata = [
-      new GraficoLineare(0, valori_sensore.o3 / 2.4),
-      new GraficoLineare(1, valori_sensore.o3_1 / 2.4),
-      new GraficoLineare(2, valori_sensore.o3_2 / 2.4),
-      new GraficoLineare(3, valori_sensore.o3_3 / 2.4),
-      new GraficoLineare(4, valori_sensore.o3_4 / 2.4),
+      new GraficoLineare(0, valori_sensore.o3),
+      new GraficoLineare(1, valori_sensore.o3_1),
+      new GraficoLineare(2, valori_sensore.o3_2),
+      new GraficoLineare(3, valori_sensore.o3_3),
+      new GraficoLineare(4, valori_sensore.o3_4),
     ];
 
-    if(cosa == "CAQI") {
-      return [
-        new charts.Series<GraficoLineare, int>(
-          id: 'PM',
-          displayName: "PM",
-          // colorFn specifies that the line will be blue.
-          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-          // areaColorFn specifies that the area skirt will be light blue.
-          areaColorFn: (_, __) =>
-          charts.MaterialPalette.blue.shadeDefault.lighter,
-          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
-          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
-          data: pmchartdata,
-        ),
-        new charts.Series<GraficoLineare, int>(
-          id: 'NO2',
-          // colorFn specifies that the line will be red.
-          colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
-          // areaColorFn specifies that the area skirt will be light red.
-          areaColorFn: (_, __) =>
-          charts.MaterialPalette.red.shadeDefault.lighter,
-          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
-          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
-          data: no2chartdata,
-        ),
-        new charts.Series<GraficoLineare, int>(
-          id: 'O3',
-          // colorFn specifies that the line will be green.
-          colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
-          // areaColorFn specifies that the area skirt will be light green.
-          areaColorFn: (_, __) =>
-          charts.MaterialPalette.green.shadeDefault.lighter,
-          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
-          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
-          data: o3chartdata,
-        ),
-      ];
-    }
-    if(cosa == "PM"){
-      return [
-        new charts.Series<GraficoLineare, int>(
-          id: 'PM',
-          displayName: "PM",
-          // colorFn specifies that the line will be blue.
-          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-          // areaColorFn specifies that the area skirt will be light blue.
-          areaColorFn: (_, __) =>
-          charts.MaterialPalette.blue.shadeDefault.lighter,
-          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
-          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
-          data: pmchartdata,
-        ),
-      ];
-    }
-    if(cosa == "NO2") {
-      return [
-        new charts.Series<GraficoLineare, int>(
-          id: 'NO2',
-          // colorFn specifies that the line will be red.
-          colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
-          // areaColorFn specifies that the area skirt will be light red.
-          areaColorFn: (_, __) =>
-          charts.MaterialPalette.red.shadeDefault.lighter,
-          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
-          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
-          data: no2chartdata,
-        ),
-      ];
-    }
-    if(cosa == "O3") {
       return [
         new charts.Series<GraficoLineare, int>(
           id: 'O3',
@@ -810,7 +836,6 @@ class _MyHomePageState extends State<MyApp> {
           data: o3chartdata,
         ),
       ];
-    }
   }
 
 }
