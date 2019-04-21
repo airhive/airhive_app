@@ -218,9 +218,9 @@ class Preferences{
       );
 
   Preferences.fromJson(Map<String, dynamic> json)
-      : typeOfMap = json['typeofmap'] as MapType,
-        aqiType = json['aqitype'] as String,
-        language = json['language']as String;
+      : typeOfMap = json['typeofmap'],
+        aqiType = json['aqitype'],
+        language = json['language'];
 
   Map<String, dynamic> toJson() =>
       {
