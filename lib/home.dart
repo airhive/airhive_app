@@ -248,7 +248,6 @@ class _MyHomePageState extends State<MyApp> {
                     scale: 7.5,
                   ),
                 ),),
-
               new Align(
                 alignment: FractionalOffset(0.90, 0.95),
                 child: new Row(
@@ -387,19 +386,102 @@ class _MyHomePageState extends State<MyApp> {
                           Container(
                             color: Colors.white,
                             width: 350,
-                            child: new charts.LineChart(
-                                _datiChartStorico(),
-                                defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
-                                animate: true,
-                                behaviors: [
-                                  new charts.ChartTitle(
-                                    'Tempo',
-                                    behaviorPosition: charts.BehaviorPosition.bottom,
-                                    titleOutsideJustification:
-                                    charts.OutsideJustification.middleDrawArea),
-                                  new charts.SeriesLegend(
-                                      position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-                                ],
+                            child: ListView(
+                              scrollDirection: Axis.vertical,
+                              children: <Widget> [
+                                Container(
+                                  color: Colors.white,
+                                  height: 200,
+                                  child: new charts.LineChart(
+                                      _datiChartStorico("CAQI"),
+                                      defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
+                                      animate: true,
+                                      behaviors: [
+                                        new charts.ChartTitle(
+                                            'CAQI',
+                                            behaviorPosition: charts.BehaviorPosition.start,
+                                            titleOutsideJustification:
+                                            charts.OutsideJustification.middleDrawArea),
+                                        new charts.ChartTitle(
+                                          'Tempo',
+                                          behaviorPosition: charts.BehaviorPosition.bottom,
+                                          titleOutsideJustification:
+                                          charts.OutsideJustification.middleDrawArea),
+                                        new charts.SeriesLegend(
+                                            position: charts.BehaviorPosition.end, desiredMaxRows: 3),
+                                      ],
+                                    ),
+                                ),
+                                Container(
+                                  color: Colors.white,
+                                  height: 200,
+                                  child: new charts.LineChart(
+                                    _datiChartStorico("PM"),
+                                    defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+                                    animate: true,
+                                    behaviors: [
+                                      new charts.ChartTitle(
+                                          'PM',
+                                          behaviorPosition: charts.BehaviorPosition.start,
+                                          titleOutsideJustification:
+                                          charts.OutsideJustification.middleDrawArea),
+                                      new charts.ChartTitle(
+                                          'Tempo',
+                                          behaviorPosition: charts.BehaviorPosition.bottom,
+                                          titleOutsideJustification:
+                                          charts.OutsideJustification.middleDrawArea),
+                                      new charts.SeriesLegend(
+                                          position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  color: Colors.white,
+                                  height: 200,
+                                  child: new charts.LineChart(
+                                    _datiChartStorico("NO2"),
+                                    defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+                                    animate: true,
+                                    behaviors: [
+                                      new charts.ChartTitle(
+                                          'NO2',
+                                          behaviorPosition: charts.BehaviorPosition.start,
+                                          titleOutsideJustification:
+                                          charts.OutsideJustification.middleDrawArea),
+                                      new charts.ChartTitle(
+                                          'Tempo',
+                                          behaviorPosition: charts.BehaviorPosition.bottom,
+                                          titleOutsideJustification:
+                                          charts.OutsideJustification.middleDrawArea),
+                                      new charts.SeriesLegend(
+                                          position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  color: Colors.white,
+                                  height: 200,
+                                  child: new charts.LineChart(
+                                    _datiChartStorico("O3"),
+                                    defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+                                    animate: true,
+                                    behaviors: [
+                                      new charts.ChartTitle(
+                                          'O3',
+                                          behaviorPosition: charts.BehaviorPosition.start,
+                                          titleOutsideJustification:
+                                          charts.OutsideJustification.middleDrawArea),
+                                      new charts.ChartTitle(
+                                          'Tempo',
+                                          behaviorPosition: charts.BehaviorPosition.bottom,
+                                          titleOutsideJustification:
+                                          charts.OutsideJustification.middleDrawArea),
+                                      new charts.SeriesLegend(
+                                          position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           Container(
@@ -620,7 +702,7 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 
-  List<charts.Series<GraficoLineare, int>> _datiChartStorico() {
+  List<charts.Series<GraficoLineare, int>> _datiChartStorico(String cosa) {
     final pmchartdata = [
       new GraficoLineare(0, valori_sensore.pm_10),
       new GraficoLineare(1, valori_sensore.pm_10_1),
@@ -645,41 +727,90 @@ class _MyHomePageState extends State<MyApp> {
       new GraficoLineare(4, valori_sensore.o3_4 / 2.4),
     ];
 
-    return [
-      new charts.Series<GraficoLineare, int>(
-        id: 'PM',
-        displayName: "PM",
-        // colorFn specifies that the line will be blue.
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        // areaColorFn specifies that the area skirt will be light blue.
-        areaColorFn: (_, __) =>
-        charts.MaterialPalette.blue.shadeDefault.lighter,
-        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
-        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
-        data: pmchartdata,
-      ),
-      new charts.Series<GraficoLineare, int>(
-        id: 'NO2',
-        // colorFn specifies that the line will be red.
-        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
-        // areaColorFn specifies that the area skirt will be light red.
-        areaColorFn: (_, __) => charts.MaterialPalette.red.shadeDefault.lighter,
-        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
-        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
-        data: no2chartdata,
-      ),
-      new charts.Series<GraficoLineare, int>(
-        id: 'O3',
-        // colorFn specifies that the line will be green.
-        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
-        // areaColorFn specifies that the area skirt will be light green.
-        areaColorFn: (_, __) =>
-        charts.MaterialPalette.green.shadeDefault.lighter,
-        domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
-        measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
-        data: o3chartdata,
-      ),
-    ];
+    if(cosa == "CAQI") {
+      return [
+        new charts.Series<GraficoLineare, int>(
+          id: 'PM',
+          displayName: "PM",
+          // colorFn specifies that the line will be blue.
+          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          // areaColorFn specifies that the area skirt will be light blue.
+          areaColorFn: (_, __) =>
+          charts.MaterialPalette.blue.shadeDefault.lighter,
+          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+          data: pmchartdata,
+        ),
+        new charts.Series<GraficoLineare, int>(
+          id: 'NO2',
+          // colorFn specifies that the line will be red.
+          colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+          // areaColorFn specifies that the area skirt will be light red.
+          areaColorFn: (_, __) =>
+          charts.MaterialPalette.red.shadeDefault.lighter,
+          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+          data: no2chartdata,
+        ),
+        new charts.Series<GraficoLineare, int>(
+          id: 'O3',
+          // colorFn specifies that the line will be green.
+          colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+          // areaColorFn specifies that the area skirt will be light green.
+          areaColorFn: (_, __) =>
+          charts.MaterialPalette.green.shadeDefault.lighter,
+          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+          data: o3chartdata,
+        ),
+      ];
+    }
+    if(cosa == "PM"){
+      return [
+        new charts.Series<GraficoLineare, int>(
+          id: 'PM',
+          displayName: "PM",
+          // colorFn specifies that the line will be blue.
+          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          // areaColorFn specifies that the area skirt will be light blue.
+          areaColorFn: (_, __) =>
+          charts.MaterialPalette.blue.shadeDefault.lighter,
+          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+          data: pmchartdata,
+        ),
+      ];
+    }
+    if(cosa == "NO2") {
+      return [
+        new charts.Series<GraficoLineare, int>(
+          id: 'NO2',
+          // colorFn specifies that the line will be red.
+          colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+          // areaColorFn specifies that the area skirt will be light red.
+          areaColorFn: (_, __) =>
+          charts.MaterialPalette.red.shadeDefault.lighter,
+          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+          data: no2chartdata,
+        ),
+      ];
+    }
+    if(cosa == "O3") {
+      return [
+        new charts.Series<GraficoLineare, int>(
+          id: 'O3',
+          // colorFn specifies that the line will be green.
+          colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+          // areaColorFn specifies that the area skirt will be light green.
+          areaColorFn: (_, __) =>
+          charts.MaterialPalette.green.shadeDefault.lighter,
+          domainFn: (GraficoLineare inquinanti, _) => inquinanti.momento,
+          measureFn: (GraficoLineare inquinanti, _) => inquinanti.valore,
+          data: o3chartdata,
+        ),
+      ];
+    }
   }
 
 }
