@@ -17,6 +17,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 part "home.dart";
 
+String login_token;
 
 /*
 //Defining a class to store preferences
@@ -257,7 +258,7 @@ class AccountPage extends StatefulWidget{
   _AccountPage createState()=> _AccountPage();
 }
 
-//Writing account page code
+//Pagina account
 class _AccountPage extends State<AccountPage> {
   bool mostra_caricamento = true;
 
@@ -279,13 +280,53 @@ class _AccountPage extends State<AccountPage> {
                         onPageFinished: (ciao) => {setState((){
                           mostra_caricamento = false;
                         })},
-                        initialUrl: "https://www.airhive.it/account",
+                        initialUrl: "https://www.airhive.it/account?relog=true&tkn=$login_token",
                         javascriptMode: JavascriptMode.unrestricted,
                       ),
                       mostra_caricamento ? CircularProgressIndicator() : Container(),
                     ]
               );
               },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LegalePage extends StatefulWidget{
+  _LegalePage createState()=> _LegalePage();
+}
+
+//Writing account page code
+class _LegalePage extends State<LegalePage> {
+  bool mostra_caricamento = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: app_theme(),
+      home: Builder(
+        builder: (context) => Scaffold(
+          drawer: menulaterale(context),
+          appBar: new AppBar(
+            title: new Text("Legale"),
+            backgroundColor: Colors.yellow[700],
+          ),
+          body: Builder(builder: (BuildContext context){
+            return Stack(
+                children: <Widget>[
+                  WebView(
+                    onPageFinished: (ciao) => {setState((){
+                      mostra_caricamento = false;
+                    })},
+                    initialUrl: "https://www.airhive.it/legal?app=true",
+                    javascriptMode: JavascriptMode.unrestricted,
+                  ),
+                  mostra_caricamento ? CircularProgressIndicator() : Container(),
+                ]
+            );
+          },
           ),
         ),
       ),
@@ -337,6 +378,7 @@ Future<void> _login(http.Client client) async {
     prefs.setString("token", token);
     token_old = token;
   }
+  login_token = token_old;
 }
 
 // Il tema della app
@@ -395,6 +437,12 @@ Drawer menulaterale(context){
             title: new Text('Impostazioni'),
             onTap: (){
               Navigator.push(context, new MaterialPageRoute(builder: (context) => new SettingsPage()),);
+            },
+          ),
+          new ListTile(
+            title: new Text('Legale'),
+            onTap: (){
+              Navigator.push(context, new MaterialPageRoute(builder: (context) => new LegalePage()),);
             },
           ),
           new Divider(),
