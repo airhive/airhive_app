@@ -297,6 +297,7 @@ class LoginData{
   }
 }
 
+// Login su airhive.it appena la app parte
 Future<void> _login(http.Client client) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   String token_old = (await prefs.getString("token")) ?? "CIAONE";
@@ -314,10 +315,6 @@ Future<void> _login(http.Client client) async {
   final response =
   await client.get('https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
   final parsed = json.decode(response.body);
-
-  print("TOKEN: $token_old");
-
-  print("URL: 'https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old'");
 
   LoginData res =  LoginData.fromJson(parsed);
   bool success = res.success;
