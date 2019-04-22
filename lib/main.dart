@@ -253,8 +253,13 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
+class AccountPage extends StatefulWidget{
+  _AccountPage createState()=> _AccountPage();
+}
+
 //Writing account page code
-class AccountPage extends StatelessWidget {
+class _AccountPage extends State<AccountPage> {
+  bool mostra_caricamento = true;
 
   @override
   Widget build(BuildContext context) {
@@ -268,10 +273,18 @@ class AccountPage extends StatelessWidget {
             backgroundColor: Colors.yellow[700],
           ),
           body: Builder(builder: (BuildContext context){
-                return WebView(
-                  initialUrl: "https://www.airhive.it/account",
-                  javascriptMode: JavascriptMode.unrestricted,
-                );
+                return Stack(
+                    children: <Widget>[
+                      WebView(
+                        onPageFinished: (ciao) => {setState((){
+                          mostra_caricamento = false;
+                        })},
+                        initialUrl: "https://www.airhive.it/account",
+                        javascriptMode: JavascriptMode.unrestricted,
+                      ),
+                      mostra_caricamento ? CircularProgressIndicator() : Container(),
+                    ]
+              );
               },
           ),
         ),
