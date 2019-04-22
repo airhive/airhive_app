@@ -134,10 +134,10 @@ class Properties{
   factory Properties.fromJson(Map<String, dynamic> json) {
     return Properties(
       id_sensore: json['id_sensore'] as String,
-      pm_10: json['pm'] as Pm,
-      no2: json["no2"] as No,
-      o3: json["o3"] as O3,
-      caqi: 0.0 as double,
+      pm_10: Pm.fromJson(json['pm']) as Pm,
+      no2: No.fromJson(json["no2"]) as No,
+      o3: O3.fromJson(json["o3"]) as O3,
+      caqi: 0.0,
     );
   }
 }
@@ -637,8 +637,11 @@ class _MyHomePageState extends State<MyApp> {
     for(var i = 0; i < features.length; i++) {
       Geometry geometry = features[i].geometry;
       Properties properties = features[i].properties;
-      properties.caqi = (properties.pm_10.pm_10 + properties.no2.no / 4 + properties.o3.o3 /2.4) /3;
-      double aqi_loc = properties.caqi;
+      print(properties.pm_10.pm_10);
+      print(properties.no2.no / 4);
+      print(properties.o3.o3 /2.4);
+      double aqi_loc = (properties.pm_10.pm_10 + (properties.no2.no / 4) + (properties.o3.o3 /2.4)) /3;
+      properties.caqi = aqi_loc;
       //Trucchetto per decidere di che colore mettere il marker
       String colore = aqi_loc < 100 ? "high" : "very_high";
       colore = aqi_loc < 75 ? "medium" : colore;
