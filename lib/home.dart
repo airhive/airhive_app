@@ -2,76 +2,142 @@ part of "main.dart";
 
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 
+class Pm{
+  final double pm_10_4;
+  final double pm_10_3;
+  final double pm_10_2;
+  final double pm_10_1;
+  final double pm_10;
+  final double pm_10p1;
+  final double pm_10p2;
+  final double pm_10p3;
+  final double pm_10p4;
+
+  Pm({
+    this.pm_10_4,
+    this.pm_10_3,
+    this.pm_10_2,
+    this.pm_10_1,
+    this.pm_10,
+    this.pm_10p1,
+    this.pm_10p2,
+    this.pm_10p3,
+    this.pm_10p4,
+});
+
+  factory Pm.fromJson(Map<String, dynamic> json) {
+    return Pm(
+      pm_10_4: json['pm10-4'] as double,
+      pm_10_3: json['pm10-3'] as double,
+      pm_10_2: json['pm10-2'] as double,
+      pm_10_1: json['pm10-1'] as double,
+      pm_10: json['pm10'] as double,
+      pm_10p1: json['pm10+1'] as double,
+      pm_10p2: json['pm10+2'] as double,
+      pm_10p3: json['pm10+3'] as double,
+      pm_10p4: json['pm10+4'] as double,
+    );
+  }
+}
+
+class No{
+  final double no_4;
+  final double no_3;
+  final double no_2;
+  final double no_1;
+  final double no;
+  final double nop1;
+  final double nop2;
+  final double nop3;
+  final double nop4;
+
+  No({
+    this.no_4,
+    this.no_3,
+    this.no_2,
+    this.no_1,
+    this.no,
+    this.nop1,
+    this.nop2,
+    this.nop3,
+    this.nop4,
+  });
+
+  factory No.fromJson(Map<String, dynamic> json) {
+    return No(
+      no_4: json['no2-4'] as double,
+      no_3: json['no2-3'] as double,
+      no_2: json['no2-2'] as double,
+      no_1: json['no2-1'] as double,
+      no: json['no2'] as double,
+      nop1: json['no2+1'] as double,
+      nop2: json['no2+2'] as double,
+      nop3: json['no2+3'] as double,
+      nop4: json['no2+4'] as double,
+    );
+  }
+}
+
+class O3{
+  final double o3_4;
+  final double o3_3;
+  final double o3_2;
+  final double o3_1;
+  final double o3;
+  final double o3p1;
+  final double o3p2;
+  final double o3p3;
+  final double o3p4;
+
+  O3({
+    this.o3_4,
+    this.o3_3,
+    this.o3_2,
+    this.o3_1,
+    this.o3,
+    this.o3p1,
+    this.o3p2,
+    this.o3p3,
+    this.o3p4,
+  });
+
+  factory O3.fromJson(Map<String, dynamic> json) {
+    return O3(
+      o3_4: json['o3-4'] as double,
+      o3_3: json['o3-3'] as double,
+      o3_2: json['o3-2'] as double,
+      o3_1: json['o3-1'] as double,
+      o3: json['o3'] as double,
+      o3p1: json['o3+1'] as double,
+      o3p2: json['o3+2'] as double,
+      o3p3: json['o3+3'] as double,
+      o3p4: json['o3+4'] as double,
+    );
+  }
+}
+
 class Properties{
   final String id_sensore;
-  final double pm_10;
-  final double pm_10_1;
-  final double pm_10_2;
-  final double pm_10_3;
-  final double pm_10_4;
-  final double temp;
-  final double umi;
-  final double prec;
-  final double vento;
-  final double no2;
-  final double no2_1;
-  final double no2_2;
-  final double no2_3;
-  final double no2_4;
-  final double o3;
-  final double o3_1;
-  final double o3_2;
-  final double o3_3;
-  final double o3_4;
-  final double caqi;
+  final Pm pm_10;
+  final No no2;
+  final O3 o3;
+  double caqi;
 
   Properties({
     this.id_sensore,
     this.pm_10,
-    this.pm_10_1,
-    this.pm_10_2,
-    this.pm_10_3,
-    this.pm_10_4,
-    this.temp,
-    this.umi,
-    this.prec,
-    this.vento,
     this.no2,
-    this.no2_1,
-    this.no2_2,
-    this.no2_3,
-    this.no2_4,
     this.o3,
-    this.o3_1,
-    this.o3_2,
-    this.o3_3,
-    this.o3_4,
     this.caqi,
   });
 
   factory Properties.fromJson(Map<String, dynamic> json) {
     return Properties(
       id_sensore: json['id_sensore'] as String,
-      pm_10: json['pm10'] as double,
-      pm_10_1: json['pm10-1'] as double,
-      pm_10_2: json['pm10-2'] as double,
-      pm_10_3: json['pm10-3'] as double,
-      pm_10_4: json['pm10-4'] as double,
-      temp: json['temp'] as double,
-      umi: json['umi'] as double,
-      prec: json['prec'] as double,
-      vento: json['vento'] as double,
-      no2: json["no2"] as double,
-      no2_1: json['no2-1'] as double,
-      no2_2: json['no2-2'] as double,
-      no2_3: json['no2-3'] as double,
-      no2_4: json['no2-4'] as double,
-      o3: json["o3"] as double,
-      o3_1: json['o3-1'] as double,
-      o3_2: json['o3-2'] as double,
-      o3_3: json['o3-3'] as double,
-      o3_4: json['o3-4'] as double,
-      caqi: (json['pm10-4'] + json["no2-4"] / 4 + json["o3-4"] / 2.4) / 3 as double,
+      pm_10: json['pm'] as Pm,
+      no2: json["no2"] as No,
+      o3: json["o3"] as O3,
+      caqi: 0.0 as double,
     );
   }
 }
@@ -335,28 +401,28 @@ class _MyHomePageState extends State<MyApp> {
                                 ),
                                 LinearPercentIndicator(
                                   trailing: Expanded(child: Text("PM10")),
-                                  center: Text(valori_sensore.pm_10_4.toString()),
+                                  center: Text(valori_sensore.pm_10.pm_10_4.toString()),
                                   width: 160.0,
                                   lineHeight: 14.0,
-                                  percent: valori_sensore.pm_10_4 / 150,
+                                  percent: valori_sensore.pm_10.pm_10_4 / 150,
                                   backgroundColor: Colors.green,
                                   progressColor: Colors.red,
                                 ),
                                 LinearPercentIndicator(
                                   trailing: Expanded(child: Text("NO2")),
-                                  center: Text(valori_sensore.no2_4.toString()),
+                                  center: Text(valori_sensore.no2.no_4.toString()),
                                   width: 160.0,
                                   lineHeight: 14.0,
-                                  percent: valori_sensore.no2_4 / 500,
+                                  percent: valori_sensore.no2.no_4 / 500,
                                   backgroundColor: Colors.green,
                                   progressColor: Colors.red,
                                 ),
                                 LinearPercentIndicator(
                                   trailing: Expanded(child: Text("O3")),
-                                  center: Text(valori_sensore.o3_4.toString()),
+                                  center: Text(valori_sensore.o3.o3_4.toString()),
                                   width: 160.0,
                                   lineHeight: 14.0,
-                                  percent: valori_sensore.o3_4 / 400,
+                                  percent: valori_sensore.o3.o3_4 / 400,
                                   backgroundColor: Colors.green,
                                   progressColor: Colors.red,
                                 ),
@@ -416,7 +482,7 @@ class _MyHomePageState extends State<MyApp> {
                                   color: Colors.white,
                                   height: 200,
                                   child: new charts.LineChart(
-                                    _datiChartPM(),
+                                    _datiStoricoChartPM(),
                                     defaultRenderer: new charts.LineRendererConfig(includeArea: true),
                                     animate: true,
                                     behaviors: [
@@ -439,7 +505,7 @@ class _MyHomePageState extends State<MyApp> {
                                   color: Colors.white,
                                   height: 200,
                                   child: new charts.LineChart(
-                                    _datiChartNO2(),
+                                    _datiStoricoChartNO2(),
                                     defaultRenderer: new charts.LineRendererConfig(includeArea: true),
                                     animate: true,
                                     behaviors: [
@@ -462,7 +528,7 @@ class _MyHomePageState extends State<MyApp> {
                                   color: Colors.white,
                                   height: 200,
                                   child: new charts.LineChart(
-                                    _datiChartO3(),
+                                    _datiStoricoChartO3(),
                                     defaultRenderer: new charts.LineRendererConfig(includeArea: true),
                                     animate: true,
                                     behaviors: [
@@ -562,7 +628,7 @@ class _MyHomePageState extends State<MyApp> {
   //Scarica il JSON e prepara i marker
   Future<void> fetchData(http.Client client) async {
     final response =
-    await client.get('https://house.zan-tech.com/dati/storico.py');
+    await client.get('https://house.zan-tech.com/dati/tutto.py');
     final parsed = json.decode(response.body);
 
     Sensori res =  Sensori.fromJson(parsed);
@@ -571,6 +637,7 @@ class _MyHomePageState extends State<MyApp> {
     for(var i = 0; i < features.length; i++) {
       Geometry geometry = features[i].geometry;
       Properties properties = features[i].properties;
+      properties.caqi = (properties.pm_10.pm_10 + properties.no2.no / 4 + properties.o3.o3 /2.4) /3;
       double aqi_loc = properties.caqi;
       //Trucchetto per decidere di che colore mettere il marker
       String colore = aqi_loc < 100 ? "high" : "very_high";
@@ -719,27 +786,27 @@ class _MyHomePageState extends State<MyApp> {
   // Ritorna una lista col widget dei grafici per CAQI
   List<charts.Series<GraficoLineare, int>> _datiChartCAQI() {
     final pmchartdata = [
-      new GraficoLineare(0, valori_sensore.pm_10 / 3),
-      new GraficoLineare(1, valori_sensore.pm_10_1 / 3),
-      new GraficoLineare(2, valori_sensore.pm_10_2 / 3),
-      new GraficoLineare(3, valori_sensore.pm_10_3 / 3),
-      new GraficoLineare(4, valori_sensore.pm_10_4 / 3),
+      new GraficoLineare(0, valori_sensore.pm_10.pm_10 / 3),
+      new GraficoLineare(1, valori_sensore.pm_10.pm_10_1 / 3),
+      new GraficoLineare(2, valori_sensore.pm_10.pm_10_2 / 3),
+      new GraficoLineare(3, valori_sensore.pm_10.pm_10_3 / 3),
+      new GraficoLineare(4, valori_sensore.pm_10.pm_10_4 / 3),
     ];
 
     var no2chartdata = [
-      new GraficoLineare(0, valori_sensore.no2 / 12),
-      new GraficoLineare(1, valori_sensore.no2_1 / 12),
-      new GraficoLineare(2, valori_sensore.no2_2 / 12),
-      new GraficoLineare(3, valori_sensore.no2_3 / 12),
-      new GraficoLineare(4, valori_sensore.no2_4 / 12),
+      new GraficoLineare(0, valori_sensore.no2.no / 12),
+      new GraficoLineare(1, valori_sensore.no2.no_1 / 12),
+      new GraficoLineare(2, valori_sensore.no2.no_2 / 12),
+      new GraficoLineare(3, valori_sensore.no2.no_3 / 12),
+      new GraficoLineare(4, valori_sensore.no2.no_4 / 12),
     ];
 
     var o3chartdata = [
-      new GraficoLineare(0, valori_sensore.o3 / (2.4*3)),
-      new GraficoLineare(1, valori_sensore.o3_1 / (2.4*3)),
-      new GraficoLineare(2, valori_sensore.o3_2 / (2.4*3)),
-      new GraficoLineare(3, valori_sensore.o3_3 / (2.4*3)),
-      new GraficoLineare(4, valori_sensore.o3_4 / (2.4*3)),
+      new GraficoLineare(0, valori_sensore.o3.o3 / (2.4*3)),
+      new GraficoLineare(1, valori_sensore.o3.o3_1 / (2.4*3)),
+      new GraficoLineare(2, valori_sensore.o3.o3_2 / (2.4*3)),
+      new GraficoLineare(3, valori_sensore.o3.o3_3 / (2.4*3)),
+      new GraficoLineare(4, valori_sensore.o3.o3_4 / (2.4*3)),
     ];
 
     return [
@@ -781,13 +848,13 @@ class _MyHomePageState extends State<MyApp> {
   }
 
   // Ritorna una lista col widget dei grafici per PM
-  List<charts.Series<GraficoLineare, int>> _datiChartPM() {
+  List<charts.Series<GraficoLineare, int>> _datiStoricoChartPM() {
     final pmchartdata = [
-      new GraficoLineare(0, valori_sensore.pm_10),
-      new GraficoLineare(1, valori_sensore.pm_10_1),
-      new GraficoLineare(2, valori_sensore.pm_10_2),
-      new GraficoLineare(3, valori_sensore.pm_10_3),
-      new GraficoLineare(4, valori_sensore.pm_10_4),
+      new GraficoLineare(0, valori_sensore.pm_10.pm_10),
+      new GraficoLineare(1, valori_sensore.pm_10.pm_10_1),
+      new GraficoLineare(2, valori_sensore.pm_10.pm_10_2),
+      new GraficoLineare(3, valori_sensore.pm_10.pm_10_3),
+      new GraficoLineare(4, valori_sensore.pm_10.pm_10_4),
     ];
     return [
       new charts.Series<GraficoLineare, int>(
@@ -806,13 +873,13 @@ class _MyHomePageState extends State<MyApp> {
   }
 
   // Ritorna una lista col widget dei grafici per NO2
-  List<charts.Series<GraficoLineare, int>> _datiChartNO2() {
+  List<charts.Series<GraficoLineare, int>> _datiStoricoChartNO2() {
     var no2chartdata = [
-      new GraficoLineare(0, valori_sensore.no2),
-      new GraficoLineare(1, valori_sensore.no2_1),
-      new GraficoLineare(2, valori_sensore.no2_2),
-      new GraficoLineare(3, valori_sensore.no2_3),
-      new GraficoLineare(4, valori_sensore.no2_4),
+      new GraficoLineare(0, valori_sensore.no2.no),
+      new GraficoLineare(1, valori_sensore.no2.no_1),
+      new GraficoLineare(2, valori_sensore.no2.no_2),
+      new GraficoLineare(3, valori_sensore.no2.no_3),
+      new GraficoLineare(4, valori_sensore.no2.no_4),
     ];
 
     return [
@@ -831,13 +898,13 @@ class _MyHomePageState extends State<MyApp> {
   }
 
   // Ritorna una lista col widget dei grafici per O3
-  List<charts.Series<GraficoLineare, int>> _datiChartO3() {
+  List<charts.Series<GraficoLineare, int>> _datiStoricoChartO3() {
     var o3chartdata = [
-      new GraficoLineare(0, valori_sensore.o3),
-      new GraficoLineare(1, valori_sensore.o3_1),
-      new GraficoLineare(2, valori_sensore.o3_2),
-      new GraficoLineare(3, valori_sensore.o3_3),
-      new GraficoLineare(4, valori_sensore.o3_4),
+      new GraficoLineare(0, valori_sensore.o3.o3),
+      new GraficoLineare(1, valori_sensore.o3.o3_1),
+      new GraficoLineare(2, valori_sensore.o3.o3_2),
+      new GraficoLineare(3, valori_sensore.o3.o3_3),
+      new GraficoLineare(4, valori_sensore.o3.o3_4),
     ];
 
       return [
