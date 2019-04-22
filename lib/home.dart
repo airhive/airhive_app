@@ -651,7 +651,7 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 
-  // This map will track all your pending function calls
+  // Questa map prende le cose in attesa.
   Map<Function, Timer> _timeouts = {};
   void debounce(Duration timeout, Function target, [List arguments = const []]) {
     if (_timeouts.containsKey(target)) {
@@ -666,7 +666,7 @@ class _MyHomePageState extends State<MyApp> {
   }
 
   // Prende il testo della ricerca in real time e controlla se è un posto
-  Future<void> gettestoricerca(String testo_parziale) async {
+  void gettestoricerca(String testo_parziale) async {
     List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
         testo_parziale,
         localeIdentifier: "it_IT"
@@ -716,6 +716,7 @@ class _MyHomePageState extends State<MyApp> {
     });
   }
 
+  // Ritorna una lista col widget dei grafici per CAQI
   List<charts.Series<GraficoLineare, int>> _datiChartCAQI() {
     final pmchartdata = [
       new GraficoLineare(0, valori_sensore.pm_10 / 3),
@@ -779,6 +780,7 @@ class _MyHomePageState extends State<MyApp> {
     ];
   }
 
+  // Ritorna una lista col widget dei grafici per PM
   List<charts.Series<GraficoLineare, int>> _datiChartPM() {
     final pmchartdata = [
       new GraficoLineare(0, valori_sensore.pm_10),
@@ -803,6 +805,7 @@ class _MyHomePageState extends State<MyApp> {
     ];
   }
 
+  // Ritorna una lista col widget dei grafici per NO2
   List<charts.Series<GraficoLineare, int>> _datiChartNO2() {
     var no2chartdata = [
       new GraficoLineare(0, valori_sensore.no2),
@@ -827,6 +830,7 @@ class _MyHomePageState extends State<MyApp> {
     ];
   }
 
+  // Ritorna una lista col widget dei grafici per O3
   List<charts.Series<GraficoLineare, int>> _datiChartO3() {
     var o3chartdata = [
       new GraficoLineare(0, valori_sensore.o3),

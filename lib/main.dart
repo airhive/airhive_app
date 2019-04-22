@@ -12,6 +12,8 @@ import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:device_info/device_info.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 part "home.dart";
 
@@ -153,6 +155,7 @@ Future<void> getSettings(CurrSettings sett) async {
 //void main() => runApp(MyApp());
 main() async {
   await PrefService.init(prefix: 'pref_');
+  await _login(http.Client());
   runApp(MyApp());
 }
 
@@ -264,10 +267,65 @@ class AccountPage extends StatelessWidget {
             title: new Text("Account"),
             backgroundColor: Colors.yellow[700],
           ),
-          body: new Text("Qui sarà inserita la pagina relativa all'account"),
+          body: Builder(builder: (BuildContext context){
+                return WebView(
+                  initialUrl: "https://www.airhive.it/account",
+                  javascriptMode: JavascriptMode.unrestricted,
+                );
+              },
+          ),
         ),
       ),
     );
+  }
+}
+
+class LoginData{
+  final bool success;
+  final String token;
+
+  LoginData({
+    this.success,
+    this.token,
+  });
+
+  factory LoginData.fromJson(Map<String, dynamic> json) {
+    return LoginData(
+      success: json['success'] as bool,
+      token: json['tkn'] as String,
+    );
+  }
+}
+
+Future<void> _login(http.Client client) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String token_old = (await prefs.getString("token")) ?? "CIAONE";
+  String modello_device;
+
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  if (Platform.isAndroid){
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    modello_device = androidInfo.model;
+  }
+  else if (Platform.isIOS){
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    modello_device = iosInfo.utsname.machine;
+  }
+  final response =
+  await client.get('https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
+  final parsed = json.decode(response.body);
+
+  print("TOKEN: $token_old");
+
+  print("URL: 'https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old'");
+
+  LoginData res =  LoginData.fromJson(parsed);
+  bool success = res.success;
+  String token = res.token;
+
+  if((token != token_old) & success){
+    prefs.setString("token", token);
+    token_old = token;
   }
 }
 
