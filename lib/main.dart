@@ -279,8 +279,9 @@ class _AccountPage extends State<AccountPage> {
                       WebView(
                         onPageFinished: (ciao) => {setState((){
                           mostra_caricamento = false;
+                          print("https://www.airhive.it/account/?relog=true&tkn=$login_token");
                         })},
-                        initialUrl: "https://www.airhive.it/account?relog=true&tkn=$login_token",
+                        initialUrl: "https://www.airhive.it/account/index.php?relog=true&tkn=$login_token",
                         javascriptMode: JavascriptMode.unrestricted,
                       ),
                       mostra_caricamento ? CircularProgressIndicator() : Container(),
