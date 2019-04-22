@@ -20,10 +20,11 @@ part "home.dart";
 
 String login_token;
 Data_login login_data;
+String mail_inviata = "no";
 
 class Data_login{
   final String AccountPermission;
-  final int UserAccountVerified;
+  final String UserAccountVerified;
 
   Data_login({
     this.AccountPermission,
@@ -33,7 +34,7 @@ class Data_login{
   factory Data_login.fromJson(Map<String, dynamic> json) {
     return Data_login(
       AccountPermission: json['AccountPermission'] as String,
-      UserAccountVerified: json['UserAccountVerified'] as int,
+      UserAccountVerified: json['UserAccountVerified'] as String,
     );
   }
 
@@ -196,6 +197,8 @@ Future<void> getSettings(CurrSettings sett) async {
 //void main() => runApp(MyApp());
 main() async {
   await PrefService.init(prefix: 'pref_');
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
   await _login(http.Client());
   runApp(MyApp());
 }
@@ -300,6 +303,7 @@ class AccountPage extends StatefulWidget{
 
 //Pagina account
 class _AccountPage extends State<AccountPage> {
+  bool privacy = false;
   bool mostra_caricamento = true;
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
   final _textcontroller = TextEditingController();
@@ -317,7 +321,7 @@ class _AccountPage extends State<AccountPage> {
             //resizeToAvoidBottomInset: false,
             drawer: menulaterale(context),
             body:
-            (login_data.UserAccountVerified == 0) ? Container(
+            ((login_data.UserAccountVerified == '0') & (mail_inviata == "no")) ? Container(
               height: 300,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -339,29 +343,87 @@ class _AccountPage extends State<AccountPage> {
                         prefixIcon: Icon(Icons.mail),
                         suffixIcon: IconButton(
                             icon: Icon(Icons.send),
-                            onPressed: () {
-                              _inviamail(http.Client(), _textcontroller.text);
-                            }),
+                            onPressed: () {pulsante_mail();},
+                        ),
                         hintText: "Mail",
                         hintStyle: TextStyle(fontWeight: FontWeight.w300)
                     ),
-                      onSubmitted: (a) => _inviamail(http.Client(), _textcontroller.text),
+                      onSubmitted: (a) => {pulsante_mail()},
                   ),
+                  CheckboxListTile(
+                    title: Text("Acconsento alla privacy."), //    <-- label
+                    value: privacy,
+                    onChanged: (newValue) {setState(() {
+                      privacy = true;
+                    }); },
+                  )
                 ],
               ),
-          ):WebView(
+          ): (login_data.UserAccountVerified == '0') ? Container(
+              height: 300,
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Center(child:Text(
+                    "Codice verifica",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                )),
+              Container(height: 50),
+              TextField(
+                controller: _textcontroller,
+                  decoration: InputDecoration(
+                    fillColor: Colors.yellow[700],
+                    prefixIcon: Icon(Icons.mail),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.send),
+                      onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
+                      ),
+                    hintText: "Codice di verifica",
+                    hintStyle: TextStyle(fontWeight: FontWeight.w300)
+                ),
+                onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
+              ),
+              ],),
+            ):WebView(
               initialUrl: "https://www.airhive.it/account/?relog=true&tkn=$login_token",
               javascriptMode: JavascriptMode.unrestricted,
             ),
-         ),
       ),
+    ),
     );
+  }
+
+  void pulsante_mail() async {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    _inviamail(http.Client(), _textcontroller.text);
+    _textcontroller.clear();
+    SnackBar(content: Text('Mail inviata!'),
+    duration: const Duration(minutes: 5),);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    mail_inviata = "si";
+    prefs.setString("mail_inviata", mail_inviata);
   }
   // Invia la mail per la registrazione
   Future<void> _inviamail(http.Client client, String destinatario) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("indirizzo_mail", destinatario);
     final response =
     await client.get(
-        'https://www.airhive.it/register/php/register.php?tkn=$login_token&mail=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v');
+        'https://www.airhive.it/register/php/register.php?tkn=$login_token&mail=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=true');
+  }
+
+  // Verifica il codice per la registrazione
+  Future<void> _verificamail(http.Client client, String codice) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String indirizzo_mail = await prefs.getString("indirizzo_mail");
+    final response =
+    await client.get(
+        'https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&json=true&verificationCode=$codice');
   }
 }
 
