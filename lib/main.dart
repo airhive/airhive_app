@@ -13,11 +13,51 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 part "home.dart";
 
 String login_token;
+Data_login login_data;
+
+class Data_login{
+  final String AccountPermission;
+  final int UserAccountVerified;
+
+  Data_login({
+    this.AccountPermission,
+    this.UserAccountVerified,
+  });
+
+  factory Data_login.fromJson(Map<String, dynamic> json) {
+    return Data_login(
+      AccountPermission: json['AccountPermission'] as String,
+      UserAccountVerified: json['UserAccountVerified'] as int,
+    );
+  }
+
+}
+
+class LoginData{
+  final bool success;
+  final Data_login data;
+  final String token;
+
+  LoginData({
+    this.success,
+    this.data,
+    this.token,
+  });
+
+  factory LoginData.fromJson(Map<String, dynamic> json) {
+    return LoginData(
+      success: json['success'] as bool,
+      data: Data_login.fromJson(json["data"]) as Data_login,
+      token: json['tkn'] as String,
+    );
+  }
+}
 
 /*
 //Defining a class to store preferences
@@ -261,6 +301,8 @@ class AccountPage extends StatefulWidget{
 //Pagina account
 class _AccountPage extends State<AccountPage> {
   bool mostra_caricamento = true;
+  final flutterWebviewPlugin = new FlutterWebviewPlugin();
+  final _textcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -268,29 +310,58 @@ class _AccountPage extends State<AccountPage> {
       theme: app_theme(),
       home: Builder(
         builder: (context) => Scaffold(
-          drawer: menulaterale(context),
-          appBar: new AppBar(
-            title: new Text("Account"),
-            backgroundColor: Colors.yellow[700],
-          ),
-          body: Builder(builder: (BuildContext context){
-                return Stack(
-                    children: <Widget>[
-                      WebView(
-                        onPageFinished: (ciao) => {setState((){
-                          mostra_caricamento = false;
-                        })},
-                        initialUrl: "https://www.airhive.it/account?relog=true&app=true&tkn=$login_token",
-                        javascriptMode: JavascriptMode.unrestricted,
-                      ),
-                      mostra_caricamento ? CircularProgressIndicator() : Container(),
-                    ]
-              );
-              },
-          ),
-        ),
+            appBar: new AppBar(
+              title: new Text("Account"),
+              backgroundColor: Colors.yellow[700],
+            ),
+            //resizeToAvoidBottomInset: false,
+            drawer: menulaterale(context),
+            body:
+            (login_data.UserAccountVerified == 0) ? Container(
+              height: 300,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Center(child:Text(
+                    "Registrati",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                    ),
+                  )),
+                  Container(height: 50),
+                  TextField(
+                    controller: _textcontroller,
+                    decoration: InputDecoration(
+                        fillColor: Colors.yellow[700],
+                        prefixIcon: Icon(Icons.mail),
+                        suffixIcon: IconButton(
+                            icon: Icon(Icons.send),
+                            onPressed: () {
+                              _inviamail(http.Client(), _textcontroller.text);
+                            }),
+                        hintText: "Mail",
+                        hintStyle: TextStyle(fontWeight: FontWeight.w300)
+                    ),
+                      onSubmitted: (a) => _inviamail(http.Client(), _textcontroller.text),
+                  ),
+                ],
+              ),
+          ):WebView(
+              initialUrl: "https://www.airhive.it/account/?relog=true&tkn=$login_token",
+              javascriptMode: JavascriptMode.unrestricted,
+            ),
+         ),
       ),
     );
+  }
+  // Invia la mail per la registrazione
+  Future<void> _inviamail(http.Client client, String destinatario) async {
+    final response =
+    await client.get(
+        'https://www.airhive.it/register/php/register.php?tkn=$login_token&mail=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v');
   }
 }
 
@@ -313,40 +384,21 @@ class _LegalePage extends State<LegalePage> {
             title: new Text("Legale"),
             backgroundColor: Colors.yellow[700],
           ),
-          body: Builder(builder: (BuildContext context){
-            return Stack(
-                children: <Widget>[
-                  WebView(
-                    onPageFinished: (ciao) => {setState((){
-                      mostra_caricamento = false;
-                    })},
-                    initialUrl: "https://www.airhive.it/legal?app=true",
-                    javascriptMode: JavascriptMode.unrestricted,
-                  ),
-                  mostra_caricamento ? CircularProgressIndicator() : Container(),
-                ]
-            );
-          },
+          body: Builder(
+            builder: (context) => Scaffold(
+              appBar: new AppBar(
+                title: new Text("Legale"),
+                backgroundColor: Colors.yellow[700],
+              ),
+              drawer: menulaterale(context),
+              body: WebView(
+                initialUrl: "https://www.airhive.it/legal?app=true",
+                javascriptMode: JavascriptMode.unrestricted,
+              ),
+            ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class LoginData{
-  final bool success;
-  final String token;
-
-  LoginData({
-    this.success,
-    this.token,
-  });
-
-  factory LoginData.fromJson(Map<String, dynamic> json) {
-    return LoginData(
-      success: json['success'] as bool,
-      token: json['tkn'] as String,
+    ),
+    ),
     );
   }
 }
@@ -379,6 +431,7 @@ Future<void> _login(http.Client client) async {
     token_old = token;
   }
   login_token = token_old;
+  login_data = res.data;
 }
 
 // Il tema della app
