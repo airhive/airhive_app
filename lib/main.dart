@@ -376,9 +376,10 @@ class _AccountPage extends State<AccountPage> {
               Container(height: 50),
               TextField(
                 controller: _textcontroller,
+                keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     fillColor: Colors.yellow[700],
-                    prefixIcon: Icon(Icons.mail),
+                    prefixIcon: Icon(Icons.code),
                     suffixIcon: IconButton(
                       icon: Icon(Icons.send),
                       onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
