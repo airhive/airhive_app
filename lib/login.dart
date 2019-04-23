@@ -98,15 +98,18 @@ class _AccountPage extends State<AccountPage> {
                 Container(height: 50),
                 TextField(
                   controller: _textcontroller,
+                  maxLength: 6,
+                  maxLengthEnforced: true,
                   decoration: InputDecoration(
                       fillColor: Colors.yellow[700],
                       prefixIcon: Icon(Icons.mail),
                       suffixIcon: IconButton(
                         icon: Icon(Icons.send),
-                        onPressed: () {pulsante_mail(context, _textcontroller);},
+                        onPressed: () {privacy ? pulsante_mail(context, _textcontroller):null;},
                       ),
                       hintText: "Mail",
-                      hintStyle: TextStyle(fontWeight: FontWeight.w300)
+                      hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                      errorText: privacy ? null : "Accetta la privacy per proseguire."
                   ),
                   onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
                 ),
@@ -148,7 +151,7 @@ class _AccountPage extends State<AccountPage> {
                             onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
                           ),
                           hintText: "Codice di verifica",
-                          hintStyle: TextStyle(fontWeight: FontWeight.w300)
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
                       ),
                       onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
                     ),
@@ -160,7 +163,7 @@ class _AccountPage extends State<AccountPage> {
                 child: FloatingActionButton.extended(
                   label: Text("Mail"),
                   icon: Icon(Icons.arrow_back),
-                  tooltip: 'Increase volume by 10',
+                  tooltip: 'Torna alla mail.',
                   onPressed: () {
                     setState(() {
                       mail_inviata = "no";
@@ -180,6 +183,11 @@ class _AccountPage extends State<AccountPage> {
 
   void pulsante_mail(context, TextEditingController _textcontroller) async {
     FocusScope.of(context).requestFocus(new FocusNode());
+    if (privacy == false){
+      SnackBar(content: Text('Accetta la privacy per proseguire.'),
+        duration: const Duration(minutes: 5),);
+      return;
+    }
     _inviamail(http.Client(), _textcontroller.text);
     _textcontroller.clear();
     SnackBar(content: Text('Mail inviata!'),
