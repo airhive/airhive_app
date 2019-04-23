@@ -237,48 +237,6 @@ class _MyHomePageState extends State<MyApp> {
   final Set<Marker> _markerscaqi = {};
   final Set<Marker> _markerspm = {};
 
-/*
-  Preferences _preferences;
-
-  Future<Null> getPrefs() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _prefs = prefs.getString('prefs');
-    if(_prefs != null && _prefs != ''){
-      Map prefsMap = jsonDecode(_prefs);
-      _preferences = new Preferences.fromJson(prefsMap);
-    } else {
-      _preferences = getDefaultsPrefs();
-      String prefjson = jsonEncode(_preferences);
-      prefs.setString('prefs', prefjson);
-    }
-  }
-*/
-  Preferences _preferences;
-
-  Future<Preferences> getPrefs() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _prefs = prefs.getString('prefs');
-    if(_prefs != null){
-      Map<String, dynamic> prefsMap = jsonDecode(_prefs);
-      return new Preferences.fromJson(prefsMap);
-    } else {
-      Preferences preferences = getDefaultsPrefs();
-      Map<String, dynamic> jsonpref = preferences.toJson();
-      String prefjson = jsonEncode(jsonpref);
-      prefs.setString('prefs', prefjson);
-      return preferences;
-    }
-  }
-
-  Future<void> ResolvePrefs() async {
-    _preferences = await getPrefs();
-  }
-  @override
-
-  void initState() {
-    super.initState();
-    ResolvePrefs();
-  }
 
   @override
   Widget build(BuildContext context) {
