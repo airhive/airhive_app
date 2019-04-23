@@ -65,6 +65,8 @@ class AccountPage extends StatefulWidget{
 class _AccountPage extends State<AccountPage> {
   bool privacy = false;
   bool mostra_caricamento = true;
+  bool codice_verificato = true;
+  String testo_errore_mail = null;
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
   final _textcontroller = TextEditingController();
 
@@ -108,7 +110,7 @@ class _AccountPage extends State<AccountPage> {
                           ),
                           hintText: "Mail",
                           hintStyle: TextStyle(fontWeight: FontWeight.w300),
-                          errorText: privacy ? null : "Accetta la privacy per proseguire."
+                          errorText: privacy ? testo_errore_mail : "Accetta la privacy per proseguire."
                       ),
                       onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
                     ),
@@ -129,40 +131,41 @@ class _AccountPage extends State<AccountPage> {
                 child:Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   height: MediaQuery.of(context).size.height * 0.3,
-                child:Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    //Container(height: 50),
-                    Center(child:Text(
-                      "Codice di verifica",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                  child:Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      //Container(height: 50),
+                      Center(child:Text(
+                        "Codice di verifica",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      )),
+                      Container(height: 50),
+                      TextField(
+                        controller: _textcontroller,
+                        maxLength: 6,
+                        maxLengthEnforced: true,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            fillColor: Colors.yellow[700],
+                            prefixIcon: Icon(Icons.code),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.send),
+                              onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
+                            ),
+                            hintText: "Codice di verifica",
+                            hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                            errorText: codice_verificato ? null : "Codice errato.",
+                        ),
+                        onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
                       ),
-                    )),
-                    Container(height: 50),
-                    TextField(
-                      controller: _textcontroller,
-                      maxLength: 6,
-                      maxLengthEnforced: true,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          fillColor: Colors.yellow[700],
-                          prefixIcon: Icon(Icons.code),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.send),
-                            onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
-                          ),
-                          hintText: "Codice di verifica",
-                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
-                      ),
-                      onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
               ),
               new Align(
                 alignment: FractionalOffset(0.95, 0.95),
@@ -179,7 +182,7 @@ class _AccountPage extends State<AccountPage> {
               ),
             ],
           ):WebView(
-            initialUrl: "https://www.airhive.it/account/?relog=true&tkn=$login_token",
+            initialUrl: "https://www.airhive.it/account/?relog=true&json=true&tkn=$login_token",
             javascriptMode: JavascriptMode.unrestricted,
           ),
         ),
@@ -188,28 +191,40 @@ class _AccountPage extends State<AccountPage> {
   }
 
   void pulsante_mail(context, TextEditingController _textcontroller) async {
+    if(! _textcontroller.text.contains("@")){
+      setState(() {
+        testo_errore_mail = "Non si direbbe un indirizzo mail.";
+      });
+      return;
+    };
     FocusScope.of(context).requestFocus(new FocusNode());
     if (privacy == false){
-      SnackBar(content: Text('Accetta la privacy per proseguire.'),
-        duration: const Duration(minutes: 5),);
       return;
-    }
+    };
     _inviamail(http.Client(), _textcontroller.text);
     _textcontroller.clear();
     SnackBar(content: Text('Mail inviata!'),
       duration: const Duration(minutes: 5),);
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    mail_inviata = "si";
-    prefs.setString("mail_inviata", mail_inviata);
   }
   // Invia la mail per la registrazione
   Future<void> _inviamail(http.Client client, String destinatario) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("indirizzo_mail", destinatario);
-    print('https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=$privacy');
     final response =
     await client.get(
         'https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=$privacy');
+    final parsed = json.decode(response.body);
+    bool success =  RisultatoVerifica.fromJson(parsed).success;
+    if (success){
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      mail_inviata = "si";
+      prefs.setString("mail_inviata", mail_inviata);
+    }
+    else {
+      setState(() {
+        testo_errore_mail = "Errore";
+      });
+    }
   }
 
   // Verifica il codice per la registrazione
@@ -225,8 +240,14 @@ class _AccountPage extends State<AccountPage> {
       setState(() {
         login_data.UserAccountVerified = "1";
         mail_inviata = "no";
+        codice_verificato = true;
       });
-      prefs.setString("mail_inviata", mail_inviata);
+      prefs.setString("mail_inviata", "no");
+    }
+    else {
+      setState(() {
+        codice_verificato = false;
+      });
     }
   }
 }
