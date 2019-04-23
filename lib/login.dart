@@ -4,9 +4,24 @@ String login_token;
 Data_login login_data;
 String mail_inviata = "no";
 
+class RisultatoVerifica{
+  final bool success;
+
+  RisultatoVerifica({
+    this.success,
+  });
+
+  factory RisultatoVerifica.fromJson(Map<String, dynamic> json) {
+    return RisultatoVerifica(
+      success: json['success'] as bool,
+    );
+  }
+
+}
+
 class Data_login{
   final String AccountPermission;
-  final String UserAccountVerified;
+  String UserAccountVerified;
 
   Data_login({
     this.AccountPermission,
@@ -88,18 +103,18 @@ class _AccountPage extends State<AccountPage> {
                       prefixIcon: Icon(Icons.mail),
                       suffixIcon: IconButton(
                         icon: Icon(Icons.send),
-                        onPressed: () {pulsante_mail(_textcontroller);},
+                        onPressed: () {pulsante_mail(context, _textcontroller);},
                       ),
                       hintText: "Mail",
                       hintStyle: TextStyle(fontWeight: FontWeight.w300)
                   ),
-                  onSubmitted: (a) => {pulsante_mail(_textcontroller)},
+                  onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
                 ),
                 CheckboxListTile(
                   title: Text("Acconsento alla privacy."), //    <-- label
                   value: privacy,
                   onChanged: (newValue) {setState(() {
-                    privacy = true;
+                    privacy ? (privacy = false) : (privacy = true);
                   }); },
                 )
               ],
@@ -163,7 +178,7 @@ class _AccountPage extends State<AccountPage> {
     );
   }
 
-  void pulsante_mail(TextEditingController _textcontroller) async {
+  void pulsante_mail(context, TextEditingController _textcontroller) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     _inviamail(http.Client(), _textcontroller.text);
     _textcontroller.clear();
@@ -177,10 +192,10 @@ class _AccountPage extends State<AccountPage> {
   Future<void> _inviamail(http.Client client, String destinatario) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("indirizzo_mail", destinatario);
-    print('https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=true');
+    print('https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=$privacy');
     final response =
     await client.get(
-        'https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=true');
+        'https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=$privacy');
   }
 
   // Verifica il codice per la registrazione
@@ -190,6 +205,15 @@ class _AccountPage extends State<AccountPage> {
     final response =
     await client.get(
         'https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&json=true&verificationCode=$codice');
+    final parsed = json.decode(response.body);
+    bool success =  RisultatoVerifica.fromJson(parsed).success;
+    if(success){
+      setState(() {
+        login_data.UserAccountVerified = "1";
+        mail_inviata = "no";
+      });
+      prefs.setString("mail_inviata", mail_inviata);
+    }
   }
 }
 
@@ -208,6 +232,8 @@ Future<void> _login(http.Client client) async {
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
     modello_device = iosInfo.utsname.machine;
   }
+
+  print('https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
   final response =
   await client.get('https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
   final parsed = json.decode(response.body);
