@@ -18,6 +18,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 part "home.dart";
 part "login.dart";
+part "legale.dart";
 
 /*
 //Defining a class to store preferences
@@ -256,44 +257,6 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-class LegalePage extends StatefulWidget{
-  _LegalePage createState()=> _LegalePage();
-}
-
-//Writing account page code
-class _LegalePage extends State<LegalePage> {
-  bool mostra_caricamento = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: app_theme(),
-      home: Builder(
-        builder: (context) => Scaffold(
-          drawer: menulaterale(context),
-          appBar: new AppBar(
-            title: new Text("Legale"),
-            backgroundColor: Colors.yellow[700],
-          ),
-          body: Builder(
-            builder: (context) => Scaffold(
-              appBar: new AppBar(
-                title: new Text("Legale"),
-                backgroundColor: Colors.yellow[700],
-              ),
-              drawer: menulaterale(context),
-              body: WebView(
-                initialUrl: "https://www.airhive.it/legal?app=true",
-                javascriptMode: JavascriptMode.unrestricted,
-              ),
-            ),
-          ),
-    ),
-    ),
-    );
-  }
-}
-
 // Il tema della app
 ThemeData app_theme(){
   return ThemeData(
@@ -353,14 +316,20 @@ Drawer menulaterale(context){
             },
           ),
           new ListTile(
-            title: new Text('Legale'),
+            title: new Text('Legale e privacy'),
             onTap: (){
               Navigator.push(context, new MaterialPageRoute(builder: (context) => new LegalePage()),);
             },
           ),
           new Divider(),
-          new ListTile(
-            title: new Text('We are what we breathe.'),
+          new Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              new ListTile(
+                title: new Text('We are what we breathe.'),
+              ),
+            ],
           ),
         ],
       )
