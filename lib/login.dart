@@ -81,59 +81,16 @@ class _AccountPage extends State<AccountPage> {
           //resizeToAvoidBottomInset: false,
           drawer: menulaterale(context),
           body:
-          ((login_data.UserAccountVerified == '0') & (mail_inviata == "no")) ? Container(
-            height: 300,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Center(child:Text(
-                  "Registrati",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
-                )),
-                Container(height: 50),
-                TextField(
-                  controller: _textcontroller,
-                  maxLength: 6,
-                  maxLengthEnforced: true,
-                  decoration: InputDecoration(
-                      fillColor: Colors.yellow[700],
-                      prefixIcon: Icon(Icons.mail),
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () {privacy ? pulsante_mail(context, _textcontroller):null;},
-                      ),
-                      hintText: "Mail",
-                      hintStyle: TextStyle(fontWeight: FontWeight.w300),
-                      errorText: privacy ? null : "Accetta la privacy per proseguire."
-                  ),
-                  onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
-                ),
-                CheckboxListTile(
-                  title: Text("Acconsento alla privacy."), //    <-- label
-                  value: privacy,
-                  onChanged: (newValue) {setState(() {
-                    privacy ? (privacy = false) : (privacy = true);
-                  }); },
-                )
-              ],
-            ),
-          ): (login_data.UserAccountVerified == '0') ? Stack(
-            children: <Widget>[
-              Container(
-                height: 300,
-                child:Column(
+          ((login_data.UserAccountVerified == '0') & (mail_inviata == "no")) ? Center(
+              child:Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    //Container(height: 50),
                     Center(child:Text(
-                      "Codice verifica",
+                      "Registrati",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
@@ -142,6 +99,54 @@ class _AccountPage extends State<AccountPage> {
                     Container(height: 50),
                     TextField(
                       controller: _textcontroller,
+                      decoration: InputDecoration(
+                          fillColor: Colors.yellow[700],
+                          prefixIcon: Icon(Icons.mail),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.send),
+                            onPressed: () {privacy ? pulsante_mail(context, _textcontroller):null;},
+                          ),
+                          hintText: "Mail",
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                          errorText: privacy ? null : "Accetta la privacy per proseguire."
+                      ),
+                      onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
+                    ),
+                    Container(height:50),
+                    CheckboxListTile(
+                      title: Text("Acconsento alla privacy."), //    <-- label
+                      value: privacy,
+                      onChanged: (newValue) {setState(() {
+                        privacy ? (privacy = false) : (privacy = true);
+                      }); },
+                    )
+                  ],
+                ),
+              ),
+          ): (login_data.UserAccountVerified == '0') ? Stack(
+            children: <Widget>[
+              Center(
+                child:Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                child:Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    //Container(height: 50),
+                    Center(child:Text(
+                      "Codice di verifica",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    )),
+                    Container(height: 50),
+                    TextField(
+                      controller: _textcontroller,
+                      maxLength: 6,
+                      maxLengthEnforced: true,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           fillColor: Colors.yellow[700],
@@ -157,6 +162,7 @@ class _AccountPage extends State<AccountPage> {
                     ),
                   ],
                 ),
+              ),
               ),
               new Align(
                 alignment: FractionalOffset(0.95, 0.95),
