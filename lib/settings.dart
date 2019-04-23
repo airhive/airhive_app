@@ -1,5 +1,18 @@
 part of "main.dart";
 
+
+/*
+* Defining a list to store map types:
+*
+* position -> MapType
+*    0     -> normal
+*    1     -> satellite
+*    2     -> hybrid
+*    3     -> terrain
+ */
+const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain]
+
+
 //Writing Settings page code
 class SettingsPage extends StatelessWidget {
 
