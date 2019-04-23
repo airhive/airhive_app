@@ -322,14 +322,8 @@ Drawer menulaterale(context){
             },
           ),
           new Divider(),
-          new Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              new ListTile(
-                title: new Text('We are what we breathe.'),
-              ),
-            ],
+          new ListTile(
+              title: new Text('We are what we breathe.'),
           ),
         ],
       )
