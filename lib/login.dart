@@ -108,7 +108,7 @@ class _AccountPage extends State<AccountPage> {
                             icon: Icon(Icons.send),
                             onPressed: () {privacy ? pulsante_mail(context, _textcontroller):null;},
                           ),
-                          hintText: "Mail",
+                          hintText: "example@example.com",
                           hintStyle: TextStyle(fontWeight: FontWeight.w300),
                           errorText: privacy ? testo_errore_mail : "Accetta la privacy per proseguire."
                       ),
