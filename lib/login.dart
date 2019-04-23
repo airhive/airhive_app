@@ -67,7 +67,6 @@ class _AccountPage extends State<AccountPage> {
   bool mostra_caricamento = true;
   bool codice_verificato = true;
   String testo_errore_mail = null;
-  final flutterWebviewPlugin = new FlutterWebviewPlugin();
   final _textcontroller = TextEditingController();
 
   @override
