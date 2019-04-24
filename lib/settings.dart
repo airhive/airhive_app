@@ -78,6 +78,7 @@ class SettingsPage extends StatelessWidget {
               'Normale',
               'ROADMAP',
               'map_theme',
+              isDefault: isCurrSetting(0, currMapNum),
               onSelect: (){
                 //_currentMapType = MapType.normal;
                 setMapType(0);
@@ -88,6 +89,7 @@ class SettingsPage extends StatelessWidget {
               'Ibrido',
               'HYBRID',
               'map_theme',
+              isDefault: isCurrSetting(1, currMapNum),
               onSelect: (){
                 //_currentMapType = MapType.normal;
                 setMapType(1);
@@ -99,6 +101,7 @@ class SettingsPage extends StatelessWidget {
               'Satellite',
               'SATELLITE',
               'map_theme',
+              isDefault: isCurrSetting(2, currMapNum),
               onSelect: (){
                 //_currentMapType = MapType.satellite;
                 setMapType(2);
