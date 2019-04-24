@@ -65,16 +65,6 @@ class SettingsPage extends StatelessWidget {
             //Impostazioni stile mappa
             PreferenceTitle("Stile mappa"),
             RadioPreference(
-              'Rilievi',
-              'TERRAIN',
-              'map_theme',
-              isDefault: isCurrSetting(3, currMapNum),
-              onSelect: (){
-                setMapType(3);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
-              },
-            ),
-            RadioPreference(
               'Normale',
               'ROADMAP',
               'map_theme',
@@ -82,7 +72,18 @@ class SettingsPage extends StatelessWidget {
               onSelect: (){
                 //_currentMapType = MapType.normal;
                 setMapType(0);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
+              },
+            ),
+            RadioPreference(
+              'Satellite',
+              'SATELLITE',
+              'map_theme',
+              isDefault: isCurrSetting(2, currMapNum),
+              onSelect: (){
+                //_currentMapType = MapType.satellite;
+                setMapType(1);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
               },
             ),
             RadioPreference(
@@ -92,22 +93,24 @@ class SettingsPage extends StatelessWidget {
               isDefault: isCurrSetting(1, currMapNum),
               onSelect: (){
                 //_currentMapType = MapType.normal;
-                setMapType(1);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
+                setMapType(2);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
+              },
+            ),
+            RadioPreference(
+              'Rilievi',
+              'TERRAIN',
+              'map_theme',
+              isDefault: isCurrSetting(3, currMapNum),
+              onSelect: (){
+                setMapType(3);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
               },
             ),
 
-            RadioPreference(
-              'Satellite',
-              'SATELLITE',
-              'map_theme',
-              isDefault: isCurrSetting(2, currMapNum),
-              onSelect: (){
-                //_currentMapType = MapType.satellite;
-                setMapType(2);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
-              },
-            ),
+
+
+
 
           ]),
 
