@@ -10,7 +10,7 @@ part of "main.dart";
 *    2     -> hybrid
 *    3     -> terrain
  */
-const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain]
+const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain];
 
 
 //Writing Settings page code
