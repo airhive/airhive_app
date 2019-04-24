@@ -22,24 +22,10 @@ part "legale.dart";
 part "settings.dart";
 
 
-
-
-//void main() => runApp(MyApp());
-main() async {
-  await PrefService.init(prefix: 'pref_');
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
-  currMapNum = await getMapType();
-  await _login(http.Client());
-  runApp(MyApp());
-}
-
-
 class MyApp extends StatefulWidget {
   MyApp({Key key, this.title}) : super(key: key);
 
   final String title;
-
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -119,3 +105,12 @@ Drawer menulaterale(context){
   );
 }
 
+
+void main() async {
+  await PrefService.init(prefix: 'pref_');
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
+  currMapNum = await getMapType();
+  await _login(http.Client());
+  runApp(MyApp());
+}
