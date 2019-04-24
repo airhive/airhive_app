@@ -11,6 +11,20 @@ part of "main.dart";
 *    3     -> terrain
  */
 const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain];
+int currMapNum; //An integer to indicate the current type of map at runtime
+int defMapNum = 1; //An integer to indicate the default type of map
+
+//Defining a function to get the type of map from saved preferences (if not present set it to the default value)
+Future<int> getMapType() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  int controlValue = prefs.getInt('maptype');
+  if(controlValue != null) {
+    return controlValue;
+  } else {
+    prefs.setInt('maptype', defMapNum);
+    return defMapNum;
+  }
+}
 
 
 //Writing Settings page code
