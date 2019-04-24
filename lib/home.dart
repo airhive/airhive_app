@@ -328,6 +328,20 @@ class _MyHomePageState extends State<MyApp> {
                         children: <Widget> [
                           Container(
                             color: Colors.white,
+                            width: 250,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                valori_sensore.caqi < 70 ? Text("Bel tempo zio"):Text("NON APRIRE LA FINESTRA"),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: 20.0,
+                            color: Colors.yellow[700],
+                          ),
+                          Container(
+                            color: Colors.white,
                             width: 50,
                             child: Center(
                               child: new RotatedBox(
@@ -709,6 +723,13 @@ class _MyHomePageState extends State<MyApp> {
               apri_info = true;
               apri_ricerca = false;
               valori_sensore = properties;
+              _markers.remove(Marker(markerId: MarkerId("Selezione")));
+              _markers.add(
+                  Marker(
+                      markerId: MarkerId("Selezione"),
+                      position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
+                  )
+              );
             });
           },
           icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
@@ -730,6 +751,7 @@ class _MyHomePageState extends State<MyApp> {
       apri_info = false;
       apri_ricerca = false;
       _markers.remove(Marker(markerId: MarkerId("Ricerca")));
+      _markers.remove(Marker(markerId: MarkerId("Selezione")));
     });
   }
 
