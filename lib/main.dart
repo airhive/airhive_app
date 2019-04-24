@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:device_info/device_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 part "home.dart";
 part "login.dart";
