@@ -70,9 +70,7 @@ class SettingsPage extends StatelessWidget {
               'map_theme',
               isDefault: isCurrSetting(0, currMapNum),
               onSelect: (){
-                //_currentMapType = MapType.normal;
                 setMapType(0);
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
               },
             ),
             RadioPreference(
@@ -81,9 +79,7 @@ class SettingsPage extends StatelessWidget {
               'map_theme',
               isDefault: isCurrSetting(2, currMapNum),
               onSelect: (){
-                //_currentMapType = MapType.satellite;
                 setMapType(1);
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
               },
             ),
             RadioPreference(
@@ -92,9 +88,7 @@ class SettingsPage extends StatelessWidget {
               'map_theme',
               isDefault: isCurrSetting(1, currMapNum),
               onSelect: (){
-                //_currentMapType = MapType.normal;
                 setMapType(2);
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
               },
             ),
             RadioPreference(
@@ -104,7 +98,6 @@ class SettingsPage extends StatelessWidget {
               isDefault: isCurrSetting(3, currMapNum),
               onSelect: (){
                 setMapType(3);
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
               },
             ),
 
