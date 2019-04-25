@@ -97,6 +97,7 @@ class SettingsPage extends StatelessWidget {
                 setMapType(3);
               },
             ),
+            PreferenceTitle("Lingua"),
 
 
 
