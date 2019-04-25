@@ -224,13 +224,16 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
+  //Firebase
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   final _textcontroller = TextEditingController();
 
+  //Google Maps
   static final CameraPosition _initialCamera = CameraPosition(
     target: LatLng(45.4510525, 9.4126428),
     zoom: 0.1,
   );
-
   GoogleMap googleMap;
 
   // apri_info decide se la barra con le info dei marker deve essere aperta o meno
@@ -246,6 +249,31 @@ class _HomePageState extends State<HomePage> {
   Set<Marker> _oldmarker = {};
   final Set<Marker> _markerscaqi = {};
   final Set<Marker> _markerspm = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      print(token);
+    });
+  }
 
 
   @override
