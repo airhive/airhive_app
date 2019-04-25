@@ -30,15 +30,6 @@ main() async {
   currMapNum = await getMapType();
   await _login(http.Client());
   runApp(MyApp());
-  /*runApp(new MaterialApp(
-    initialRoute: '/homemap',
-    routes: <String, WidgetBuilder> {
-      '/homemap': (BuildContext context) => new MyApp(),
-      '/settings': (BuildContext context) => new SettingsPage(),
-      '/account': (BuildContext context) => new AccountPage(),
-      '/legal': (BuildContext context) => new LegalePage(),
-    },
-  ));*/
 }
 
 
