@@ -791,6 +791,7 @@ class _HomePageState extends State<HomePage> {
                       markerId: MarkerId("Selezione"),
                       position: LatLng(
                           geometry.coordinates[1], geometry.coordinates[0]),
+                      icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
                     )
                 );
               });
