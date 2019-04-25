@@ -845,33 +845,40 @@ class _HomePageState extends State<HomePage> {
   //Centra nella posizione e aggiunge il marker con l'ape
   void _currentLocation() async {
     final GoogleMapController controller = await _controller.future;
-    LocationData currentLocation;
-    var location = new Location();
-    try {
-      currentLocation = await location.getLocation();
-    } on Exception {
-      currentLocation = null;
-    }
+    GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
+    if (geolocationStatus == GeolocationStatus.granted) {
+      LocationData currentLocation;
+      var location = new Location();
+      try {
+        currentLocation = await location.getLocation();
+      } on Exception {
+        currentLocation = null;
+      }
 
-    posizione_assoluta = LatLng(currentLocation.latitude, currentLocation.longitude);
+      posizione_assoluta =
+          LatLng(currentLocation.latitude, currentLocation.longitude);
 
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        bearing: 0,
-        target: LatLng(currentLocation.latitude, currentLocation.longitude),
-        zoom: 13.0,
-      ),
-    ));
-
-    setState(() {
-      _markers.remove(Marker(markerId: MarkerId("Posizione")));
-      _markers.add(Marker(
-        // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId("Posizione"),
-        position: posizione_assoluta,
-        icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0,
+          target: LatLng(currentLocation.latitude, currentLocation.longitude),
+          zoom: 13.0,
+        ),
       ));
-    });
+
+      setState(() {
+        _markers.remove(Marker(markerId: MarkerId("Posizione")));
+        _markers.add(Marker(
+          // This marker id can be anything that uniquely identifies each marker.
+          markerId: MarkerId("Posizione"),
+          position: posizione_assoluta,
+          icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+        ));
+      });
+    }
+    else {
+      return;
+    }
   }
 
   // Questa map prende le cose in attesa.
