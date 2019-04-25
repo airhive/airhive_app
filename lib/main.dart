@@ -31,17 +31,32 @@ main() async {
   currMapNum = await getMapType();
   await _login(http.Client());
   runApp(MyApp());
+  /*runApp(new MaterialApp(
+    initialRoute: '/homemap',
+    routes: <String, WidgetBuilder> {
+      '/homemap': (BuildContext context) => new MyApp(),
+      '/settings': (BuildContext context) => new SettingsPage(),
+      '/account': (BuildContext context) => new AccountPage(),
+      '/legal': (BuildContext context) => new LegalePage(),
+    },
+  ));*/
 }
 
 
-class MyApp extends StatefulWidget {
-  MyApp({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-
+class MyApp extends StatelessWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      theme: app_theme(),
+      home: new HomePage(),
+      routes: <String, WidgetBuilder> {
+      '/homemap': (BuildContext context) => new HomePage(),
+      '/settings': (BuildContext context) => new SettingsPage(),
+      '/account': (BuildContext context) => new AccountPage(),
+      '/legal': (BuildContext context) => new LegalePage(),
+      }
+    );
+  }
 }
 
 
@@ -87,26 +102,26 @@ Drawer menulaterale(context){
           new ListTile(
             title: new Text('Mappa'),
             onTap: () {
-              Navigator.push(context, new MaterialPageRoute(builder: (context) => new MyApp()),);
+              Navigator.pushNamed(context, '/homemap');
             },
           ),
           new ListTile(
             title: new Text('Account'),
             onTap: () {
-              Navigator.push(context, new MaterialPageRoute(builder: (context) => new AccountPage()),);
+              Navigator.pushNamed(context, '/account');
             },
           ),
           new Divider(),
           new ListTile(
             title: new Text('Impostazioni'),
             onTap: (){
-              Navigator.push(context, new MaterialPageRoute(builder: (context) => new SettingsPage()),);
+              Navigator.pushNamed(context, '/settings');
             },
           ),
           new ListTile(
             title: new Text('Legale e privacy'),
             onTap: (){
-              Navigator.push(context, new MaterialPageRoute(builder: (context) => new LegalePage()),);
+              Navigator.pushNamed(context, '/legal');
             },
           ),
           new Divider(),
