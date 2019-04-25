@@ -1,5 +1,6 @@
 part of "main.dart";
 
+bool conessioneassente = false;
 String login_token;
 Data_login login_data;
 String mail_inviata = "no";
@@ -51,7 +52,7 @@ class LoginData{
   factory LoginData.fromJson(Map<String, dynamic> json) {
     return LoginData(
       success: json['success'] as bool,
-      data: Data_login.fromJson(json["data"]) as Data_login,
+      data: Data_login.fromJson(json["data"]),
       token: json['tkn'] as String,
     );
   }
@@ -268,18 +269,29 @@ Future<void> _login(http.Client client) async {
   }
 
   print('https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
-  final response =
-  await client.get('https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
-  final parsed = json.decode(response.body);
+  try {
+    final response =
+    await client.get(
+        'https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
+    final parsed = json.decode(response.body);
+    LoginData res =  LoginData.fromJson(parsed);
+    bool success = res.success;
+    String token = res.token;
 
-  LoginData res =  LoginData.fromJson(parsed);
-  bool success = res.success;
-  String token = res.token;
-
-  if((token != token_old) & success){
-    prefs.setString("token", token);
-    token_old = token;
+    if((token != token_old) & success){
+      prefs.setString("token", token);
+      token_old = token;
+    }
+    login_token = token_old;
+    login_data = res.data;
   }
-  login_token = token_old;
-  login_data = res.data;
+  catch (SocketException){
+    //conessioneassente = true;
+    LoginData res = LoginData(
+        success: false,
+        data:Data_login(AccountPermission: "0", UserAccountVerified: "0"),
+        token: token_old);
+    login_token = token_old;
+    login_data = res.data;
+  };
 }

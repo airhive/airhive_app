@@ -22,8 +22,6 @@ part "legale.dart";
 part "settings.dart";
 
 
-
-
 //void main() => runApp(MyApp());
 main() async {
   await PrefService.init(prefix: 'pref_');
