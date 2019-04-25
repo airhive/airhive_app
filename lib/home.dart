@@ -708,7 +708,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       textAlign: TextAlign.left,
                       onSubmitted: ricerca,
-                      onChanged: (val) => debounce(const Duration(milliseconds: 300), gettestoricerca, [val]),
+                      onChanged: (val) => debounce(const Duration(milliseconds: 400), gettestoricerca, [val]),
                     ),
                     color: Colors.white,
                     height : 50,
