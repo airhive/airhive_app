@@ -205,19 +205,28 @@ class _AccountPage extends State<AccountPage> {
   Future<void> _inviamail(http.Client client, String destinatario) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("indirizzo_mail", destinatario);
-    final response =
-    await client.get(
-        'https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=$privacy');
-    final parsed = json.decode(response.body);
-    bool success =  RisultatoVerifica.fromJson(parsed).success;
-    if (success){
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      mail_inviata = "si";
-      prefs.setString("mail_inviata", mail_inviata);
+    try {
+      final response =
+      await client.get(
+          'https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=$privacy');
+      final parsed = json.decode(response.body);
+      bool success = RisultatoVerifica
+          .fromJson(parsed)
+          .success;
+      if (success) {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        mail_inviata = "si";
+        prefs.setString("mail_inviata", mail_inviata);
+      }
+      else {
+        setState(() {
+          testo_errore_mail = "Errore";
+        });
+      }
     }
-    else {
+    catch(SocketException){
       setState(() {
-        testo_errore_mail = "Errore";
+        testo_errore_mail = "Connessione a internet assente";
       });
     }
   }
