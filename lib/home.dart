@@ -784,6 +784,7 @@ class _HomePageState extends State<HomePage> {
                 apri_info = true;
                 apri_ricerca = false;
                 valori_sensore = properties;
+                _markers.remove(Marker(markerId: MarkerId("Ricerca")));
                 _markers.remove(Marker(markerId: MarkerId("Selezione")));
                 _markers.add(
                     Marker(
