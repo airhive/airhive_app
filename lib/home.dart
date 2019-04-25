@@ -724,57 +724,89 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ) : new Container(),
+              conessioneassente ? showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Connessione assente'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          Text('Connessione a internet assente.'),
+                          Text('Per favore controlla la tua connessione e riavvia AirHive.'),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Va bene.'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ):Container(),
             ], ),
         );
   }
 
   //Scarica il JSON e prepara i marker
   Future<void> fetchData(http.Client client) async {
-    final response =
-    await client.get('https://house.zan-tech.com/dati/tutto.py');
-    final parsed = json.decode(response.body);
+    try {
+      final response =
+      await client.get('https://house.zan-tech.com/dati/tutto.py');
+      final parsed = json.decode(response.body);
 
-    Sensori res =  Sensori.fromJson(parsed);
-    String tempo = res.tempo;
-    List<Features> features = res.features;
-    for(var i = 0; i < features.length; i++) {
-      Geometry geometry = features[i].geometry;
-      Properties properties = features[i].properties;
-      double aqi_loc = (properties.pm_10.pm_10 + properties.no2.no / 4 + properties.o3.o3 / 2.4) / 3;
-      properties.caqi = aqi_loc;
-      //Trucchetto per decidere di che colore mettere il marker
-      String colore = aqi_loc < 100 ? "high" : "very_high";
-      colore = aqi_loc < 75 ? "medium" : colore;
-      colore = aqi_loc < 50 ? "low" : colore;
-      colore = aqi_loc < 25 ? "very_low" : colore;
-      setState(() {
-        _markerscaqi.add(Marker(
-          markerId: MarkerId(properties.id_sensore),
-          position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
-          alpha : 0.6,
-          onTap: () {
-            setState(() {
-              apri_info = true;
-              apri_ricerca = false;
-              valori_sensore = properties;
-              _markers.remove(Marker(markerId: MarkerId("Selezione")));
-              _markers.add(
-                  Marker(
+      Sensori res = Sensori.fromJson(parsed);
+      String tempo = res.tempo;
+      List<Features> features = res.features;
+      for (var i = 0; i < features.length; i++) {
+        Geometry geometry = features[i].geometry;
+        Properties properties = features[i].properties;
+        double aqi_loc = (properties.pm_10.pm_10 + properties.no2.no / 4 +
+            properties.o3.o3 / 2.4) / 3;
+        properties.caqi = aqi_loc;
+        //Trucchetto per decidere di che colore mettere il marker
+        String colore = aqi_loc < 100 ? "high" : "very_high";
+        colore = aqi_loc < 75 ? "medium" : colore;
+        colore = aqi_loc < 50 ? "low" : colore;
+        colore = aqi_loc < 25 ? "very_low" : colore;
+        setState(() {
+          _markerscaqi.add(Marker(
+            markerId: MarkerId(properties.id_sensore),
+            position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
+            alpha: 0.6,
+            onTap: () {
+              setState(() {
+                apri_info = true;
+                apri_ricerca = false;
+                valori_sensore = properties;
+                _markers.remove(Marker(markerId: MarkerId("Selezione")));
+                _markers.add(
+                    Marker(
                       markerId: MarkerId("Selezione"),
-                      position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
-                  )
-              );
-            });
-          },
-          icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
-        ));
+                      position: LatLng(
+                          geometry.coordinates[1], geometry.coordinates[0]),
+                    )
+                );
+              });
+            },
+            icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
+          ));
+        });
+      }
+      //Organizzato per poter cambiare tutti i marker tranne quello della posizione.
+      _oldmarker = _markers;
+      setState(() {
+        _markers = _oldmarker.union(_markerscaqi);
       });
     }
-    //Organizzato per poter cambiare tutti i marker tranne quello della posizione.
-    _oldmarker = _markers;
-    setState(() {
-      _markers = _oldmarker.union(_markerscaqi);
-    });
+    catch(SocketException){
+      return;
+    }
   }
 
   //Chiude robe toccando la mappa
