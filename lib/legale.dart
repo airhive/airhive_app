@@ -9,10 +9,7 @@ class _LegalePage extends State<LegalePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: app_theme(),
-      home: Builder(
-         builder: (context) => Scaffold(
+    return new Scaffold(
            appBar: new AppBar(
              title: new Text("Legale e privacy"),
              backgroundColor: Colors.yellow[700],
@@ -22,8 +19,6 @@ class _LegalePage extends State<LegalePage> {
              initialUrl: "https://www.airhive.it/legal?app=true",
              javascriptMode: JavascriptMode.unrestricted,
            ),
-        ),
-      ),
-    );
+        );
   }
 }

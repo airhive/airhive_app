@@ -71,10 +71,7 @@ class _AccountPage extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: app_theme(),
-      home: Builder(
-        builder: (context) => Scaffold(
+    return  new Scaffold(
           appBar: new AppBar(
             title: new Text("Account"),
             backgroundColor: Colors.yellow[700],
@@ -184,9 +181,7 @@ class _AccountPage extends State<AccountPage> {
             initialUrl: "https://www.airhive.it/account/?relog=true&json=true&tkn=$login_token",
             javascriptMode: JavascriptMode.unrestricted,
           ),
-        ),
-      ),
-    );
+        );
   }
 
   void pulsante_mail(context, TextEditingController _textcontroller) async {

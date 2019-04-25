@@ -51,10 +51,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: app_theme(),
-      home: Builder(
-        builder: (context) => Scaffold(
+    return new Scaffold(
           drawer: menulaterale(context),
           appBar: new AppBar(
             title: new Text("Impostazioni"),
@@ -109,8 +106,6 @@ class SettingsPage extends StatelessWidget {
 
 
 
-        ),
-      ),
-    );
+        );
   }
 }
