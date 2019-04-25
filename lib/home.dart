@@ -272,6 +272,7 @@ class _HomePageState extends State<HomePage> {
     });
     _firebaseMessaging.getToken().then((String token) {
       print(token);
+      sendfiretoken(http.Client(), token);
     });
   }
 
@@ -751,6 +752,16 @@ class _HomePageState extends State<HomePage> {
               ):Container(),
             ], ),
         );
+  }
+
+  //Invia il token di firebase
+  Future<void> sendfiretoken(http.Client client, String nottkn) async {
+    try{
+      await client.get('https://www.airhive.it/php/declareNotificationToken.php?relog=true&nottkn=$nottkn&tkn=$login_token&os=flutter');
+    }
+    catch (SocketException){
+      return;
+    }
   }
 
   //Scarica il JSON e prepara i marker
