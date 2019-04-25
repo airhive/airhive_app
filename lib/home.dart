@@ -210,7 +210,17 @@ class GraficoLineare{
   GraficoLineare(this.momento, this.valore);
 }
 
-class _MyHomePageState extends State<MyApp> {
+class HomePage extends StatefulWidget {
+  HomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
@@ -279,10 +289,8 @@ class _MyHomePageState extends State<MyApp> {
       mapType: ListOfMaps[currMapNum], //Also change map type
     );
 
-    return MaterialApp(
-      theme: app_theme(),
-      home: Builder(
-        builder: (context) => Scaffold(
+
+    return new Scaffold(
           key: _scaffoldKey,
           //resizeToAvoidBottomInset: false,
           drawer: menulaterale(context),
@@ -717,9 +725,7 @@ class _MyHomePageState extends State<MyApp> {
                 ],
               ) : new Container(),
             ], ),
-        ),
-      ),
-    );
+        );
   }
 
   //Scarica il JSON e prepara i marker
