@@ -704,7 +704,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 _textcontroller.clear();
                               }),
-                          hintText: "Cerca",
+                          hintText: Translations.of(context).text('blank_research_text'),
                           hintStyle: TextStyle(fontWeight: FontWeight.w300)
                       ),
                       textAlign: TextAlign.left,

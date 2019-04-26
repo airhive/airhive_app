@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       theme: app_theme(),
-      /*localizationsDelegates: [
+      localizationsDelegates: [
         const TranslationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         const Locale('en', ''),
         const Locale('it', ''),
         const Locale('de', ''),
-      ],*/
+      ],
       home: new HomePage(),
       routes: <String, WidgetBuilder> {
       '/homemap': (BuildContext context) => new HomePage(),
@@ -96,26 +96,26 @@ Drawer menulaterale(context){
             ),
           ),
           new ListTile(
-            title: new Text('Mappa'),
+            title: new Text(Translations.of(context).text('map_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/homemap');
             },
           ),
           new ListTile(
-            title: new Text('Account'),
+            title: new Text(Translations.of(context).text('account_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/account');
             },
           ),
           new Divider(),
           new ListTile(
-            title: new Text('Impostazioni'),
+            title: new Text(Translations.of(context).text('settings_button_text')),
             onTap: (){
               Navigator.pushNamed(context, '/settings');
             },
           ),
           new ListTile(
-            title: new Text('Legale e privacy'),
+            title: new Text(Translations.of(context).text('legal_privacy_button_text')),
             onTap: (){
               Navigator.pushNamed(context, '/legal');
             },

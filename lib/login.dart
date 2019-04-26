@@ -220,7 +220,7 @@ class _AccountPage extends State<AccountPage> {
       }
       else {
         setState(() {
-          testo_errore_mail = "Errore";
+          testo_errore_mail = Translations.of(context).text('error_text');
         });
       }
     }

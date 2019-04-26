@@ -54,15 +54,15 @@ class SettingsPage extends StatelessWidget {
     return new Scaffold(
           drawer: menulaterale(context),
           appBar: new AppBar(
-            title: new Text("Impostazioni"),
+            title: new Text(Translations.of(context).text('settings_title')),
             backgroundColor: Colors.yellow[700],
           ),
           body: new PreferencePage([
 
             //Impostazioni stile mappa
-            PreferenceTitle("Stile mappa"),
+            PreferenceTitle(Translations.of(context).text('map_style_title')),
             RadioPreference(
-              'Normale',
+              Translations.of(context).text('map_type_normal_button_text'),
               'ROADMAP',
               'map_theme',
               isDefault: isCurrSetting(0, currMapNum),
@@ -71,7 +71,7 @@ class SettingsPage extends StatelessWidget {
               },
             ),
             RadioPreference(
-              'Satellite',
+              Translations.of(context).text('map_type_satellite_button_text'),
               'SATELLITE',
               'map_theme',
               isDefault: isCurrSetting(2, currMapNum),
@@ -80,7 +80,7 @@ class SettingsPage extends StatelessWidget {
               },
             ),
             RadioPreference(
-              'Ibrido',
+              Translations.of(context).text('map_type_hybrid_button_text'),
               'HYBRID',
               'map_theme',
               isDefault: isCurrSetting(1, currMapNum),
@@ -89,7 +89,7 @@ class SettingsPage extends StatelessWidget {
               },
             ),
             RadioPreference(
-              'Rilievi',
+              Translations.of(context).text('map_type_topographical_button_text'),
               'TERRAIN',
               'map_theme',
               isDefault: isCurrSetting(3, currMapNum),
@@ -97,7 +97,14 @@ class SettingsPage extends StatelessWidget {
                 setMapType(3);
               },
             ),
-            PreferenceTitle("Lingua"),
+            PreferenceTitle(Translations.of(context).text('language_title')),
+            DropdownPreference(
+              'Language',
+              'language_selection',
+              defaultVal: 'Italiano',
+              values: ['Italiano', 'English', 'Deutsch'],
+            ),
+
 
 
 
