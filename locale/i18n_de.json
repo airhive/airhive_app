@@ -1,0 +1,19 @@
+{
+  "map_button_text": "Karte",
+  "account_button_text": "Account",
+  "settings_button_text": "Einstellungen",
+  "legal_privacy_button_text": "Recht und Privatsphäre",
+  "aotd_button_text": "Tipp des Tages",
+  "register_account_title": "Anmelden",
+  "accept_privacy_text": "Akzeptieren Sie die Privatsphäre, bevor Sie fortfahren",
+  "accept_privacy_button_text": "Ich Akzeptiere die Datenschutzkerklärung",
+  "error_text": "Error",
+  "settings_title": "Einstellungen",
+  "map_style_title": "Kartenstil",
+  "language_title": "Sprache",
+  "map_type_normal_button_text": "Normal",
+  "map_type_satellite_button_text": "Satellit",
+  "map_type_hybrid_button_text": "Hybrid",
+  "map_type_topographical_button_text": "Topografish",
+  "blank_research_text": "Suche"
+}

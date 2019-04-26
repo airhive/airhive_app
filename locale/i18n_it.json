@@ -1,0 +1,19 @@
+{
+  "map_button_text": "Mappa",
+  "account_button_text": "Account",
+  "settings_button_text": "Impostazioni",
+  "legal_privacy_button_text": "Legale e Privacy",
+  "aotd_button_text": "Consiglio del Giorno",
+  "register_account_title": "Registrazione",
+  "accept_privacy_text": "Accetta la privacy prima di proseguire",
+  "accept_privacy_button_text": "Acconsento alla privacy",
+  "error_text": "Errore",
+  "settings_title": "Impostazioni",
+  "map_style_title": "Stile Mappa",
+  "language_title": "Lingua",
+  "map_type_normal_button_text": "Normale",
+  "map_type_satellite_button_text": "Satellite",
+  "map_type_hybrid_button_text": "Ibrido",
+  "map_type_topographical_button_text": "Topografico",
+  "blank_research_text": "Cerca"
+}

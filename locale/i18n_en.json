@@ -1,0 +1,19 @@
+{
+  "map_button_text": "Map",
+  "account_button_text": "Account",
+  "settings_button_text": "Settings",
+  "legal_privacy_button_text": "Legal and Privacy",
+  "aotd_button_text": "Tip of the Day",
+  "register_account_title": "Sign uo",
+  "accept_privacy_text": "Accept privacy before proceeding",
+  "accept_privacy_button_text": "I agree to the privacy policy",
+  "error_text": "Error",
+  "settings_title": "Settings",
+  "map_style_title": "Map Stylr",
+  "language_title": "Language",
+  "map_type_normal_button_text": "Normal",
+  "map_type_satellite_button_text": "Satellite",
+  "map_type_hybrid_button_text": "Hybrid",
+  "map_type_topographical_button_text": "Topographical",
+  "blank_research_text": "Search"
+}
