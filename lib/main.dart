@@ -16,6 +16,11 @@ import 'package:device_info/device_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+
+
+
+//Local imports
 import 'translations.dart';
 
 part "home.dart";
@@ -29,6 +34,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       theme: app_theme(),
+      /*localizationsDelegates: [
+        const TranslationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', ''),
+        const Locale('it', ''),
+        const Locale('de', ''),
+      ],*/
       home: new HomePage(),
       routes: <String, WidgetBuilder> {
       '/homemap': (BuildContext context) => new HomePage(),
