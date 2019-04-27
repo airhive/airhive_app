@@ -384,7 +384,7 @@ class _HomePageState extends State<HomePage> {
                               child: new RotatedBox(
                                   quarterTurns: -1,
                                   child: new Text(
-                                    "Presente",
+                                    Translations.of(context).text('marker_presente'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0
@@ -449,7 +449,7 @@ class _HomePageState extends State<HomePage> {
                               child: new RotatedBox(
                                   quarterTurns: -1,
                                   child: new Text(
-                                    "Passato",
+                                    Translations.of(context).text('marker_passato'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0
@@ -570,7 +570,7 @@ class _HomePageState extends State<HomePage> {
                               child: new RotatedBox(
                                   quarterTurns: -1,
                                   child: new Text(
-                                    "Futuro",
+                                    Translations.of(context).text('marker_futuro'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0

@@ -15,5 +15,8 @@
   "map_type_satellite_button_text": "Satellit",
   "map_type_hybrid_button_text": "Hybrid",
   "map_type_topographical_button_text": "Topografish",
-  "blank_research_text": "Suche"
+  "blank_research_text": "Suche",
+  "marker_presente": "Jetzt",
+  "marker_passato": "Vergangenheit",
+  "marker_futuro": "Zukunft"
 }
