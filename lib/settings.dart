@@ -43,9 +43,18 @@ bool isCurrSetting(var toCheck, var curSett){
   }
 }
 
+class SettingsPage extends StatefulWidget {
+  SettingsPage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
 
 //Writing Settings page code
-class SettingsPage extends StatelessWidget {
+class _SettingsPageState extends State<SettingsPage> {
 
 
 
@@ -117,3 +126,37 @@ class SettingsPage extends StatelessWidget {
         );
   }
 }
+
+
+/*
+* Defining functions to support language selection
+* Supported languages:
+* - italian (it)
+* - english (en)
+* - german (de)
+* */
+
+typedef void LocaleChangeCallback(Locale locale);
+
+class APPLIC {
+  //List of supported languages
+  final List<String> supportedLanguages = ['it','en','de'];
+
+  //Returns the list of supported Locales
+  Iterable<Locale> supportedLocales() => supportedLanguages.map((lang) => new Locale(lang, ''));
+
+  //Function to be invoked when changing the working language
+  LocaleChangeCallback onLocaleChanged;
+
+  ///
+  /// Internals
+  ///
+  //static final APPLIC _applic = new APPLIC._internal();
+/*
+  factory APPLIC() {
+    return _applic;
+  }
+*/
+}
+
+APPLIC applic = new APPLIC();
