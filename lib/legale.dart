@@ -7,6 +7,8 @@ class LegalePage extends StatefulWidget{
 //Writing account page code
 class _LegalePage extends State<LegalePage> {
 
+  Completer<WebViewController> _controller = Completer<WebViewController>();
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -17,7 +19,9 @@ class _LegalePage extends State<LegalePage> {
            drawer: menulaterale(context),
            body: WebView(
              initialUrl: "https://www.airhive.it/legal?app=true",
-             javascriptMode: JavascriptMode.unrestricted,
+             onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
            ),
         );
   }
