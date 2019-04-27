@@ -8,6 +8,7 @@
   "accept_privacy_text": "Accept privacy before proceeding",
   "accept_privacy_button_text": "I agree to the privacy policy",
   "error_text": "Error",
+  "invalid_mail": "Invalid mail address.",
   "settings_title": "Settings",
   "map_style_title": "Map Style",
   "language_title": "Language",
@@ -18,5 +19,6 @@
   "blank_research_text": "Search",
   "marker_presente": "Now",
   "marker_passato": "Past",
-  "marker_futuro": "Future"
+  "marker_futuro": "Future",
+
 }
