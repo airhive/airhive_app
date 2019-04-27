@@ -1,0 +1,171 @@
+PODS:
+  - device_info (0.0.1):
+    - Flutter
+  - Firebase/Core (5.11.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 5.3.0)
+  - Firebase/CoreOnly (5.11.0):
+    - FirebaseCore (= 5.1.6)
+  - Firebase/Messaging (5.11.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (= 3.2.1)
+  - firebase_core (0.0.1):
+    - Firebase/Core
+    - Flutter
+  - firebase_messaging (0.0.1):
+    - Firebase/Core
+    - Firebase/Messaging
+    - Flutter
+  - FirebaseAnalytics (5.3.0):
+    - FirebaseCore (~> 5.1)
+    - FirebaseInstanceID (~> 3.3)
+    - GoogleAppMeasurement (~> 5.3)
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+    - nanopb (~> 0.3)
+  - FirebaseAnalyticsInterop (1.1.0)
+  - FirebaseCore (5.1.6):
+    - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseInstanceID (3.3.0):
+    - FirebaseCore (~> 5.1)
+    - GoogleUtilities/Environment (~> 5.3)
+    - GoogleUtilities/UserDefaults (~> 5.3)
+  - FirebaseMessaging (3.2.1):
+    - FirebaseAnalyticsInterop (~> 1.1)
+    - FirebaseCore (~> 5.1)
+    - FirebaseInstanceID (~> 3.0)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/Reachability (~> 5.2)
+    - Protobuf (~> 3.1)
+  - Flutter (1.0.0)
+  - geolocator (4.0.1):
+    - Flutter
+  - google_api_availability (2.0.0):
+    - Flutter
+  - google_maps_flutter (0.0.1):
+    - Flutter
+    - GoogleMaps
+  - GoogleAppMeasurement (5.3.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+    - nanopb (~> 0.3)
+  - GoogleMaps (2.7.0):
+    - GoogleMaps/Maps (= 2.7.0)
+  - GoogleMaps/Base (2.7.0)
+  - GoogleMaps/Maps (2.7.0):
+    - GoogleMaps/Base
+  - GoogleUtilities/AppDelegateSwizzler (5.3.4):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (5.3.4)
+  - GoogleUtilities/Logger (5.3.4):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (5.3.4):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (5.3.4):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (5.3.4)"
+  - GoogleUtilities/Reachability (5.3.4):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (5.3.4):
+    - GoogleUtilities/Logger
+  - location (0.0.1):
+    - Flutter
+  - location_permissions (1.1.0):
+    - Flutter
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
+  - Protobuf (3.6.1)
+  - shared_preferences (0.0.1):
+    - Flutter
+  - webview_flutter (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - device_info (from `.symlinks/plugins/device_info/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
+  - Flutter (from `.symlinks/flutter/ios`)
+  - geolocator (from `.symlinks/plugins/geolocator/ios`)
+  - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
+  - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
+  - location (from `.symlinks/plugins/location/ios`)
+  - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAnalyticsInterop
+    - FirebaseCore
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - GoogleAppMeasurement
+    - GoogleMaps
+    - GoogleUtilities
+    - nanopb
+    - Protobuf
+
+EXTERNAL SOURCES:
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_messaging:
+    :path: ".symlinks/plugins/firebase_messaging/ios"
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  geolocator:
+    :path: ".symlinks/plugins/geolocator/ios"
+  google_api_availability:
+    :path: ".symlinks/plugins/google_api_availability/ios"
+  google_maps_flutter:
+    :path: ".symlinks/plugins/google_maps_flutter/ios"
+  location:
+    :path: ".symlinks/plugins/location/ios"
+  location_permissions:
+    :path: ".symlinks/plugins/location_permissions/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
+  webview_flutter:
+    :path: ".symlinks/plugins/webview_flutter/ios"
+
+SPEC CHECKSUMS:
+  device_info: 76ce0b32e13034d1883be4a382433648f9dcee63
+  Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
+  firebase_core: c96aa8b2fcf7f5167d32f22034f502f9304952b8
+  firebase_messaging: a5f5d4a9491b660f33a1f94bd0596558f820bad1
+  FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
+  FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
+  FirebaseCore: d16552f06821489ce1affe2e5e3e5593402ddfe3
+  FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
+  FirebaseMessaging: 0f14a264b0d7f867e8eff5d3556bc5d0d4e57888
+  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  geolocator: a5a2961293df87dcfb6b720c82f67decf95c1b1b
+  google_api_availability: 80c105ad2c0ed01c18cf779653da2cb939518192
+  google_maps_flutter: 6449d5918d3f1a69a37dc9c557bbad7bb9bcf0e9
+  GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
+  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
+  GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
+  location: 26c90953ad5916331d0d1d913898779910416487
+  location_permissions: 6e3af9804db1f8f1f2ff7133779a224431072666
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
+  webview_flutter: 9bd234c07e99632356cba112df56fd1d47d6b6e3
+
+PODFILE CHECKSUM: 54356319e1d8f51ebdd2951b80bb9eb451a163ca
+
+COCOAPODS: 1.5.3
