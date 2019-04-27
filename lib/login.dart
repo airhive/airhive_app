@@ -188,7 +188,7 @@ class _AccountPage extends State<AccountPage> {
   void pulsante_mail(context, TextEditingController _textcontroller) async {
     if(! _textcontroller.text.contains("@")){
       setState(() {
-        testo_errore_mail = "Non si direbbe un indirizzo mail.";
+        testo_errore_mail = Translations.of(context).text('invalid_mail');
       });
       return;
     };
