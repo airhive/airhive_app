@@ -44,8 +44,19 @@ bool isCurrSetting(var toCheck, var curSett){
 }
 
 
+
 //Writing Settings page code
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  SettingsPage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
 
 
 
