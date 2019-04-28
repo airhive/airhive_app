@@ -403,6 +403,7 @@ class _HomePageState extends State<HomePage> {
                                   trailing: Expanded(child: Text("CAQI")),
                                   center: Text(valori_sensore.caqi.toStringAsFixed(2)),
                                   width: 160.0,
+                                  linearStrokeCap: LinearStrokeCap.butt,
                                   lineHeight: 14.0,
                                   percent: valori_sensore.caqi / 150,
                                   backgroundColor: Colors.green,
