@@ -382,7 +382,7 @@ class _HomePageState extends State<HomePage> {
                                            _createSampleData(),
                                            animate:true,
                                            defaultRenderer: new charts.ArcRendererConfig(
-                                               arcWidth: 30,
+                                               arcWidth: 40,
                                                startAngle: 4 / 5 * 3.1415,
                                                arcLength: valori_sensore.pm_10.pm_10.toInt() / 50 * 3.1415
                                            ),
@@ -490,7 +490,7 @@ class _HomePageState extends State<HomePage> {
       final parsed = json.decode(response.body);
 
       Sensori res = Sensori.fromJson(parsed);
-      tempo_rilevazione = DateFormat('kk:mm:ss EEE d MMM').format(DateTime.parse(res.tempo));
+      tempo_rilevazione = DateFormat('kk:mm d M').format(DateTime.parse(res.tempo));
       List<Features> features = res.features;
       for (var i = 0; i < features.length; i++) {
         Geometry geometry = features[i].geometry;
@@ -661,13 +661,19 @@ class _HomePageState extends State<HomePage> {
   // Ritorna una lista col widget dei grafici storici per CAQI
   /// Create one series with sample hard coded data.
   List<charts.Series<GaugeSegment, String>> _createSampleData() {
+    int val_pm = valori_sensore.pm_10.pm_10.toInt();
     List<GaugeSegment> data = [
-      new GaugeSegment('Low', valori_sensore.pm_10.pm_10.toInt()),
+      new GaugeSegment('High', val_pm),
     ];
 
     return [
       new charts.Series<GaugeSegment, String>(
-        id: 'Segments',
+        id: 'CAQI',
+        colorFn: (_, __) => (val_pm < 25) ?
+          charts.MaterialPalette.green.shadeDefault:
+          (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
+          (val_pm < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+          charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
         data: data,
