@@ -8,6 +8,6 @@
          android:right="20dp">
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/icona_fore" />
+            android:src="@mipmap/logo_neg_fore" />
     </item>
 </layer-list>
