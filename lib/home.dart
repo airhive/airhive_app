@@ -395,7 +395,7 @@ class _HomePageState extends State<HomePage> {
                                            ],
                                        ),
                                      ),
-                                     Text("Aggiornato al: $tempo_rilevazione"),
+                                     Text("Aggiornato alle: $tempo_rilevazione"),
                                 ],
                               ),
                       ]
@@ -490,7 +490,7 @@ class _HomePageState extends State<HomePage> {
       final parsed = json.decode(response.body);
 
       Sensori res = Sensori.fromJson(parsed);
-      tempo_rilevazione = DateFormat('kk:mm d M').format(DateTime.parse(res.tempo));
+      tempo_rilevazione = DateFormat('kk:mm il d/MM').format(DateTime.parse(res.tempo));
       List<Features> features = res.features;
       for (var i = 0; i < features.length; i++) {
         Geometry geometry = features[i].geometry;
