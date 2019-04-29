@@ -16,8 +16,6 @@ import 'package:device_info/device_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:speech_bubble/speech_bubble.dart';
-
 
 
 

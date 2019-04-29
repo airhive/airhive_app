@@ -396,7 +396,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Container(
                     color: Colors.transparent,
-                    height : 200,
+                    height : 220,
                       child:ListView(
                           scrollDirection: Axis.vertical,
                           children: <Widget> [
@@ -406,11 +406,11 @@ class _HomePageState extends State<HomePage> {
                                    children: <Widget>[
                                      Container(
                                          color: Colors.white,
-                                         height: 150,
+                                         height: 130,
                                          child: Stack(
                                            children: <Widget> [
                                              Container(
-                                               height:150,
+                                               height:160,
                                                child: new charts.PieChart(
                                                  _PmData(),
                                                  animate:true,
@@ -439,8 +439,10 @@ class _HomePageState extends State<HomePage> {
                                            ),
                                       ),
                                      Container(
-                                       color: Colors.white,
-                                       child: Text(""),
+                                       height: 30,
+                                       width: MediaQuery.of(context).size.width,
+                                       color: Colors.yellow[700],
+                                       child: Center(child: Text("Aggiornato alle: $tempo_rilevazione")),
                                      ),
                                      Container(
                                        height: 150,
