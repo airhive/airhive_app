@@ -116,11 +116,37 @@ class O3{
   }
 }
 
+class Meteo{
+  final double temp;
+  final double umi;
+  final double prec;
+  final double vento;
+
+  Meteo({
+    this.temp,
+    this.umi,
+    this.prec,
+    this.vento,
+  });
+
+  factory Meteo.fromJson(Map<String, dynamic> json) {
+    return Meteo(
+      temp: json['temp'] as double,
+      umi: json['umi'] as double,
+      prec: json['prec'] as double,
+      vento: json['vento'] as double,
+    );
+  }
+}
+
+
+
 class Properties{
   final String id_sensore;
   final Pm pm_10;
   final No no2;
   final O3 o3;
+  final Meteo meteo;
   double caqi;
 
   Properties({
@@ -128,6 +154,7 @@ class Properties{
     this.pm_10,
     this.no2,
     this.o3,
+    this.meteo,
     this.caqi,
   });
 
@@ -137,6 +164,7 @@ class Properties{
       pm_10: Pm.fromJson(json['pm']) as Pm,
       no2: No.fromJson(json["no2"]) as No,
       o3: O3.fromJson(json["o3"]) as O3,
+      meteo: Meteo.fromJson(json["meteo"]) as Meteo,
       caqi: 0.0,
     );
   }
@@ -376,26 +404,58 @@ class _HomePageState extends State<HomePage> {
                                    mainAxisAlignment: MainAxisAlignment.start,
                                    crossAxisAlignment: CrossAxisAlignment.center,
                                    children: <Widget>[
+                                     Stack(
+                                       children: <Widget> [
+                                         Container(
+                                           height: 150,
+                                           child: new charts.PieChart(
+                                               _PmData(),
+                                               animate:true,
+                                               defaultRenderer: new charts.ArcRendererConfig(
+                                                   arcWidth: 10,
+                                                   startAngle: 4 / 5 * 3.1415,
+                                                   arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
+                                               ),
+                                               behaviors: [
+                                                 new charts.ChartTitle(
+                                                   "CAQI",
+                                                   behaviorPosition: charts.BehaviorPosition.start,
+                                                   titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                                                 ),
+                                               ],
+                                            ),
+                                           ),
+                                            Align(
+                                              alignment: FractionalOffset(0.50, -0.1),
+                                              child: Text(valori_sensore.pm_10.pm_10.toInt().toString())
+                                            )
+                                          ]
+                                     ),
+                                     Text("Aggiornato alle: $tempo_rilevazione"),
                                      Container(
                                        height: 150,
                                        child: new charts.PieChart(
-                                           _createSampleData(),
-                                           animate:true,
-                                           defaultRenderer: new charts.ArcRendererConfig(
-                                               arcWidth: 40,
-                                               startAngle: 4 / 5 * 3.1415,
-                                               arcLength: valori_sensore.pm_10.pm_10.toInt() / 50 * 3.1415
+                                         _PmData(),
+                                         animate:true,
+                                         defaultRenderer: new charts.ArcRendererConfig(
+                                             arcWidth: 10,
+                                             startAngle: 4 / 5 * 3.1415,
+                                             arcLength: (valori_sensore.meteo.prec / 100) * (7 * 3.1415) / 5
+                                         ),
+                                         behaviors: [
+                                           new charts.ChartTitle(
+                                             "Precipitazioni",
+                                             behaviorPosition: charts.BehaviorPosition.start,
+                                             titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                                            ),
-                                           behaviors: [
-                                             new charts.ChartTitle(
-                                               "CAQI",
-                                               behaviorPosition: charts.BehaviorPosition.start,
-                                               titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                                             )
-                                           ],
+                                           new charts.ChartTitle(
+                                             valori_sensore.meteo.prec.toString(),
+                                             behaviorPosition: charts.BehaviorPosition.start,
+                                             titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                                           )
+                                         ],
                                        ),
                                      ),
-                                     Text("Aggiornato alle: $tempo_rilevazione"),
                                 ],
                               ),
                       ]
@@ -660,7 +720,7 @@ class _HomePageState extends State<HomePage> {
 
   // Ritorna una lista col widget dei grafici storici per CAQI
   /// Create one series with sample hard coded data.
-  List<charts.Series<GaugeSegment, String>> _createSampleData() {
+  List<charts.Series<GaugeSegment, String>> _PmData() {
     int val_pm = valori_sensore.pm_10.pm_10.toInt();
     List<GaugeSegment> data = [
       new GaugeSegment('High', val_pm),
@@ -674,6 +734,27 @@ class _HomePageState extends State<HomePage> {
           (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
           (val_pm < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
           charts.MaterialPalette.red.shadeDefault,
+        domainFn: (GaugeSegment segment, _) => segment.segment,
+        measureFn: (GaugeSegment segment, _) => segment.size,
+        data: data,
+      )
+    ];
+  }
+
+  List<charts.Series<GaugeSegment, String>> _PrecData() {
+    int val_prec = valori_sensore.meteo.prec.toInt();
+    List<GaugeSegment> data = [
+      new GaugeSegment('High', val_prec),
+    ];
+
+    return [
+      new charts.Series<GaugeSegment, String>(
+        id: 'CAQI',
+        colorFn: (_, __) => (val_prec < 25) ?
+        charts.MaterialPalette.green.shadeDefault:
+        (val_prec < 50) ? charts.MaterialPalette.yellow.shadeDefault:
+        (val_prec < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
         data: data,
