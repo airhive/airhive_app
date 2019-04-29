@@ -263,6 +263,7 @@ class _HomePageState extends State<HomePage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _textcontroller = TextEditingController();
+  ScrollController _scrollController;
 
   //Google Maps
   static final CameraPosition _initialCamera = CameraPosition(
@@ -288,7 +289,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -310,6 +312,7 @@ class _HomePageState extends State<HomePage> {
       print(token);
       sendfiretoken(http.Client(), token);
     });
+    super.initState();
   }
 
 
@@ -397,10 +400,11 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     color: Colors.transparent,
                     height : 220,
-                      child:ListView(
-                          scrollDirection: Axis.vertical,
-                          children: <Widget> [
-                              Column(
+                    child:ListView(
+                      controller: _scrollController,
+                      scrollDirection: Axis.vertical,
+                      children: <Widget> [
+                          Column(
                                    mainAxisAlignment: MainAxisAlignment.start,
                                    crossAxisAlignment: CrossAxisAlignment.center,
                                    children: <Widget>[
@@ -554,10 +558,10 @@ class _HomePageState extends State<HomePage> {
                                      ),
                                 ],
                               ),
-                      ]
-                    ),
-                  ),
-                ],
+                        ],
+                      )
+                    )
+                   ]
               ) : new Container(),
               apri_ricerca ? new Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -747,6 +751,16 @@ class _HomePageState extends State<HomePage> {
         icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
       ));
     });
+  }
+
+  // Per chiudere le info scrollando
+  _scrollListener() {
+    if (_scrollController.offset <= _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        apri_info = false;
+      });
+    }
   }
 
   // Questa map prende le cose in attesa.
