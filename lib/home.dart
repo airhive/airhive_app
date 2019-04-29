@@ -395,7 +395,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Container(
-                    color: Colors.white,
+                    color: Colors.transparent,
                     height : 200,
                       child:ListView(
                           scrollDirection: Axis.vertical,
@@ -404,8 +404,8 @@ class _HomePageState extends State<HomePage> {
                                    mainAxisAlignment: MainAxisAlignment.start,
                                    crossAxisAlignment: CrossAxisAlignment.center,
                                    children: <Widget>[
-                                     Text("Aggiornato alle: $tempo_rilevazione"),
                                      Container(
+                                         color: Colors.white,
                                          height: 150,
                                          child: Stack(
                                            children: <Widget> [
@@ -421,7 +421,10 @@ class _HomePageState extends State<HomePage> {
                                                  ),
                                                  behaviors: [
                                                    new charts.ChartTitle(
-                                                     "CAQI",
+                                                     "Air quality index",
+                                                     titleStyleSpec: charts.TextStyleSpec(
+                                                       fontSize: 12, // size in Pts.
+                                                       color: charts.MaterialPalette.black),
                                                      behaviorPosition: charts.BehaviorPosition.start,
                                                      titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                                                    ),
@@ -436,94 +439,116 @@ class _HomePageState extends State<HomePage> {
                                            ),
                                       ),
                                      Container(
-                                        height: 150,
-                                        child: Stack(
-                                          children: <Widget> [
-                                            Container(
-                                              height:150,
-                                              child: new charts.PieChart(
-                                                _PrecData(),
-                                                animate:true,
-                                                defaultRenderer: new charts.ArcRendererConfig(
-                                                    arcWidth: 10,
-                                                    startAngle: 4 / 5 * 3.1415,
-                                                    arcLength: (valori_sensore.meteo.prec.toInt() / 100) * (7 * 3.1415) / 5
-                                                ),
-                                                behaviors: [
-                                                  new charts.ChartTitle(
-                                                    "Precipitazioni",
-                                                    behaviorPosition: charts.BehaviorPosition.start,
-                                                    titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Align(
-                                                alignment: Alignment(0.05, 0.0),
-                                                child: Text((valori_sensore.meteo.prec * 5/10).toStringAsFixed(2).toString())
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                     Container(
-                                       height: 150,
-                                       child: Stack(
-                                         children: <Widget> [
-                                           Container(
-                                             height:150,
-                                             child: new charts.PieChart(
-                                               _TempData(),
-                                               animate:true,
-                                               defaultRenderer: new charts.ArcRendererConfig(
-                                                   arcWidth: 10,
-                                                   startAngle: 4 / 5 * 3.1415,
-                                                   arcLength: (valori_sensore.meteo.temp.toInt() / 100) * (7 * 3.1415) / 5
-                                               ),
-                                               behaviors: [
-                                                 new charts.ChartTitle(
-                                                   "Temperatura",
-                                                   behaviorPosition: charts.BehaviorPosition.start,
-                                                   titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                                                 ),
-                                               ],
-                                             ),
-                                           ),
-                                           Align(
-                                               alignment: Alignment(0.05, 0.0),
-                                               child: Text((valori_sensore.meteo.temp *3/10).toStringAsFixed(2).toString())
-                                           )
-                                         ],
-                                       ),
+                                       color: Colors.white,
+                                       child: Text(""),
                                      ),
                                      Container(
                                        height: 150,
-                                       child: Stack(
-                                         children: <Widget> [
-                                           Container(
-                                             height:150,
-                                             child: new charts.PieChart(
-                                               _VentoData(),
-                                               animate:true,
-                                               defaultRenderer: new charts.ArcRendererConfig(
-                                                   arcWidth: 10,
-                                                   startAngle: 4 / 5 * 3.1415,
-                                                   arcLength: (valori_sensore.meteo.vento.toInt() / 100) * (7 * 3.1415) / 5
+                                       color: Colors.white,
+                                       child:
+                                       Row(
+                                       children: <Widget>[
+                                         Container(
+                                            width: MediaQuery.of(context).size.width / 3,
+                                            child:
+                                              Stack(
+                                                children: <Widget> [
+                                                  Container(
+                                                    child: new charts.PieChart(
+                                                      _PrecData(),
+                                                      animate:true,
+                                                      defaultRenderer: new charts.ArcRendererConfig(
+                                                          arcWidth: 10,
+                                                          startAngle: 4 / 5 * 3.1415,
+                                                          arcLength: (valori_sensore.meteo.prec.toInt() / 100) * (7 * 3.1415) / 5
+                                                      ),
+                                                      behaviors: [
+                                                        new charts.ChartTitle(
+                                                          "Precipitazioni",
+                                                          titleStyleSpec: charts.TextStyleSpec(
+                                                            fontSize: 12, // size in Pts.
+                                                            color: charts.MaterialPalette.black),
+                                                          behaviorPosition: charts.BehaviorPosition.bottom,
+                                                          titleOutsideJustification: charts.OutsideJustification.endDrawArea,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                      alignment: Alignment(0, -0.1),
+                                                      child: Text((valori_sensore.meteo.prec * 5/10).toStringAsFixed(2).toString())
+                                                  )
+                                                ],
+                                              ),
+                                              ),
+                                         Container(
+                                            width: MediaQuery.of(context).size.width / 3,
+                                            child:
+                                               Stack(
+                                                 children: <Widget> [
+                                                   Container(
+                                                     child: new charts.PieChart(
+                                                       _TempData(),
+                                                       animate:true,
+                                                       defaultRenderer: new charts.ArcRendererConfig(
+                                                           arcWidth: 10,
+                                                           startAngle: 4 / 5 * 3.1415,
+                                                           arcLength: (valori_sensore.meteo.temp.toInt() / 100) * (7 * 3.1415) / 5
+                                                       ),
+                                                       behaviors: [
+                                                         new charts.ChartTitle(
+                                                           "Temperatura",
+                                                           titleStyleSpec: charts.TextStyleSpec(
+                                                               fontSize: 12, // size in Pts.
+                                                               color: charts.MaterialPalette.black),
+                                                           behaviorPosition: charts.BehaviorPosition.bottom,
+                                                           titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                                                         ),
+                                                       ],
+                                                     ),
+                                                   ),
+                                                   Align(
+                                                       alignment: Alignment(0.0, -0.1),
+                                                       child: Text((valori_sensore.meteo.temp * 3/10).toStringAsFixed(2).toString())
+                                                   )
+                                                 ],
                                                ),
-                                               behaviors: [
-                                                 new charts.ChartTitle(
-                                                   "Vento",
-                                                   behaviorPosition: charts.BehaviorPosition.start,
-                                                   titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                                                 ),
-                                               ],
                                              ),
-                                           ),
-                                           Align(
-                                               alignment: Alignment(0.05, 0.0),
-                                               child: Text((valori_sensore.meteo.vento *4/10).toStringAsFixed(2).toString())
-                                           )
-                                         ],
-                                       ),
+                                             Container(
+                                               width: MediaQuery.of(context).size.width / 3,
+                                               child:
+                                               Stack(
+                                                 children: <Widget> [
+                                                   Container(
+                                                     child: new charts.PieChart(
+                                                       _PrecData(),
+                                                       animate:true,
+                                                       defaultRenderer: new charts.ArcRendererConfig(
+                                                           arcWidth: 10,
+                                                           startAngle: 4 / 5 * 3.1415,
+                                                           arcLength: (valori_sensore.meteo.vento.toInt() / 100) * (7 * 3.1415) / 5
+                                                       ),
+                                                       behaviors: [
+                                                         new charts.ChartTitle(
+                                                           "Vento",
+                                                           titleStyleSpec: charts.TextStyleSpec(
+                                                               fontSize: 12, // size in Pts.
+                                                               color: charts.MaterialPalette.black),
+                                                           behaviorPosition: charts.BehaviorPosition.bottom,
+                                                           titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                                                         ),
+                                                       ],
+                                                     ),
+                                                   ),
+                                                   Align(
+                                                       alignment: Alignment(0.0, -0.1),
+                                                       child: Text((valori_sensore.meteo.vento * 5/10).toStringAsFixed(2).toString())
+                                                   )
+                                                 ],
+                                               ),
+                                             ),
+                                            ],
+                                          ),
                                      ),
                                 ],
                               ),
