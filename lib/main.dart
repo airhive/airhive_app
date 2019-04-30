@@ -27,6 +27,7 @@ part "home.dart";
 part "login.dart";
 part "legale.dart";
 part "settings.dart";
+part "messages.dart";
 
 
 class MyApp extends StatelessWidget {
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
       '/settings': (BuildContext context) => new SettingsPage(),
       '/account': (BuildContext context) => new AccountPage(),
       '/legal': (BuildContext context) => new LegalePage(),
+      '/messages': (BuildContext context) => new MessagesPage(),
       }
     );
   }
@@ -105,6 +107,12 @@ Drawer menulaterale(context){
             title: new Text(Translations.of(context).text('account_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/account');
+            },
+          ),
+          new ListTile(
+            title: new Text("Messaggi"),
+            onTap: () {
+              Navigator.pushNamed(context, '/messages');
             },
           ),
           new Divider(),
