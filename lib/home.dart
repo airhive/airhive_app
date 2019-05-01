@@ -396,7 +396,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Container(
                     color: Colors.transparent,
-                    height : 220,
+                    height : 195,
                     child:ListView(
                       scrollDirection: Axis.vertical,
                       children: <Widget> [
