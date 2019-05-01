@@ -263,7 +263,6 @@ class _HomePageState extends State<HomePage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _textcontroller = TextEditingController();
-  ScrollController _scrollController;
 
   //Google Maps
   static final CameraPosition _initialCamera = CameraPosition(
@@ -289,8 +288,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -401,7 +398,6 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.transparent,
                     height : 220,
                     child:ListView(
-                      controller: _scrollController,
                       scrollDirection: Axis.vertical,
                       children: <Widget> [
                           Column(
@@ -646,7 +642,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchData(http.Client client) async {
     try {
       final response =
-      await client.get('https://house.zan-tech.com/dati/tutto.py');
+      await client.get('https://house.zan-tech.com/dati/tutto.py?loc=milano&merge=True');
       final parsed = json.decode(response.body);
 
       Sensori res = Sensori.fromJson(parsed);
@@ -751,16 +747,6 @@ class _HomePageState extends State<HomePage> {
         icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
       ));
     });
-  }
-
-  // Per chiudere le info scrollando
-  _scrollListener() {
-    if (_scrollController.offset <= _scrollController.position.minScrollExtent &&
-        !_scrollController.position.outOfRange) {
-      setState(() {
-        apri_info = false;
-      });
-    }
   }
 
   // Questa map prende le cose in attesa.
