@@ -404,7 +404,9 @@ class _HomePageState extends State<HomePage> {
                                    mainAxisAlignment: MainAxisAlignment.start,
                                    crossAxisAlignment: CrossAxisAlignment.center,
                                    children: <Widget>[
-                                     Container(
+                                     GestureDetector(
+                                       onTap: () => {},
+                                       child: Container(
                                          color: Colors.white,
                                          height: 130,
                                          child: Stack(
@@ -434,10 +436,15 @@ class _HomePageState extends State<HomePage> {
                                             Align(
                                                  alignment: Alignment(0.05, 0.0),
                                                  child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
+                                             ),
+                                             Align(
+                                                 alignment: Alignment(1.0, -1.0),
+                                                 child: Icon(Icons.navigate_next, color: Colors.black),
                                              )
                                             ],
                                            ),
                                       ),
+                                     ),
                                      Container(
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
