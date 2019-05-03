@@ -720,14 +720,38 @@ class _HomePageState extends State<HomePage> {
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
     fetchData(http.Client());
-    _currentLocation();
     _updatelocationstream();
+  }
+
+  void _updatelocationstream() async {
+    GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
+    _currentLocation();
+    Geolocator geolocator = Geolocator();
+    geolocator.getPositionStream(LocationOptions(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 5
+    )).listen((position) {
+      try {
+        posizione_assoluta = LatLng(position.latitude, position.longitude);
+      } on Exception {
+        null;
+      }
+
+      setState(() {
+        _markers.remove(Marker(markerId: MarkerId("Posizione")));
+        _markers.add(Marker(
+          // This marker id can be anything that uniquely identifies each marker.
+          markerId: MarkerId("Posizione"),
+          position: posizione_assoluta,
+          icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+        ));
+      });
+    });
   }
 
   //Centra nella posizione e aggiunge il marker con l'ape
   void _currentLocation() async {
     final GoogleMapController controller = await _controller.future;
-    GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
     LocationData currentLocation;
     var location = new Location();
     try {
@@ -754,32 +778,6 @@ class _HomePageState extends State<HomePage> {
         position: posizione_assoluta,
         icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
       ));
-    });
-  }
-
-  void _updatelocationstream() async {
-    GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
-    Geolocator geolocator = Geolocator();
-    geolocator.getPositionStream(LocationOptions(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 5
-    )).listen((position) {
-      try {
-        posizione_assoluta = LatLng(position.latitude, position.longitude);
-      } on Exception {
-        null;
-      }
-      print(position.toString());
-
-      setState(() {
-        _markers.remove(Marker(markerId: MarkerId("Posizione")));
-        _markers.add(Marker(
-          // This marker id can be anything that uniquely identifies each marker.
-          markerId: MarkerId("Posizione"),
-          position: posizione_assoluta,
-          icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
-        ));
-      });
     });
   }
 
