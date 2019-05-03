@@ -706,7 +706,7 @@ class _HomePageState extends State<HomePage> {
   //Chiude robe toccando la mappa
   void _googlemaptap(LatLng posizione_toccata){
     //Ritardo studiato per tenere nascosti i pulsanti non nascondibili di gmaps
-    sleep(const Duration(milliseconds:100));
+    sleep(const Duration(milliseconds:135));
     setState(() {
       apri_info = false;
       apri_ricerca = false;

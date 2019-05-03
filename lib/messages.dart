@@ -13,17 +13,18 @@ class MessagesPage extends StatefulWidget {
 
 class _MessagesPageState extends State<MessagesPage> {
 
-
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       drawer: menulaterale(context),
       appBar: new AppBar(
-        title: new Text(Translations.of(context).text('settings_title')),
+        title: new Text(Translations.of(context).text('notifications_button_text')),
         backgroundColor: Colors.yellow[700],
       ),
-      body: new Text("Qui sarà inserita la pagina delle notifiche"),
+      body:WebView(
+      initialUrl: "https://www.airhive.it/notification/?relog=true&json=true&tkn=$login_token",
+      javascriptMode: JavascriptMode.unrestricted,
+    ),
 
 
     );

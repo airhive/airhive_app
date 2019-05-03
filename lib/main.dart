@@ -109,7 +109,7 @@ Drawer menulaterale(context){
             },
           ),
           new ListTile(
-            title: new Text("Messaggi"),
+            title: new Text(Translations.of(context).text('notifications_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/messages');
             },
