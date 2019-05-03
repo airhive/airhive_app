@@ -758,6 +758,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _updatelocationstream() async {
+    GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
     Geolocator geolocator = Geolocator();
     geolocator.getPositionStream(LocationOptions(
         accuracy: LocationAccuracy.high,
