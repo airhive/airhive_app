@@ -215,7 +215,9 @@ class _AccountPage extends State<AccountPage> {
           .success;
       if (success) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        mail_inviata = "si";
+        setState(() {
+          mail_inviata = "si";
+        });
         prefs.setString("mail_inviata", mail_inviata);
       }
       else {
@@ -238,9 +240,11 @@ class _AccountPage extends State<AccountPage> {
     final response =
     await client.get(
         'https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&json=true&verificationCode=$codice');
+    print('https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&json=true&verificationCode=$codice');
     final parsed = json.decode(response.body);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
     if(success){
+      print(success);
       setState(() {
         login_data.UserAccountVerified = "1";
         mail_inviata = "no";
