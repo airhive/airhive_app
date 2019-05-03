@@ -12,6 +12,7 @@ class MessagesPage extends StatefulWidget {
 }
 
 class _MessagesPageState extends State<MessagesPage> {
+  int stack_visibile = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +22,22 @@ class _MessagesPageState extends State<MessagesPage> {
         title: new Text(Translations.of(context).text('notifications_button_text')),
         backgroundColor: Colors.yellow[700],
       ),
-      body:WebView(
-      initialUrl: "https://www.airhive.it/notification/?relog=true&json=true&tkn=$login_token",
-      javascriptMode: JavascriptMode.unrestricted,
+      body: IndexedStack(
+          index: stack_visibile,
+          children: [
+            CircularProgressIndicator(),
+            WebView(
+              initialUrl: "https://www.airhive.it/notification/?relog=true&json=true&tkn=$login_token",
+              javascriptMode: JavascriptMode.unrestricted,
+              onPageFinished: (st) {
+                setState(() {
+                  stack_visibile = 1;
+                }
+                );
+            },
+          ),
+      ],
     ),
-
-
-    );
+   );
   }
 }
