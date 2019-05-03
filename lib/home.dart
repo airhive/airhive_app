@@ -721,6 +721,7 @@ class _HomePageState extends State<HomePage> {
     _controller.complete(controller);
     fetchData(http.Client());
     _currentLocation();
+    _updatelocationstream();
   }
 
   //Centra nella posizione e aggiunge il marker con l'ape
@@ -740,7 +741,7 @@ class _HomePageState extends State<HomePage> {
     controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         bearing: 0,
-        target: LatLng(currentLocation.latitude, currentLocation.longitude),
+        target: posizione_assoluta,
         zoom: 13.0,
       ),
     ));
@@ -753,6 +754,31 @@ class _HomePageState extends State<HomePage> {
         position: posizione_assoluta,
         icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
       ));
+    });
+  }
+
+  void _updatelocationstream() async {
+    Geolocator geolocator = Geolocator();
+    geolocator.getPositionStream(LocationOptions(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 5
+    )).listen((position) {
+      try {
+        posizione_assoluta = LatLng(position.latitude, position.longitude);
+      } on Exception {
+        null;
+      }
+      print(position.toString());
+
+      setState(() {
+        _markers.remove(Marker(markerId: MarkerId("Posizione")));
+        _markers.add(Marker(
+          // This marker id can be anything that uniquely identifies each marker.
+          markerId: MarkerId("Posizione"),
+          position: posizione_assoluta,
+          icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+        ));
+      });
     });
   }
 
