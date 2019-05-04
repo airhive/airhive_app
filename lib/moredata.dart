@@ -47,12 +47,211 @@ class _DataPageState extends State<DataPage> {
         ),
         body: TabBarView(
           children: [
+            storico(),
             Text("COMING SOON"),
-            Text("COMING SOON"),
-            Text("COMING SOON"),
+            previsioni(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget storico(){
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: <Widget> [
+        Container(
+          color: Colors.white,
+          height: 200,
+          child: new charts.LineChart(
+            _datiChartCAQI(),
+            defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
+            animate: true,
+            behaviors: [
+              new charts.ChartTitle(
+                  'CAQI',
+                  behaviorPosition: charts.BehaviorPosition.start,
+                  titleOutsideJustification:
+                  charts.OutsideJustification.middleDrawArea),
+              new charts.ChartTitle(
+                  'Tempo',
+                  behaviorPosition: charts.BehaviorPosition.bottom,
+                  titleOutsideJustification:
+                  charts.OutsideJustification.middleDrawArea),
+              new charts.SeriesLegend(
+                  position: charts.BehaviorPosition.end, desiredMaxRows: 3),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.white,
+          height: 200,
+          child: new charts.LineChart(
+            _datiStoricoChartPM(),
+            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+            animate: true,
+            behaviors: [
+              new charts.ChartTitle(
+                  'PM',
+                  behaviorPosition: charts.BehaviorPosition.start,
+                  titleOutsideJustification:
+                  charts.OutsideJustification.middleDrawArea),
+              new charts.ChartTitle(
+                  'Tempo',
+                  behaviorPosition: charts.BehaviorPosition.bottom,
+                  titleOutsideJustification:
+                  charts.OutsideJustification.middleDrawArea),
+              new charts.SeriesLegend(
+                  position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.white,
+          height: 200,
+          child: new charts.LineChart(
+            _datiStoricoChartNO2(),
+            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+            animate: true,
+            behaviors: [
+              new charts.ChartTitle(
+                  'NO2',
+                  behaviorPosition: charts.BehaviorPosition.start,
+                  titleOutsideJustification:
+                  charts.OutsideJustification.middleDrawArea),
+              new charts.ChartTitle(
+                  'Tempo',
+                  behaviorPosition: charts.BehaviorPosition.bottom,
+                  titleOutsideJustification:
+                  charts.OutsideJustification.middleDrawArea),
+              new charts.SeriesLegend(
+                  position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.white,
+          height: 200,
+          child: new charts.LineChart(
+            _datiStoricoChartO3(),
+            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+            animate: true,
+            behaviors: [
+              new charts.ChartTitle(
+                  'O3',
+                  behaviorPosition: charts.BehaviorPosition.start,
+                  titleOutsideJustification:
+                  charts.OutsideJustification.middleDrawArea),
+              new charts.ChartTitle(
+                  'Tempo',
+                  behaviorPosition: charts.BehaviorPosition.bottom,
+                  titleOutsideJustification:
+                  charts.OutsideJustification.middleDrawArea),
+              new charts.SeriesLegend(
+                  position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+  Widget previsioni(){
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: <Widget> [
+        Container(
+          color: Colors.white,
+          height: 200,
+          child: new charts.LineChart(
+            _datiFuturiChartCAQI(),
+            defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
+            animate: true,
+            behaviors: [
+              new charts.ChartTitle(
+              'CAQI',
+              behaviorPosition: charts.BehaviorPosition.start,
+              titleOutsideJustification:
+              charts.OutsideJustification.middleDrawArea),
+              new charts.ChartTitle(
+              'Tempo',
+              behaviorPosition: charts.BehaviorPosition.bottom,
+              titleOutsideJustification:
+              charts.OutsideJustification.middleDrawArea),
+              new charts.SeriesLegend(
+              position: charts.BehaviorPosition.end, desiredMaxRows: 3),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.white,
+          height: 200,
+          child: new charts.LineChart(
+            _datiFuturiChartPM(),
+            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+            animate: true,
+            behaviors: [
+              new charts.ChartTitle(
+              'PM',
+              behaviorPosition: charts.BehaviorPosition.start,
+              titleOutsideJustification:
+              charts.OutsideJustification.middleDrawArea),
+              new charts.ChartTitle(
+              'Tempo',
+              behaviorPosition: charts.BehaviorPosition.bottom,
+              titleOutsideJustification:
+              charts.OutsideJustification.middleDrawArea),
+              new charts.SeriesLegend(
+              position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.white,
+          height: 200,
+          child: new charts.LineChart(
+            _datiFuturiChartNO2(),
+            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+            animate: true,
+            behaviors: [
+              new charts.ChartTitle(
+              'NO2',
+              behaviorPosition: charts.BehaviorPosition.start,
+              titleOutsideJustification:
+              charts.OutsideJustification.middleDrawArea),
+              new charts.ChartTitle(
+              'Tempo',
+              behaviorPosition: charts.BehaviorPosition.bottom,
+              titleOutsideJustification:
+              charts.OutsideJustification.middleDrawArea),
+              new charts.SeriesLegend(
+              position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.white,
+          height: 200,
+          child: new charts.LineChart(
+            _datiFuturiChartO3(),
+            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+            animate: true,
+            behaviors: [
+              new charts.ChartTitle(
+              'O3',
+              behaviorPosition: charts.BehaviorPosition.start,
+              titleOutsideJustification:
+              charts.OutsideJustification.middleDrawArea),
+              new charts.ChartTitle(
+              'Tempo',
+              behaviorPosition: charts.BehaviorPosition.bottom,
+              titleOutsideJustification:
+              charts.OutsideJustification.middleDrawArea),
+              new charts.SeriesLegend(
+              position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
