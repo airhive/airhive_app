@@ -20,7 +20,6 @@ class DataPage extends StatefulWidget {
 }
 
 class _DataPageState extends State<DataPage> {
-  Completer<GoogleMapController> _controller = Completer();
   // Animare i grafici?
   bool _animate = false;
   double perc_screen_width = 0.9;
@@ -72,10 +71,10 @@ class _DataPageState extends State<DataPage> {
         children: <Widget> [
           GoogleMap(
             compassEnabled: false,
-            onMapCreated:(controller) => {_controller.complete(controller)},
+            onMapCreated:(controller) {},
             myLocationEnabled: false,
             initialCameraPosition: _initialCamera,
-            markers: _markers,
+            markers: _globalmarkers,
             mapType: ListOfMaps[currMapNum], //Also change map
           ),
           ListView(

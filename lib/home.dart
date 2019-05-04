@@ -3,7 +3,7 @@ part of "main.dart";
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 Properties valori_sensore;
 LatLng pos_curr_marker;
-Set<Marker> _markers = {};
+Set<Marker> _globalmarkers = {};
 
 class Pm{
   final double pm_10_4;
@@ -277,6 +277,7 @@ class _HomePageState extends State<HomePage> {
   Position risultato_ricerca;
 
   Set<Marker> _oldmarker = {};
+  Set<Marker> _markers = {};
   final Set<Marker> _markerscaqi = {};
   final Set<Marker> _markerspm = {};
   final Set<Marker> _markersno = {};
@@ -731,6 +732,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _markers = _oldmarker.union(_markerscaqi);
       });
+      _globalmarkers = _markers;
 
       //I marker del PM
       for (var i = 0; i < features.length; i++) {
