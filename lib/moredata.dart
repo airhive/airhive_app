@@ -20,6 +20,7 @@ class DataPage extends StatefulWidget {
 }
 
 class _DataPageState extends State<DataPage> {
+  Completer<GoogleMapController> _controller = Completer();
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +49,40 @@ class _DataPageState extends State<DataPage> {
         body: TabBarView(
           children: [
             storico(),
-            Text("COMING SOON"),
+            attuale(),
             previsioni(),
           ],
         ),
       ),
     );
+  }
+
+  Widget attuale(){
+    final CameraPosition _initialCamera = CameraPosition(
+      target: pos_curr_marker,
+      zoom: 13,
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget> [
+        Container(
+          height: 200,
+          child:GoogleMap(
+            compassEnabled: false,
+            onMapCreated:(controller) => {_controller.complete(controller)},
+            myLocationEnabled: false,
+            initialCameraPosition: _initialCamera,
+            markers: _markers,
+            mapType: ListOfMaps[currMapNum], //Also change map type
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+
   }
 
   Widget storico(){

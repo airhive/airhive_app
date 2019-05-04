@@ -2,6 +2,8 @@ part of "main.dart";
 
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
 Properties valori_sensore;
+LatLng pos_curr_marker;
+Set<Marker> _markers = {};
 
 class Pm{
   final double pm_10_4;
@@ -260,7 +262,7 @@ class _HomePageState extends State<HomePage> {
 
   //Google Maps
   static final CameraPosition _initialCamera = CameraPosition(
-    target: LatLng(45.4510525, 9.4126428),
+    target: posizione_assoluta,
     zoom: 0.1,
   );
   GoogleMap googleMap;
@@ -274,7 +276,6 @@ class _HomePageState extends State<HomePage> {
   String testo_ricerca = "";
   Position risultato_ricerca;
 
-  Set<Marker> _markers = {};
   Set<Marker> _oldmarker = {};
   final Set<Marker> _markerscaqi = {};
   final Set<Marker> _markerspm = {};
@@ -671,14 +672,14 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
                 _markers.remove(Marker(markerId: MarkerId("Selezione")));
                 _markers.add(
                     Marker(
                       markerId: MarkerId("Selezione"),
-                      position: LatLng(
-                          geometry.coordinates[1], geometry.coordinates[0]),
+                      position: pos_curr_marker,
                       icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
                     )
                 );
