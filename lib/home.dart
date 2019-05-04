@@ -279,6 +279,9 @@ class _HomePageState extends State<HomePage> {
   Set<Marker> _oldmarker = {};
   final Set<Marker> _markerscaqi = {};
   final Set<Marker> _markerspm = {};
+  final Set<Marker> _markersno = {};
+  final Set<Marker> _markerso3 = {};
+  int vedo = 0; //0 CAQI, 1 PM, 2 NO, 3 O3
 
   @override
   void initState() {
@@ -354,6 +357,41 @@ class _HomePageState extends State<HomePage> {
                             new Align(
                                 alignment: Alignment.bottomRight,
                                 child: FloatingActionButton(
+                                  heroTag: "cambiavalori",
+                                  onPressed: () => {
+                                    setState(() {
+                                      if (vedo == 0) {
+                                        _markers = _oldmarker.union(_markerspm);
+                                        vedo = 1;
+                                      }
+                                      else if (vedo == 1){
+                                        _markers = _oldmarker.union(_markersno);
+                                        vedo = 2;
+                                      }
+                                      else if (vedo == 2){
+                                        _markers = _oldmarker.union(_markerso3);
+                                        vedo = 3;
+                                      }
+                                      else if (vedo == 3){
+                                        _markers = _oldmarker.union(_markerscaqi);
+                                        vedo = 0;
+                                      }
+                                    })
+                                  },
+                                  tooltip: 'Cambia visualizzazione',
+                                  child: [
+                                    Text("CAQI", style: TextStyle(color: Colors.white)),
+                                    Text("PM10", style: TextStyle(color: Colors.white)),
+                                    Text("NO2", style: TextStyle(color: Colors.white)),
+                                    Text("O3", style: TextStyle(color: Colors.white))][vedo],
+                                  backgroundColor: Colors.yellow[700].withOpacity(0.95),
+                                  elevation: 1.0,
+                                )
+                            ),
+                            SizedBox(height: 10),
+                            new Align(
+                                alignment: Alignment.bottomRight,
+                                child: FloatingActionButton(
                                   heroTag: "localizzazione",
                                   onPressed: () => _currentLocation(),
                                   tooltip: 'Localizzami',
@@ -368,10 +406,9 @@ class _HomePageState extends State<HomePage> {
                               child: FloatingActionButton(
                                 heroTag: "cerca",
                                 onPressed: () => {
-                                setState(() {
-                                  apri_ricerca = true;
-                                }
-                                )
+                                  setState(() {
+                                    apri_ricerca = true;
+                                  })
                                 },
                                 tooltip: 'Cerca',
                                 child: Icon(Icons.search, color: Colors.white),
@@ -694,6 +731,113 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _markers = _oldmarker.union(_markerscaqi);
       });
+
+      //I marker del PM
+      for (var i = 0; i < features.length; i++) {
+        Geometry geometry = features[i].geometry;
+        Properties properties = features[i].properties;
+        double aqi_loc = properties.pm_10.pm_10;
+        //Trucchetto per decidere di che colore mettere il marker
+        String colore = aqi_loc < 100 ? "high" : "very_high";
+        colore = aqi_loc < 75 ? "medium" : colore;
+        colore = aqi_loc < 50 ? "low" : colore;
+        colore = aqi_loc < 25 ? "very_low" : colore;
+        setState(() {
+          _markerspm.add(Marker(
+            markerId: MarkerId(properties.id_sensore),
+            position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
+            alpha: 0.6,
+            onTap: () {
+              setState(() {
+                apri_info = true;
+                apri_ricerca = false;
+                pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
+                valori_sensore = properties;
+                _markers.remove(Marker(markerId: MarkerId("Ricerca")));
+                _markers.remove(Marker(markerId: MarkerId("Selezione")));
+                _markers.add(
+                    Marker(
+                      markerId: MarkerId("Selezione"),
+                      position: pos_curr_marker,
+                      icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
+                    )
+                );
+              });
+            },
+            icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
+          ));
+        });
+      }
+      for (var i = 0; i < features.length; i++) {
+        Geometry geometry = features[i].geometry;
+        Properties properties = features[i].properties;
+        double aqi_loc = properties.no2.no / 4;
+        //Trucchetto per decidere di che colore mettere il marker
+        String colore = aqi_loc < 100 ? "high" : "very_high";
+        colore = aqi_loc < 75 ? "medium" : colore;
+        colore = aqi_loc < 50 ? "low" : colore;
+        colore = aqi_loc < 25 ? "very_low" : colore;
+        setState(() {
+          _markersno.add(Marker(
+            markerId: MarkerId(properties.id_sensore),
+            position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
+            alpha: 0.6,
+            onTap: () {
+              setState(() {
+                apri_info = true;
+                apri_ricerca = false;
+                pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
+                valori_sensore = properties;
+                _markers.remove(Marker(markerId: MarkerId("Ricerca")));
+                _markers.remove(Marker(markerId: MarkerId("Selezione")));
+                _markers.add(
+                    Marker(
+                      markerId: MarkerId("Selezione"),
+                      position: pos_curr_marker,
+                      icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
+                    )
+                );
+              });
+            },
+            icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
+          ));
+        });
+      }
+      for (var i = 0; i < features.length; i++) {
+        Geometry geometry = features[i].geometry;
+        Properties properties = features[i].properties;
+        double aqi_loc = properties.o3.o3 / 3;
+        //Trucchetto per decidere di che colore mettere il marker
+        String colore = aqi_loc < 100 ? "high" : "very_high";
+        colore = aqi_loc < 75 ? "medium" : colore;
+        colore = aqi_loc < 50 ? "low" : colore;
+        colore = aqi_loc < 25 ? "very_low" : colore;
+        setState(() {
+          _markerso3.add(Marker(
+            markerId: MarkerId(properties.id_sensore),
+            position: LatLng(geometry.coordinates[1], geometry.coordinates[0]),
+            alpha: 0.6,
+            onTap: () {
+              setState(() {
+                apri_info = true;
+                apri_ricerca = false;
+                pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
+                valori_sensore = properties;
+                _markers.remove(Marker(markerId: MarkerId("Ricerca")));
+                _markers.remove(Marker(markerId: MarkerId("Selezione")));
+                _markers.add(
+                    Marker(
+                      markerId: MarkerId("Selezione"),
+                      position: pos_curr_marker,
+                      icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
+                    )
+                );
+              });
+            },
+            icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
+          ));
+        });
+      }
     }
     catch(SocketException){
       return;
