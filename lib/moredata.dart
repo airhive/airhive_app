@@ -24,190 +24,192 @@ class _DataPageState extends State<DataPage> {
   bool _animate = false;
   double perc_screen_width = 0.9;
 
+  final CameraPosition _initialCamera = CameraPosition(
+    target: pos_curr_marker,
+    zoom: 13,
+  );
+
   @override
   Widget build(BuildContext context) {
 
-    return new DefaultTabController(
-      length: 3,
-      initialIndex: 1,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            new IconButton(
-              icon: new Icon(Icons.close),
-              onPressed: () => Navigator.of(context).pop(null),
-            ),
-          ],
-          leading: new Container(),
-          bottom: TabBar(
-            tabs: [
-              Tab(text: "Storico"),
-              Tab(text: "Attuale",),
-              Tab(text: "Previsioni"),
+    return MaterialApp(
+      theme: app_theme(),
+      home: DefaultTabController(
+        length: 3,
+        initialIndex: 1,
+        child: Scaffold(
+          appBar: AppBar(
+            actions: <Widget>[
+              new IconButton(
+                icon: new Icon(Icons.close),
+                onPressed: () => Navigator.of(context).pop(null),
+              ),
             ],
+            leading: new Container(),
+            bottom: TabBar(
+              tabs: [
+                Tab(text: "Storico"),
+                Tab(text: "Attuale",),
+                Tab(text: "Previsioni"),
+              ],
+            ),
+            title: Text('Grafici'),
           ),
-          title: Text('Grafici'),
+          body: Stack(
+            children: <Widget> [
+              GoogleMap(
+                compassEnabled: false,
+                onMapCreated:(controller) {},
+                myLocationEnabled: false,
+                initialCameraPosition: _initialCamera,
+                markers: _globalmarkers,
+                mapType: ListOfMaps[currMapNum], //Also change map
+              ),
+              Material(
+                color: Colors.transparent,
+                child:TabBarView(
+                  children: [
+                    storico(),
+                    attuale(),
+                    previsioni(),
+                  ],
+                ),
+              ),
+             ],
+          ),
         ),
-        body: TabBarView(
-          children: [
-            storico(),
-            attuale(),
-            previsioni(),
-          ],
-        ),
-      ),
+      )
     );
   }
 
   Widget attuale(){
     double spazio_tra_blocchi = 10.0;
-
-    final CameraPosition _initialCamera = CameraPosition(
-      target: pos_curr_marker,
-      zoom: 13,
-    );
     return
-      Stack(
-        children: <Widget> [
-          GoogleMap(
-            compassEnabled: false,
-            onMapCreated:(controller) {},
-            myLocationEnabled: false,
-            initialCameraPosition: _initialCamera,
-            markers: _globalmarkers,
-            mapType: ListOfMaps[currMapNum], //Also change map
-          ),
-          ListView(
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                color: Colors.transparent,
-              ),
-              Center(
-                child: Container(
-                  color: Colors.white,
-                  height: 130,
-                  width: MediaQuery.of(context).size.width * perc_screen_width,
-                  child: Stack(
-                    children: <Widget> [
-                      Container(
-                        height:160,
-                        child: new charts.PieChart(
-                          _CaqiData(),
-                          animate:_animate,
-                          defaultRenderer: new charts.ArcRendererConfig(
-                              arcWidth: 10,
-                              startAngle: 4 / 5 * 3.1415,
-                              arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
-                          ),
-                          behaviors: [
-                            new charts.ChartTitle(
-                              "Air quality index",
-                              titleStyleSpec: charts.TextStyleSpec(
-                                  fontSize: 12, // size in Pts.
-                                  color: charts.MaterialPalette.black),
-                              behaviorPosition: charts.BehaviorPosition.start,
-                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                            ),
-                          ],
+        ListView(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              color: Colors.transparent,
+            ),
+            Center(
+              child: Container(
+                color: Colors.white,
+                height: 130,
+                width: MediaQuery.of(context).size.width * perc_screen_width,
+                child: Stack(
+                  children: <Widget> [
+                    Container(
+                      height:160,
+                      child: new charts.PieChart(
+                        _CaqiData(),
+                        animate:_animate,
+                        defaultRenderer: new charts.ArcRendererConfig(
+                            arcWidth: 10,
+                            startAngle: 4 / 5 * 3.1415,
+                            arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
                         ),
+                        behaviors: [
+                          new charts.ChartTitle(
+                            "Air quality index",
+                            titleStyleSpec: charts.TextStyleSpec(
+                                fontSize: 12, // size in Pts.
+                                color: charts.MaterialPalette.black),
+                            behaviorPosition: charts.BehaviorPosition.start,
+                            titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                          ),
+                        ],
                       ),
-                      Align(
-                          alignment: Alignment(0.05, 0.0),
-                          child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
-                      ),
-                    ],
-                  ),
+                    ),
+                    Align(
+                        alignment: Alignment(0.05, 0.0),
+                        child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                height: spazio_tra_blocchi,
-              ),
-              Center(
-                child:Container(
-                  color: Colors.white,
-                  height: 130,
-                  width: MediaQuery.of(context).size.width * perc_screen_width,
-                  child: Stack(
-                    children: <Widget> [
-                      Container(
-                        height:160,
-                        child: new charts.PieChart(
-                          _PmData(),
-                          animate: _animate,
-                          defaultRenderer: new charts.ArcRendererConfig(
-                              arcWidth: 10,
-                              startAngle: 4 / 5 * 3.1415,
-                              arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
-                          ),
-                          behaviors: [
-                            new charts.ChartTitle(
-                              "PM 10",
-                              titleStyleSpec: charts.TextStyleSpec(
-                                  fontSize: 12, // size in Pts.
-                                  color: charts.MaterialPalette.black),
-                              behaviorPosition: charts.BehaviorPosition.start,
-                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                            ),
-                          ],
+            ),
+            Container(
+              height: spazio_tra_blocchi,
+            ),
+            Center(
+              child:Container(
+                color: Colors.white,
+                height: 130,
+                width: MediaQuery.of(context).size.width * perc_screen_width,
+                child: Stack(
+                  children: <Widget> [
+                    Container(
+                      height:160,
+                      child: new charts.PieChart(
+                        _PmData(),
+                        animate: _animate,
+                        defaultRenderer: new charts.ArcRendererConfig(
+                            arcWidth: 10,
+                            startAngle: 4 / 5 * 3.1415,
+                            arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
                         ),
+                        behaviors: [
+                          new charts.ChartTitle(
+                            "PM 10",
+                            titleStyleSpec: charts.TextStyleSpec(
+                                fontSize: 12, // size in Pts.
+                                color: charts.MaterialPalette.black),
+                            behaviorPosition: charts.BehaviorPosition.start,
+                            titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                          ),
+                        ],
                       ),
-                      Align(
-                          alignment: Alignment(0.05, 0.0),
-                          child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
-                      ),
-                    ],
-                  ),
+                    ),
+                    Align(
+                        alignment: Alignment(0.05, 0.0),
+                        child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                height: spazio_tra_blocchi,
-              ),
-              Center(
-                child:Container(
-                  color: Colors.white,
-                  height: 130,
-                  width: MediaQuery.of(context).size.width * perc_screen_width,
-                  child: Stack(
-                    children: <Widget> [
-                      Container(
-                        height:160,
-                        child: new charts.PieChart(
-                          _NoData(),
-                          animate: _animate,
-                          defaultRenderer: new charts.ArcRendererConfig(
-                              arcWidth: 10,
-                              startAngle: 4 / 5 * 3.1415,
-                              arcLength: (valori_sensore.no2.no.toInt() / 400) * (7 * 3.1415) / 5
-                          ),
-                          behaviors: [
-                            new charts.ChartTitle(
-                              "NO2",
-                              titleStyleSpec: charts.TextStyleSpec(
-                                  fontSize: 12, // size in Pts.
-                                  color: charts.MaterialPalette.black),
-                              behaviorPosition: charts.BehaviorPosition.start,
-                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                            ),
-                          ],
+            ),
+            Container(
+              height: spazio_tra_blocchi,
+            ),
+            Center(
+              child:Container(
+                color: Colors.white,
+                height: 130,
+                width: MediaQuery.of(context).size.width * perc_screen_width,
+                child: Stack(
+                  children: <Widget> [
+                    Container(
+                      height:160,
+                      child: new charts.PieChart(
+                        _NoData(),
+                        animate: _animate,
+                        defaultRenderer: new charts.ArcRendererConfig(
+                            arcWidth: 10,
+                            startAngle: 4 / 5 * 3.1415,
+                            arcLength: (valori_sensore.no2.no.toInt() / 400) * (7 * 3.1415) / 5
                         ),
+                        behaviors: [
+                          new charts.ChartTitle(
+                            "NO2",
+                            titleStyleSpec: charts.TextStyleSpec(
+                                fontSize: 12, // size in Pts.
+                                color: charts.MaterialPalette.black),
+                            behaviorPosition: charts.BehaviorPosition.start,
+                            titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                          ),
+                        ],
                       ),
-                      Align(
-                          alignment: Alignment(0.05, 0.0),
-                          child: Text(valori_sensore.no2.no.toStringAsFixed(2).toString())
-                      ),
-                    ],
-                  ),
+                    ),
+                    Align(
+                        alignment: Alignment(0.05, 0.0),
+                        child: Text(valori_sensore.no2.no.toStringAsFixed(2).toString())
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: MediaQuery.of(context).size.height * 0.5,
-              )
-            ],
-          ),
-        ],
-      );
+            ),
+          ],
+        );
   }
 
   List<charts.Series<GaugeSegment, String>> _CaqiData() {
@@ -274,200 +276,239 @@ class _DataPageState extends State<DataPage> {
   }
 
   Widget storico(){
+    double _width = MediaQuery.of(context).size.width * 0.9;
+    double spazio_tra_blocchi = 10.0;
     return ListView(
       scrollDirection: Axis.vertical,
       children: <Widget> [
-        Container(
-          color: Colors.white,
-          height: 200,
-          child: new charts.LineChart(
-            _datiChartCAQI(),
-            defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
-            animate: _animate,
-            behaviors: [
-              new charts.ChartTitle(
-                  'CAQI',
-                  behaviorPosition: charts.BehaviorPosition.start,
-                  titleOutsideJustification:
-                  charts.OutsideJustification.middleDrawArea),
-              new charts.ChartTitle(
-                  'Tempo',
-                  behaviorPosition: charts.BehaviorPosition.bottom,
-                  titleOutsideJustification:
-                  charts.OutsideJustification.middleDrawArea),
-              new charts.SeriesLegend(
-                  position: charts.BehaviorPosition.end, desiredMaxRows: 3),
-            ],
+        Container(height: spazio_tra_blocchi),
+        Center(
+          child: Container(
+            color: Colors.white,
+            height: 200,
+            width: _width,
+            child: new charts.LineChart(
+              _datiChartCAQI(),
+              defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
+              animate: _animate,
+              behaviors: [
+                new charts.ChartTitle(
+                    'CAQI',
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.ChartTitle(
+                    'Tempo',
+                    behaviorPosition: charts.BehaviorPosition.bottom,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.end, desiredMaxRows: 3),
+              ],
+            ),
           ),
         ),
-        Container(
-          color: Colors.white,
-          height: 200,
-          child: new charts.LineChart(
-            _datiStoricoChartPM(),
-            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: _animate,
-            behaviors: [
-              new charts.ChartTitle(
-                  'PM',
-                  behaviorPosition: charts.BehaviorPosition.start,
-                  titleOutsideJustification:
-                  charts.OutsideJustification.middleDrawArea),
-              new charts.ChartTitle(
-                  'Tempo',
-                  behaviorPosition: charts.BehaviorPosition.bottom,
-                  titleOutsideJustification:
-                  charts.OutsideJustification.middleDrawArea),
-              new charts.SeriesLegend(
-                  position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-            ],
+        Container(height: spazio_tra_blocchi),
+        Center(child:
+          Container(
+            color: Colors.white,
+            height: 200,
+            width: _width,
+            child: new charts.LineChart(
+              _datiStoricoChartPM(),
+              defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+              animate: _animate,
+              behaviors: [
+                new charts.ChartTitle(
+                    'PM',
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.ChartTitle(
+                    'Tempo',
+                    behaviorPosition: charts.BehaviorPosition.bottom,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+              ],
+            ),
           ),
         ),
-        Container(
-          color: Colors.white,
-          height: 200,
-          child: new charts.LineChart(
-            _datiStoricoChartNO2(),
-            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: _animate,
-            behaviors: [
-              new charts.ChartTitle(
-                  'NO2',
-                  behaviorPosition: charts.BehaviorPosition.start,
-                  titleOutsideJustification:
-                  charts.OutsideJustification.middleDrawArea),
-              new charts.ChartTitle(
-                  'Tempo',
-                  behaviorPosition: charts.BehaviorPosition.bottom,
-                  titleOutsideJustification:
-                  charts.OutsideJustification.middleDrawArea),
-              new charts.SeriesLegend(
-                  position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-            ],
+        Container(height: spazio_tra_blocchi),
+        Center(
+          child:Container(
+            color: Colors.white,
+            height: 200,
+            width: _width,
+            child: new charts.LineChart(
+              _datiStoricoChartNO2(),
+              defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+              animate: _animate,
+              behaviors: [
+                new charts.ChartTitle(
+                    'NO2',
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.ChartTitle(
+                    'Tempo',
+                    behaviorPosition: charts.BehaviorPosition.bottom,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+              ],
+            ),
           ),
         ),
-        Container(
-          color: Colors.white,
-          height: 200,
-          child: new charts.LineChart(
-            _datiStoricoChartO3(),
-            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: _animate,
-            behaviors: [
-              new charts.ChartTitle(
-                  'O3',
-                  behaviorPosition: charts.BehaviorPosition.start,
-                  titleOutsideJustification:
-                  charts.OutsideJustification.middleDrawArea),
-              new charts.ChartTitle(
-                  'Tempo',
-                  behaviorPosition: charts.BehaviorPosition.bottom,
-                  titleOutsideJustification:
-                  charts.OutsideJustification.middleDrawArea),
-              new charts.SeriesLegend(
-                  position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-            ],
+        Container(height: spazio_tra_blocchi),
+        Center(
+          child:Container(
+            color: Colors.white,
+            height: 200,
+            width: _width,
+            child: new charts.LineChart(
+              _datiStoricoChartO3(),
+              defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+              animate: _animate,
+              behaviors: [
+                new charts.ChartTitle(
+                    'O3',
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.ChartTitle(
+                    'Tempo',
+                    behaviorPosition: charts.BehaviorPosition.bottom,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+              ],
+            ),
           ),
         ),
+        Container(height: spazio_tra_blocchi),
       ],
     );
   }
+
   Widget previsioni(){
+    double _width = MediaQuery.of(context).size.width * 0.9;
+    double spazio_tra_blocchi = 10.0;
     return ListView(
       scrollDirection: Axis.vertical,
       children: <Widget> [
-        Container(
-          color: Colors.white,
-          height: 200,
-          child: new charts.LineChart(
-            _datiFuturiChartCAQI(),
-            defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
-            animate: _animate,
-            behaviors: [
-              new charts.ChartTitle(
-              'CAQI',
-              behaviorPosition: charts.BehaviorPosition.start,
-              titleOutsideJustification:
-              charts.OutsideJustification.middleDrawArea),
-              new charts.ChartTitle(
-              'Tempo',
-              behaviorPosition: charts.BehaviorPosition.bottom,
-              titleOutsideJustification:
-              charts.OutsideJustification.middleDrawArea),
-              new charts.SeriesLegend(
-              position: charts.BehaviorPosition.end, desiredMaxRows: 3),
-            ],
+        Container(height: spazio_tra_blocchi),
+        Center(
+          child: Container(
+            color: Colors.white,
+            height: 200,
+            width: _width,
+            child: new charts.LineChart(
+              _datiFuturiChartCAQI(),
+              defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
+              animate: _animate,
+              behaviors: [
+                new charts.ChartTitle(
+                    'CAQI',
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.ChartTitle(
+                    'Tempo',
+                    behaviorPosition: charts.BehaviorPosition.bottom,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.end, desiredMaxRows: 3),
+              ],
+            ),
           ),
         ),
-        Container(
-          color: Colors.white,
-          height: 200,
-          child: new charts.LineChart(
-            _datiFuturiChartPM(),
-            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: _animate,
-            behaviors: [
-              new charts.ChartTitle(
-              'PM',
-              behaviorPosition: charts.BehaviorPosition.start,
-              titleOutsideJustification:
-              charts.OutsideJustification.middleDrawArea),
-              new charts.ChartTitle(
-              'Tempo',
-              behaviorPosition: charts.BehaviorPosition.bottom,
-              titleOutsideJustification:
-              charts.OutsideJustification.middleDrawArea),
-              new charts.SeriesLegend(
-              position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-            ],
+        Container(height: spazio_tra_blocchi),
+        Center(child:
+          Container(
+            color: Colors.white,
+            height: 200,
+            width: _width,
+            child: new charts.LineChart(
+              _datiFuturiChartPM(),
+              defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+              animate: _animate,
+              behaviors: [
+                new charts.ChartTitle(
+                    'PM',
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.ChartTitle(
+                    'Tempo',
+                    behaviorPosition: charts.BehaviorPosition.bottom,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+              ],
+            ),
           ),
         ),
-        Container(
-          color: Colors.white,
-          height: 200,
-          child: new charts.LineChart(
-            _datiFuturiChartNO2(),
-            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: _animate,
-            behaviors: [
-              new charts.ChartTitle(
-              'NO2',
-              behaviorPosition: charts.BehaviorPosition.start,
-              titleOutsideJustification:
-              charts.OutsideJustification.middleDrawArea),
-              new charts.ChartTitle(
-              'Tempo',
-              behaviorPosition: charts.BehaviorPosition.bottom,
-              titleOutsideJustification:
-              charts.OutsideJustification.middleDrawArea),
-              new charts.SeriesLegend(
-              position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-            ],
+        Container(height: spazio_tra_blocchi),
+        Center(
+          child:Container(
+            color: Colors.white,
+            height: 200,
+            width: _width,
+            child: new charts.LineChart(
+              _datiFuturiChartNO2(),
+              defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+              animate: _animate,
+              behaviors: [
+                new charts.ChartTitle(
+                    'NO2',
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.ChartTitle(
+                    'Tempo',
+                    behaviorPosition: charts.BehaviorPosition.bottom,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+              ],
+            ),
           ),
         ),
-        Container(
-          color: Colors.white,
-          height: 200,
-          child: new charts.LineChart(
-            _datiFuturiChartO3(),
-            defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: _animate,
-            behaviors: [
-              new charts.ChartTitle(
-              'O3',
-              behaviorPosition: charts.BehaviorPosition.start,
-              titleOutsideJustification:
-              charts.OutsideJustification.middleDrawArea),
-              new charts.ChartTitle(
-              'Tempo',
-              behaviorPosition: charts.BehaviorPosition.bottom,
-              titleOutsideJustification:
-              charts.OutsideJustification.middleDrawArea),
-              new charts.SeriesLegend(
-              position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-            ],
+        Container(height: spazio_tra_blocchi),
+        Center(
+          child:Container(
+            color: Colors.white,
+            height: 200,
+            width: _width,
+            child: new charts.LineChart(
+              _datiFuturiChartO3(),
+              defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+              animate: _animate,
+              behaviors: [
+                new charts.ChartTitle(
+                    'O3',
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.ChartTitle(
+                    'Tempo',
+                    behaviorPosition: charts.BehaviorPosition.bottom,
+                    titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+              ],
+            ),
           ),
         ),
+        Container(height: spazio_tra_blocchi),
       ],
     );
   }
