@@ -405,7 +405,7 @@ class _HomePageState extends State<HomePage> {
                                    crossAxisAlignment: CrossAxisAlignment.center,
                                    children: <Widget>[
                                      GestureDetector(
-                                       onTap: () => {},
+                                       onTap: () => {Navigator.pushNamed(context, '/moredata')},
                                        child: Container(
                                          color: Colors.white,
                                          height: 130,

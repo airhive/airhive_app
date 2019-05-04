@@ -27,6 +27,7 @@ part "login.dart";
 part "legale.dart";
 part "settings.dart";
 part "messages.dart";
+part "moredata.dart";
 
 
 class MyApp extends StatelessWidget {
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
       '/account': (BuildContext context) => new AccountPage(),
       '/legal': (BuildContext context) => new LegalePage(),
       '/messages': (BuildContext context) => new MessagesPage(),
+      '/moredata': (BuildContext context ) => new DataPage(),
       }
     );
   }
