@@ -62,9 +62,8 @@ class _DataPageState extends State<DataPage> {
       target: pos_curr_marker,
       zoom: 13,
     );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.start,
+    return ListView(
+      scrollDirection: Axis.vertical,
       children: <Widget> [
         Stack(
           children: <Widget> [
@@ -85,12 +84,118 @@ class _DataPageState extends State<DataPage> {
             )
           ],
         ),
+        Container(
+          color: Colors.white,
+          height: 130,
+          child: Stack(
+            children: <Widget> [
+              Container(
+                height:160,
+                child: new charts.PieChart(
+                  _CaqiData(),
+                  animate:true,
+                  defaultRenderer: new charts.ArcRendererConfig(
+                      arcWidth: 10,
+                      startAngle: 4 / 5 * 3.1415,
+                      arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
+                  ),
+                  behaviors: [
+                    new charts.ChartTitle(
+                      "Air quality index",
+                      titleStyleSpec: charts.TextStyleSpec(
+                          fontSize: 12, // size in Pts.
+                          color: charts.MaterialPalette.black),
+                      behaviorPosition: charts.BehaviorPosition.start,
+                      titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                  alignment: Alignment(0.05, 0.0),
+                  child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
+              ),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.white,
+          height: 130,
+          child: Stack(
+            children: <Widget> [
+              Container(
+                height:160,
+                child: new charts.PieChart(
+                  _PmData(),
+                  animate:true,
+                  defaultRenderer: new charts.ArcRendererConfig(
+                      arcWidth: 10,
+                      startAngle: 4 / 5 * 3.1415,
+                      arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
+                  ),
+                  behaviors: [
+                    new charts.ChartTitle(
+                      "PM 10",
+                      titleStyleSpec: charts.TextStyleSpec(
+                          fontSize: 12, // size in Pts.
+                          color: charts.MaterialPalette.black),
+                      behaviorPosition: charts.BehaviorPosition.start,
+                      titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                  alignment: Alignment(0.05, 0.0),
+                  child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
 
-  void _onMapCreated(GoogleMapController controller) {
+  List<charts.Series<GaugeSegment, String>> _CaqiData() {
+    int val_pm = valori_sensore.caqi.toInt();
+    List<GaugeSegment> data = [
+      new GaugeSegment('High', val_pm),
+    ];
 
+    return [
+      new charts.Series<GaugeSegment, String>(
+        id: 'CAQI',
+        colorFn: (_, __) => (val_pm < 25) ?
+        charts.MaterialPalette.green.shadeDefault:
+        (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
+        (val_pm < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        charts.MaterialPalette.red.shadeDefault,
+        domainFn: (GaugeSegment segment, _) => segment.segment,
+        measureFn: (GaugeSegment segment, _) => segment.size,
+        data: data,
+      )
+    ];
+  }
+
+  List<charts.Series<GaugeSegment, String>> _PmData() {
+    int val_pm = valori_sensore.pm_10.pm_10.toInt();
+    List<GaugeSegment> data = [
+      new GaugeSegment('High', val_pm),
+    ];
+
+    return [
+      new charts.Series<GaugeSegment, String>(
+        id: 'CAQI',
+        colorFn: (_, __) => (val_pm < 25) ?
+        charts.MaterialPalette.green.shadeDefault:
+        (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
+        (val_pm < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        charts.MaterialPalette.red.shadeDefault,
+        domainFn: (GaugeSegment segment, _) => segment.segment,
+        measureFn: (GaugeSegment segment, _) => segment.size,
+        data: data,
+      )
+    ];
   }
 
   Widget storico(){

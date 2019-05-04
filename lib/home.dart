@@ -413,7 +413,7 @@ class _HomePageState extends State<HomePage> {
                                                  defaultRenderer: new charts.ArcRendererConfig(
                                                      arcWidth: 10,
                                                      startAngle: 4 / 5 * 3.1415,
-                                                     arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
+                                                     arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
                                                  ),
                                                  behaviors: [
                                                    new charts.ChartTitle(
@@ -429,7 +429,7 @@ class _HomePageState extends State<HomePage> {
                                              ),
                                             Align(
                                                  alignment: Alignment(0.05, 0.0),
-                                                 child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
+                                                 child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
                                              ),
                                              Align(
                                                  alignment: Alignment(1.0, -1.0),
@@ -843,7 +843,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // Ritorna una lista col widget dei grafici storici per CAQI
+  // Ritorna una lista col widget dei valori per CAQI
   List<charts.Series<GaugeSegment, String>> _PmData() {
     int val_pm = valori_sensore.pm_10.pm_10.toInt();
     List<GaugeSegment> data = [
