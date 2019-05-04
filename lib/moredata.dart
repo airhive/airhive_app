@@ -21,6 +21,8 @@ class DataPage extends StatefulWidget {
 
 class _DataPageState extends State<DataPage> {
   Completer<GoogleMapController> _controller = Completer();
+  // Animare i grafici?
+  bool _animate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,7 @@ class _DataPageState extends State<DataPage> {
                 height:160,
                 child: new charts.PieChart(
                   _CaqiData(),
-                  animate:true,
+                  animate:_animate,
                   defaultRenderer: new charts.ArcRendererConfig(
                       arcWidth: 10,
                       startAngle: 4 / 5 * 3.1415,
@@ -127,7 +129,7 @@ class _DataPageState extends State<DataPage> {
                 height:160,
                 child: new charts.PieChart(
                   _PmData(),
-                  animate:true,
+                  animate: _animate,
                   defaultRenderer: new charts.ArcRendererConfig(
                       arcWidth: 10,
                       startAngle: 4 / 5 * 3.1415,
@@ -208,7 +210,7 @@ class _DataPageState extends State<DataPage> {
           child: new charts.LineChart(
             _datiChartCAQI(),
             defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
-            animate: true,
+            animate: _animate,
             behaviors: [
               new charts.ChartTitle(
                   'CAQI',
@@ -231,7 +233,7 @@ class _DataPageState extends State<DataPage> {
           child: new charts.LineChart(
             _datiStoricoChartPM(),
             defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: true,
+            animate: _animate,
             behaviors: [
               new charts.ChartTitle(
                   'PM',
@@ -254,7 +256,7 @@ class _DataPageState extends State<DataPage> {
           child: new charts.LineChart(
             _datiStoricoChartNO2(),
             defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: true,
+            animate: _animate,
             behaviors: [
               new charts.ChartTitle(
                   'NO2',
@@ -277,7 +279,7 @@ class _DataPageState extends State<DataPage> {
           child: new charts.LineChart(
             _datiStoricoChartO3(),
             defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: true,
+            animate: _animate,
             behaviors: [
               new charts.ChartTitle(
                   'O3',
@@ -307,7 +309,7 @@ class _DataPageState extends State<DataPage> {
           child: new charts.LineChart(
             _datiFuturiChartCAQI(),
             defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
-            animate: true,
+            animate: _animate,
             behaviors: [
               new charts.ChartTitle(
               'CAQI',
@@ -330,7 +332,7 @@ class _DataPageState extends State<DataPage> {
           child: new charts.LineChart(
             _datiFuturiChartPM(),
             defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: true,
+            animate: _animate,
             behaviors: [
               new charts.ChartTitle(
               'PM',
@@ -353,7 +355,7 @@ class _DataPageState extends State<DataPage> {
           child: new charts.LineChart(
             _datiFuturiChartNO2(),
             defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: true,
+            animate: _animate,
             behaviors: [
               new charts.ChartTitle(
               'NO2',
@@ -376,7 +378,7 @@ class _DataPageState extends State<DataPage> {
           child: new charts.LineChart(
             _datiFuturiChartO3(),
             defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-            animate: true,
+            animate: _animate,
             behaviors: [
               new charts.ChartTitle(
               'O3',
