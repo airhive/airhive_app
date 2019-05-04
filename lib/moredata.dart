@@ -85,7 +85,7 @@ class _DataPageState extends State<DataPage> {
           ],
         ),
         Container(
-          color: Colors.white,
+          color: Colors.transparent,
           height: 130,
           child: Stack(
             children: <Widget> [
@@ -119,7 +119,7 @@ class _DataPageState extends State<DataPage> {
           ),
         ),
         Container(
-          color: Colors.white,
+          color: Colors.transparent,
           height: 130,
           child: Stack(
             children: <Widget> [
