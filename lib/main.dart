@@ -35,16 +35,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       theme: app_theme(),
-      localizationsDelegates: [
-        const TranslationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
+      /*supportedLocales: [
         const Locale('en', ''),
         const Locale('it', ''),
         const Locale('de', ''),
-      ],
+      ],*/
       home: new HomePage(),
       routes: <String, WidgetBuilder> {
       '/homemap': (BuildContext context) => new HomePage(),
@@ -150,5 +145,6 @@ void main() async {
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
   currMapNum = await getMapType();
   await _login(http.Client());
+  await allTranslations.init();
   runApp(MyApp());
 }
