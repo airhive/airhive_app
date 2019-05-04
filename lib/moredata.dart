@@ -23,6 +23,7 @@ class _DataPageState extends State<DataPage> {
   Completer<GoogleMapController> _controller = Completer();
   // Animare i grafici?
   bool _animate = false;
+  double perc_screen_width = 0.9;
 
   @override
   Widget build(BuildContext context) {
@@ -60,102 +61,154 @@ class _DataPageState extends State<DataPage> {
   }
 
   Widget attuale(){
+    double spazio_tra_blocchi = 10.0;
+
     final CameraPosition _initialCamera = CameraPosition(
       target: pos_curr_marker,
       zoom: 13,
     );
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget> [
-        Stack(
-          children: <Widget> [
-            Container(
-              height: 200,
-              child:GoogleMap(
-                compassEnabled: false,
-                onMapCreated:(controller) => {_controller.complete(controller)},
-                myLocationEnabled: false,
-                initialCameraPosition: _initialCamera,
-                markers: _markers,
-                mapType: ListOfMaps[currMapNum], //Also change map type
-              ),
-            ),
-            Container(
-              height: 200,
-              color: Colors.transparent,
-            )
-          ],
-        ),
-        Container(
-          color: Colors.transparent,
-          height: 130,
-          child: Stack(
-            children: <Widget> [
+    return
+      Stack(
+        children: <Widget> [
+          GoogleMap(
+            compassEnabled: false,
+            onMapCreated:(controller) => {_controller.complete(controller)},
+            myLocationEnabled: false,
+            initialCameraPosition: _initialCamera,
+            markers: _markers,
+            mapType: ListOfMaps[currMapNum], //Also change map
+          ),
+          ListView(
+            children: <Widget>[
               Container(
-                height:160,
-                child: new charts.PieChart(
-                  _CaqiData(),
-                  animate:_animate,
-                  defaultRenderer: new charts.ArcRendererConfig(
-                      arcWidth: 10,
-                      startAngle: 4 / 5 * 3.1415,
-                      arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
+                height: MediaQuery.of(context).size.height * 0.3,
+                color: Colors.transparent,
+              ),
+              Center(
+                child: Container(
+                  color: Colors.white,
+                  height: 130,
+                  width: MediaQuery.of(context).size.width * perc_screen_width,
+                  child: Stack(
+                    children: <Widget> [
+                      Container(
+                        height:160,
+                        child: new charts.PieChart(
+                          _CaqiData(),
+                          animate:_animate,
+                          defaultRenderer: new charts.ArcRendererConfig(
+                              arcWidth: 10,
+                              startAngle: 4 / 5 * 3.1415,
+                              arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
+                          ),
+                          behaviors: [
+                            new charts.ChartTitle(
+                              "Air quality index",
+                              titleStyleSpec: charts.TextStyleSpec(
+                                  fontSize: 12, // size in Pts.
+                                  color: charts.MaterialPalette.black),
+                              behaviorPosition: charts.BehaviorPosition.start,
+                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment(0.05, 0.0),
+                          child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
+                      ),
+                    ],
                   ),
-                  behaviors: [
-                    new charts.ChartTitle(
-                      "Air quality index",
-                      titleStyleSpec: charts.TextStyleSpec(
-                          fontSize: 12, // size in Pts.
-                          color: charts.MaterialPalette.black),
-                      behaviorPosition: charts.BehaviorPosition.start,
-                      titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                    ),
-                  ],
                 ),
               ),
-              Align(
-                  alignment: Alignment(0.05, 0.0),
-                  child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
-              ),
-            ],
-          ),
-        ),
-        Container(
-          color: Colors.transparent,
-          height: 130,
-          child: Stack(
-            children: <Widget> [
               Container(
-                height:160,
-                child: new charts.PieChart(
-                  _PmData(),
-                  animate: _animate,
-                  defaultRenderer: new charts.ArcRendererConfig(
-                      arcWidth: 10,
-                      startAngle: 4 / 5 * 3.1415,
-                      arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
+                height: spazio_tra_blocchi,
+              ),
+              Center(
+                child:Container(
+                  color: Colors.white,
+                  height: 130,
+                  width: MediaQuery.of(context).size.width * perc_screen_width,
+                  child: Stack(
+                    children: <Widget> [
+                      Container(
+                        height:160,
+                        child: new charts.PieChart(
+                          _PmData(),
+                          animate: _animate,
+                          defaultRenderer: new charts.ArcRendererConfig(
+                              arcWidth: 10,
+                              startAngle: 4 / 5 * 3.1415,
+                              arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
+                          ),
+                          behaviors: [
+                            new charts.ChartTitle(
+                              "PM 10",
+                              titleStyleSpec: charts.TextStyleSpec(
+                                  fontSize: 12, // size in Pts.
+                                  color: charts.MaterialPalette.black),
+                              behaviorPosition: charts.BehaviorPosition.start,
+                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment(0.05, 0.0),
+                          child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
+                      ),
+                    ],
                   ),
-                  behaviors: [
-                    new charts.ChartTitle(
-                      "PM 10",
-                      titleStyleSpec: charts.TextStyleSpec(
-                          fontSize: 12, // size in Pts.
-                          color: charts.MaterialPalette.black),
-                      behaviorPosition: charts.BehaviorPosition.start,
-                      titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                    ),
-                  ],
                 ),
               ),
-              Align(
-                  alignment: Alignment(0.05, 0.0),
-                  child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
+              Container(
+                height: spazio_tra_blocchi,
               ),
+              Center(
+                child:Container(
+                  color: Colors.white,
+                  height: 130,
+                  width: MediaQuery.of(context).size.width * perc_screen_width,
+                  child: Stack(
+                    children: <Widget> [
+                      Container(
+                        height:160,
+                        child: new charts.PieChart(
+                          _NoData(),
+                          animate: _animate,
+                          defaultRenderer: new charts.ArcRendererConfig(
+                              arcWidth: 10,
+                              startAngle: 4 / 5 * 3.1415,
+                              arcLength: (valori_sensore.no2.no.toInt() / 400) * (7 * 3.1415) / 5
+                          ),
+                          behaviors: [
+                            new charts.ChartTitle(
+                              "NO2",
+                              titleStyleSpec: charts.TextStyleSpec(
+                                  fontSize: 12, // size in Pts.
+                                  color: charts.MaterialPalette.black),
+                              behaviorPosition: charts.BehaviorPosition.start,
+                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment(0.05, 0.0),
+                          child: Text(valori_sensore.no2.no.toStringAsFixed(2).toString())
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                color: Colors.transparent,
+                height: MediaQuery.of(context).size.height * 0.5,
+              )
             ],
           ),
-        ),
-      ],
-    );
+        ],
+      );
   }
 
   List<charts.Series<GaugeSegment, String>> _CaqiData() {
@@ -192,6 +245,27 @@ class _DataPageState extends State<DataPage> {
         charts.MaterialPalette.green.shadeDefault:
         (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
         (val_pm < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        charts.MaterialPalette.red.shadeDefault,
+        domainFn: (GaugeSegment segment, _) => segment.segment,
+        measureFn: (GaugeSegment segment, _) => segment.size,
+        data: data,
+      )
+    ];
+  }
+
+  List<charts.Series<GaugeSegment, String>> _NoData() {
+    int val_pm = valori_sensore.no2.no.toInt();
+    List<GaugeSegment> data = [
+      new GaugeSegment('High', val_pm),
+    ];
+
+    return [
+      new charts.Series<GaugeSegment, String>(
+        id: 'NO',
+        colorFn: (_, __) => (val_pm < 100) ?
+        charts.MaterialPalette.green.shadeDefault:
+        (val_pm < 200) ? charts.MaterialPalette.yellow.shadeDefault:
+        (val_pm < 300) ? charts.MaterialPalette.deepOrange.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
