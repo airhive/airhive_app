@@ -576,7 +576,9 @@ class _HomePageState extends State<HomePage> {
                           suffixIcon: IconButton(
                               icon: Icon(Icons.clear),
                               onPressed: () {
-                                apri_ricerca = false;
+                                setState(() {
+                                  apri_ricerca = false;
+                                });
                                 _textcontroller.clear();
                               }),
                           hintText: Translations.of(context).text('blank_research_text'),
