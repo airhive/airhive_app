@@ -99,18 +99,21 @@ Drawer menulaterale(context){
             ),
           ),
           new ListTile(
+            leading: Icon(Icons.map),
             title: new Text(Translations.of(context).text('map_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/homemap');
             },
           ),
           new ListTile(
+            leading: Icon(Icons.account_box),
             title: new Text(Translations.of(context).text('account_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/account');
             },
           ),
           new ListTile(
+            leading: Icon(Icons.markunread),
             title: new Text(Translations.of(context).text('notifications_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/messages');
@@ -118,12 +121,14 @@ Drawer menulaterale(context){
           ),
           new Divider(),
           new ListTile(
+            leading: Icon(Icons.settings),
             title: new Text(Translations.of(context).text('settings_button_text')),
             onTap: (){
               Navigator.pushNamed(context, '/settings');
             },
           ),
           new ListTile(
+            leading: Icon(Icons.receipt),
             title: new Text(Translations.of(context).text('legal_privacy_button_text')),
             onTap: (){
               Navigator.pushNamed(context, '/legal');
