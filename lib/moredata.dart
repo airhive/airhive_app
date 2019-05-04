@@ -19,6 +19,7 @@ class _DataPageState extends State<DataPage> {
 
     return new DefaultTabController(
       length: 3,
+      initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
           actions: <Widget>[
