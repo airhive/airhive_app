@@ -1,6 +1,7 @@
 part of "main.dart";
 
 LatLng posizione_assoluta = LatLng(45.4510525, 9.4126428);
+Properties valori_sensore;
 
 class Pm{
   final double pm_10_4;
@@ -231,13 +232,6 @@ class Sensori {
   }
 }
 
-class GraficoLineare{
-  final int momento;
-  final double valore;
-
-  GraficoLineare(this.momento, this.valore);
-}
-
 class GaugeSegment {
   final String segment;
   final int size;
@@ -274,7 +268,6 @@ class _HomePageState extends State<HomePage> {
   // apri_info decide se la barra con le info dei marker deve essere aperta o meno
   bool apri_info = false;
   double valore_aqi;
-  Properties valori_sensore;
   String tempo_rilevazione;
 
   bool apri_ricerca = false;
@@ -583,6 +576,7 @@ class _HomePageState extends State<HomePage> {
                           suffixIcon: IconButton(
                               icon: Icon(Icons.clear),
                               onPressed: () {
+                                apri_ricerca = false;
                                 _textcontroller.clear();
                               }),
                           hintText: Translations.of(context).text('blank_research_text'),
