@@ -66,16 +66,24 @@ class _DataPageState extends State<DataPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget> [
-        Container(
-          height: 200,
-          child:GoogleMap(
-            compassEnabled: false,
-            onMapCreated:(controller) => {_controller.complete(controller)},
-            myLocationEnabled: false,
-            initialCameraPosition: _initialCamera,
-            markers: _markers,
-            mapType: ListOfMaps[currMapNum], //Also change map type
-          ),
+        Stack(
+          children: <Widget> [
+            Container(
+              height: 200,
+              child:GoogleMap(
+                compassEnabled: false,
+                onMapCreated:(controller) => {_controller.complete(controller)},
+                myLocationEnabled: false,
+                initialCameraPosition: _initialCamera,
+                markers: _markers,
+                mapType: ListOfMaps[currMapNum], //Also change map type
+              ),
+            ),
+            Container(
+              height: 200,
+              color: Colors.transparent,
+            )
+          ],
         ),
       ],
     );
