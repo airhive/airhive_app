@@ -88,8 +88,7 @@ class _DataPageState extends State<DataPage> {
         ListView(
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              color: Colors.transparent,
+              height: spazio_tra_blocchi,
             ),
             Center(
               child: Container(
@@ -208,6 +207,49 @@ class _DataPageState extends State<DataPage> {
                 ),
               ),
             ),
+            Container(
+              height: spazio_tra_blocchi,
+            ),
+            Center(
+              child:Container(
+                color: Colors.white,
+                height: 130,
+                width: MediaQuery.of(context).size.width * perc_screen_width,
+                child: Stack(
+                  children: <Widget> [
+                    Container(
+                      height:160,
+                      child: new charts.PieChart(
+                        _O3Data(),
+                        animate: _animate,
+                        defaultRenderer: new charts.ArcRendererConfig(
+                            arcWidth: 10,
+                            startAngle: 4 / 5 * 3.1415,
+                            arcLength: (valori_sensore.o3.o3.toInt() / 300) * (7 * 3.1415) / 5
+                        ),
+                        behaviors: [
+                          new charts.ChartTitle(
+                            "O3",
+                            titleStyleSpec: charts.TextStyleSpec(
+                                fontSize: 12, // size in Pts.
+                                color: charts.MaterialPalette.black),
+                            behaviorPosition: charts.BehaviorPosition.start,
+                            titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment(0.05, 0.0),
+                        child: Text(valori_sensore.o3.o3.toStringAsFixed(2).toString())
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: spazio_tra_blocchi,
+            ),
           ],
         );
   }
@@ -241,7 +283,7 @@ class _DataPageState extends State<DataPage> {
 
     return [
       new charts.Series<GaugeSegment, String>(
-        id: 'CAQI',
+        id: 'PM',
         colorFn: (_, __) => (val_pm < 25) ?
         charts.MaterialPalette.green.shadeDefault:
         (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
@@ -267,6 +309,27 @@ class _DataPageState extends State<DataPage> {
         charts.MaterialPalette.green.shadeDefault:
         (val_pm < 200) ? charts.MaterialPalette.yellow.shadeDefault:
         (val_pm < 300) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        charts.MaterialPalette.red.shadeDefault,
+        domainFn: (GaugeSegment segment, _) => segment.segment,
+        measureFn: (GaugeSegment segment, _) => segment.size,
+        data: data,
+      )
+    ];
+  }
+
+  List<charts.Series<GaugeSegment, String>> _O3Data() {
+    int val_pm = valori_sensore.o3.o3.toInt();
+    List<GaugeSegment> data = [
+      new GaugeSegment('High', val_pm),
+    ];
+
+    return [
+      new charts.Series<GaugeSegment, String>(
+        id: 'O3',
+        colorFn: (_, __) => (val_pm < 150) ?
+        charts.MaterialPalette.green.shadeDefault:
+        (val_pm < 250) ? charts.MaterialPalette.yellow.shadeDefault:
+        (val_pm < 400) ? charts.MaterialPalette.deepOrange.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
