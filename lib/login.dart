@@ -179,7 +179,7 @@ class _AccountPage extends State<AccountPage> {
               ),
             ],
           ):WebView(
-            initialUrl: "https://www.airhive.it/account/?relog=true&json=true&tkn=$login_token",
+            initialUrl: "https://www.airhive.it/account/?relog=true&json=true&app=true&tkn=$login_token",
             javascriptMode: JavascriptMode.unrestricted,
           ),
         );
@@ -240,11 +240,9 @@ class _AccountPage extends State<AccountPage> {
     final response =
     await client.get(
         'https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&json=true&verificationCode=$codice');
-    print('https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&json=true&verificationCode=$codice');
     final parsed = json.decode(response.body);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
     if(success){
-      print(success);
       setState(() {
         login_data.UserAccountVerified = "1";
         mail_inviata = "no";
