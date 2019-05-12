@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 
-// Il tema della app
+// Il tema della app.
 ThemeData app_theme(){
   return ThemeData(
     brightness: Brightness.light,
