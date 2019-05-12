@@ -620,7 +620,7 @@ class _HomePageState extends State<HomePage> {
                                 });
                                 _textcontroller.clear();
                               }),
-                          hintText: Translations.of(context).text('blank_research_text'),
+                          hintText: allTranslations.text('blank_research_text'),
                           hintStyle: TextStyle(fontWeight: FontWeight.w300)
                       ),
                       textAlign: TextAlign.left,

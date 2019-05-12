@@ -16,11 +16,13 @@ import 'package:device_info/device_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 
 
 
 //Local imports
-import 'translations.dart';
+//import 'translations.dart';
+import 'preferences.dart';
 
 part "home.dart";
 part "login.dart";
@@ -28,32 +30,61 @@ part "legale.dart";
 part "settings.dart";
 part "messages.dart";
 part "moredata.dart";
+part "global_translations.dart";
+part "translations_bloc.dart";
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  TranslationsBloc translationsBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    translationsBloc = TranslationsBloc();
+  }
+
+  @override
+  void dispose() {
+    translationsBloc?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      theme: app_theme(),
-      localizationsDelegates: [
-        const TranslationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', ''),
-        const Locale('it', ''),
-        const Locale('de', ''),
-      ],
-      home: new HomePage(),
-      routes: <String, WidgetBuilder> {
-      '/homemap': (BuildContext context) => new HomePage(),
-      '/settings': (BuildContext context) => new SettingsPage(),
-      '/account': (BuildContext context) => new AccountPage(),
-      '/legal': (BuildContext context) => new LegalePage(),
-      '/messages': (BuildContext context) => new MessagesPage(),
-      '/moredata': (BuildContext context ) => new DataPage(),
-      }
+    return BlocProvider<TranslationsBloc>(
+      bloc: translationsBloc,
+      child: StreamBuilder<Locale>(
+          stream: translationsBloc.currentLocale,
+          initialData: allTranslations.locale,
+          builder: (BuildContext context, AsyncSnapshot<Locale> snapshot) {
+
+            return MaterialApp(
+                theme: app_theme(),
+                locale: snapshot.data ?? allTranslations.locale,
+                localizationsDelegates: [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                supportedLocales: allTranslations.supportedLocales(),
+                home: new HomePage(),
+                routes: <String, WidgetBuilder> {
+                  '/homemap': (BuildContext context) => new HomePage(),
+                  '/settings': (BuildContext context) => new SettingsPage(),
+                  '/account': (BuildContext context) => new AccountPage(),
+                  '/legal': (BuildContext context) => new LegalePage(),
+                  '/messages': (BuildContext context) => new MessagesPage(),
+                  '/moredata': (BuildContext context ) => new DataPage(),
+                }
+            );
+          }
+      ),
     );
   }
 }
@@ -82,6 +113,9 @@ ThemeData app_theme(){
 
 // Genera il menu laterale nel giusto context
 Drawer menulaterale(context){
+
+  final TranslationsBloc translationsBloc = BlocProvider.of<TranslationsBloc>(context);
+
   return Drawer(
       child: new ListView(
         children: <Widget> [
@@ -100,21 +134,21 @@ Drawer menulaterale(context){
           ),
           new ListTile(
             leading: Icon(Icons.map),
-            title: new Text(Translations.of(context).text('map_button_text')),
+            title: new Text(allTranslations.text('map_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/homemap');
             },
           ),
           new ListTile(
             leading: Icon(Icons.account_box),
-            title: new Text(Translations.of(context).text('account_button_text')),
+            title: new Text(allTranslations.text('account_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/account');
             },
           ),
           new ListTile(
             leading: Icon(Icons.markunread),
-            title: new Text(Translations.of(context).text('notifications_button_text')),
+            title: new Text(allTranslations.text('notifications_button_text')),
             onTap: () {
               Navigator.pushNamed(context, '/messages');
             },
@@ -122,14 +156,14 @@ Drawer menulaterale(context){
           new Divider(),
           new ListTile(
             leading: Icon(Icons.settings),
-            title: new Text(Translations.of(context).text('settings_button_text')),
+            title: new Text(allTranslations.text('settings_button_text')),
             onTap: (){
               Navigator.pushNamed(context, '/settings');
             },
           ),
           new ListTile(
             leading: Icon(Icons.receipt),
-            title: new Text(Translations.of(context).text('legal_privacy_button_text')),
+            title: new Text(allTranslations.text('legal_privacy_button_text')),
             onTap: (){
               Navigator.pushNamed(context, '/legal');
             },
@@ -150,5 +184,8 @@ void main() async {
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
   currMapNum = await getMapType();
   await _login(http.Client());
+
+  await allTranslations.init();
+
   runApp(MyApp());
 }

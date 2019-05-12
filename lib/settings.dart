@@ -62,18 +62,21 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final TranslationsBloc translationsBloc = BlocProvider.of<TranslationsBloc>(context);
+
     return new Scaffold(
           drawer: menulaterale(context),
           appBar: new AppBar(
-            title: new Text(Translations.of(context).text('settings_title')),
+            title: new Text(allTranslations.text('settings_title')),
             backgroundColor: Colors.yellow[700],
           ),
           body: new PreferencePage([
 
             //Impostazioni stile mappa
-            PreferenceTitle(Translations.of(context).text('map_style_title')),
+            PreferenceTitle(allTranslations.text('map_style_title')),
             RadioPreference(
-              Translations.of(context).text('map_type_normal_button_text'),
+              allTranslations.text('map_type_normal_button_text'),
               'ROADMAP',
               'map_theme',
               isDefault: isCurrSetting(0, currMapNum),
@@ -82,7 +85,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             RadioPreference(
-              Translations.of(context).text('map_type_satellite_button_text'),
+              allTranslations.text('map_type_satellite_button_text'),
               'SATELLITE',
               'map_theme',
               isDefault: isCurrSetting(2, currMapNum),
@@ -91,7 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             RadioPreference(
-              Translations.of(context).text('map_type_hybrid_button_text'),
+              allTranslations.text('map_type_hybrid_button_text'),
               'HYBRID',
               'map_theme',
               isDefault: isCurrSetting(1, currMapNum),
@@ -100,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             RadioPreference(
-              Translations.of(context).text('map_type_topographical_button_text'),
+              allTranslations.text('map_type_topographical_button_text'),
               'TERRAIN',
               'map_theme',
               isDefault: isCurrSetting(3, currMapNum),
@@ -108,7 +111,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setMapType(3);
               },
             ),
-            PreferenceTitle(Translations.of(context).text('language_title')),
+            PreferenceTitle(allTranslations.text('language_title')),
             DropdownPreference(
               'Language',
               'language_selection',

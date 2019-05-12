@@ -19,7 +19,7 @@ class _MessagesPageState extends State<MessagesPage> {
     return new Scaffold(
       drawer: menulaterale(context),
       appBar: new AppBar(
-        title: new Text(Translations.of(context).text('notifications_button_text')),
+        title: new Text(allTranslations.text('notifications_button_text')),
         backgroundColor: Colors.yellow[700],
       ),
       body: IndexedStack(

@@ -89,7 +89,7 @@ class _AccountPage extends State<AccountPage> {
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Center(child:Text(
-                      Translations.of(context).text('sign_in'),
+                      allTranslations.text('sign_in'),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
@@ -107,13 +107,13 @@ class _AccountPage extends State<AccountPage> {
                           ),
                           hintText: "example@example.com",
                           hintStyle: TextStyle(fontWeight: FontWeight.w300),
-                          errorText: privacy ? testo_errore_mail : Translations.of(context).text('accept_privacy_to_continue'),
+                          errorText: privacy ? testo_errore_mail : allTranslations.text('accept_privacy_to_continue'),
                       ),
                       onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
                     ),
                     Container(height:50),
                     CheckboxListTile(
-                      title: Text(Translations.of(context).text('accept_privacy_button_text')), //    <-- label
+                      title: Text(allTranslations.text('accept_privacy_button_text')), //    <-- label
                       value: privacy,
                       onChanged: (newValue) {setState(() {
                         privacy = privacy ? false : true;
@@ -135,7 +135,7 @@ class _AccountPage extends State<AccountPage> {
                     children: <Widget>[
                       //Container(height: 50),
                       Center(child:Text(
-                        Translations.of(context).text('verification_code'),
+                        allTranslations.text('verification_code'),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 30,
@@ -154,9 +154,9 @@ class _AccountPage extends State<AccountPage> {
                               icon: Icon(Icons.send),
                               onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
                             ),
-                            hintText: Translations.of(context).text('verification_code'),
+                            hintText: allTranslations.text('verification_code'),
                             hintStyle: TextStyle(fontWeight: FontWeight.w300),
-                            errorText: codice_verificato ? null : Translations.of(context).text('error_code_text'),
+                            errorText: codice_verificato ? null : allTranslations.text('error_code_text'),
                         ),
                         onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
                       ),
@@ -222,7 +222,7 @@ class _AccountPage extends State<AccountPage> {
       }
       else {
         setState(() {
-          testo_errore_mail = Translations.of(context).text('error_text');
+          testo_errore_mail = allTranslations.text('error_text');
         });
       }
     }
