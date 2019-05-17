@@ -108,13 +108,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 setMapType(3);
               },
             ),
-            PreferenceTitle(Translations.of(context).text('language_title')),
-            DropdownPreference(
-              'Language',
-              'language_selection',
-              defaultVal: 'Italiano',
-              values: ['Italiano', 'English', 'Deutsch'],
-            ),
 
 
 
