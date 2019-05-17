@@ -288,6 +288,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
+        _showAlert(message["notification"]["body"], message["notification"]["title"]);
         print("onMessage: $message");
       },
       onLaunch: (Map<String, dynamic> message) async {
@@ -678,6 +679,29 @@ class _HomePageState extends State<HomePage> {
     catch (SocketException){
       return;
     }
+  }
+
+  // Alert dialog
+  Widget _buildDialog(BuildContext context, String testo_msg, String titolo_msg) {
+    return AlertDialog(
+      title: Text(titolo_msg),
+      content: Text(testo_msg),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('Chiudi'),
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+        ),
+      ],
+    );
+  }
+
+  void _showAlert(String testo_msg, String titolo_msg) {
+    showDialog<bool>(
+      context: context,
+      builder: (_) => _buildDialog(context, testo_msg, titolo_msg),
+    );
   }
 
   //Scarica il JSON e prepara i marker
