@@ -65,7 +65,6 @@ ThemeData app_theme(){
     brightness: Brightness.light,
     primaryColor: Colors.yellow[700],
     accentColor: Colors.yellow[700],
-    canvasColor: Colors.transparent,
 
     iconTheme: IconThemeData(
         color: Colors.white,
