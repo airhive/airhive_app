@@ -360,41 +360,48 @@ class _DataPageState extends State<DataPage> {
   Widget storico(){
     double _width = MediaQuery.of(context).size.width * 0.9;
     double spazio_tra_blocchi = 10.0;
+    double raggio_blocco = 20.0;
     return ListView(
       scrollDirection: Axis.vertical,
       children: <Widget> [
         Container(height: spazio_tra_blocchi),
         Center(
-          child: Container(
-            color: Colors.white,
-            height: 200,
-            width: _width,
-            child: new charts.LineChart(
-              _datiChartCAQI(),
-              defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
-              animate: _animate,
-              behaviors: [
-                new charts.ChartTitle(
-                    'CAQI',
-                    behaviorPosition: charts.BehaviorPosition.start,
-                    titleOutsideJustification:
-                    charts.OutsideJustification.middleDrawArea),
-                new charts.ChartTitle(
-                    'Tempo',
-                    behaviorPosition: charts.BehaviorPosition.bottom,
-                    titleOutsideJustification:
-                    charts.OutsideJustification.middleDrawArea),
-                new charts.SeriesLegend(
-                    position: charts.BehaviorPosition.end, desiredMaxRows: 3),
-              ],
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(raggio_blocco),
+            child:Container(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                color: Colors.white,
+                height: 220,
+                width: _width,
+                child: new charts.LineChart(
+                  _datiChartCAQI(),
+                  defaultRenderer: new charts.LineRendererConfig(includeArea: true, stacked: true),
+                  animate: _animate,
+                  behaviors: [
+                    new charts.ChartTitle(
+                        'CAQI',
+                        behaviorPosition: charts.BehaviorPosition.start,
+                        titleOutsideJustification:
+                        charts.OutsideJustification.middleDrawArea),
+                    new charts.ChartTitle(
+                        'Tempo',
+                        behaviorPosition: charts.BehaviorPosition.bottom,
+                        titleOutsideJustification:
+                        charts.OutsideJustification.middleDrawArea),
+                    new charts.SeriesLegend(
+                        position: charts.BehaviorPosition.end, desiredMaxRows: 3),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
         Container(height: spazio_tra_blocchi),
-        Center(child:
-          Container(
+        Center(child: ClipRRect(
+          borderRadius: BorderRadius.circular(raggio_blocco),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
             color: Colors.white,
-            height: 200,
+            height: 220,
             width: _width,
             child: new charts.LineChart(
               _datiStoricoChartPM(),
@@ -417,57 +424,66 @@ class _DataPageState extends State<DataPage> {
             ),
           ),
         ),
+        ),
         Container(height: spazio_tra_blocchi),
         Center(
-          child:Container(
-            color: Colors.white,
-            height: 200,
-            width: _width,
-            child: new charts.LineChart(
-              _datiStoricoChartNO2(),
-              defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-              animate: _animate,
-              behaviors: [
-                new charts.ChartTitle(
-                    'NO2',
-                    behaviorPosition: charts.BehaviorPosition.start,
-                    titleOutsideJustification:
-                    charts.OutsideJustification.middleDrawArea),
-                new charts.ChartTitle(
-                    'Tempo',
-                    behaviorPosition: charts.BehaviorPosition.bottom,
-                    titleOutsideJustification:
-                    charts.OutsideJustification.middleDrawArea),
-                new charts.SeriesLegend(
-                    position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-              ],
+          child:ClipRRect(
+            borderRadius: BorderRadius.circular(raggio_blocco),
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              color: Colors.white,
+              height: 220,
+              width: _width,
+              child: new charts.LineChart(
+                _datiStoricoChartNO2(),
+                defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+                animate: _animate,
+                behaviors: [
+                  new charts.ChartTitle(
+                      'NO2',
+                      behaviorPosition: charts.BehaviorPosition.start,
+                      titleOutsideJustification:
+                      charts.OutsideJustification.middleDrawArea),
+                  new charts.ChartTitle(
+                      'Tempo',
+                      behaviorPosition: charts.BehaviorPosition.bottom,
+                      titleOutsideJustification:
+                      charts.OutsideJustification.middleDrawArea),
+                  new charts.SeriesLegend(
+                      position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+                ],
+              ),
             ),
           ),
         ),
         Container(height: spazio_tra_blocchi),
         Center(
-          child:Container(
-            color: Colors.white,
-            height: 200,
-            width: _width,
-            child: new charts.LineChart(
-              _datiStoricoChartO3(),
-              defaultRenderer: new charts.LineRendererConfig(includeArea: true),
-              animate: _animate,
-              behaviors: [
-                new charts.ChartTitle(
-                    'O3',
-                    behaviorPosition: charts.BehaviorPosition.start,
-                    titleOutsideJustification:
-                    charts.OutsideJustification.middleDrawArea),
-                new charts.ChartTitle(
-                    'Tempo',
-                    behaviorPosition: charts.BehaviorPosition.bottom,
-                    titleOutsideJustification:
-                    charts.OutsideJustification.middleDrawArea),
-                new charts.SeriesLegend(
-                    position: charts.BehaviorPosition.end, desiredMaxRows: 2),
-              ],
+          child:ClipRRect(
+            borderRadius: BorderRadius.circular(raggio_blocco),
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              color: Colors.white,
+              height: 220,
+              width: _width,
+              child: new charts.LineChart(
+                _datiStoricoChartO3(),
+                defaultRenderer: new charts.LineRendererConfig(includeArea: true),
+                animate: _animate,
+                behaviors: [
+                  new charts.ChartTitle(
+                      'O3',
+                      behaviorPosition: charts.BehaviorPosition.start,
+                      titleOutsideJustification:
+                      charts.OutsideJustification.middleDrawArea),
+                  new charts.ChartTitle(
+                      'Tempo',
+                      behaviorPosition: charts.BehaviorPosition.bottom,
+                      titleOutsideJustification:
+                      charts.OutsideJustification.middleDrawArea),
+                  new charts.SeriesLegend(
+                      position: charts.BehaviorPosition.end, desiredMaxRows: 2),
+                ],
+              ),
             ),
           ),
         ),
