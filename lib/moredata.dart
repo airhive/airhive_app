@@ -89,8 +89,8 @@ class _DataPageState extends State<DataPage> {
   }
 
   Widget attuale(){
-    double spazio_tra_blocchi = 10.0;
-    double raggio_blocco = 20.0;
+    double spazio_tra_blocchi = 12.0;
+    double raggio_blocco = 22.0;
     return
         ListView(
           children: <Widget>[
@@ -359,8 +359,8 @@ class _DataPageState extends State<DataPage> {
 
   Widget storico(){
     double _width = MediaQuery.of(context).size.width * 0.9;
-    double spazio_tra_blocchi = 10.0;
-    double raggio_blocco = 20.0;
+    double spazio_tra_blocchi = 12.0;
+    double raggio_blocco = 22.0;
     return ListView(
       scrollDirection: Axis.vertical,
       children: <Widget> [
@@ -494,8 +494,8 @@ class _DataPageState extends State<DataPage> {
 
   Widget previsioni(){
     double _width = MediaQuery.of(context).size.width * 0.9;
-    double spazio_tra_blocchi = 10.0;
-    double raggio_blocco = 20.0;
+    double spazio_tra_blocchi = 12.0;
+    double raggio_blocco = 22.0;
     return ListView(
       scrollDirection: Axis.vertical,
       children: <Widget> [
