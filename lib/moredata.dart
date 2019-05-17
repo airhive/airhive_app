@@ -39,6 +39,11 @@ class _DataPageState extends State<DataPage> {
         initialIndex: 1,
         child: Scaffold(
           appBar: AppBar(
+            /*shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(30),
+              ),
+            ),*/
             actions: <Widget>[
               new IconButton(
                 icon: new Icon(Icons.close),
@@ -47,6 +52,7 @@ class _DataPageState extends State<DataPage> {
             ],
             leading: new Container(),
             bottom: TabBar(
+
               tabs: [
                 Tab(text: "Storico"),
                 Tab(text: "Attuale",),
@@ -84,6 +90,7 @@ class _DataPageState extends State<DataPage> {
 
   Widget attuale(){
     double spazio_tra_blocchi = 10.0;
+    double raggio_blocco = 20.0;
     return
         ListView(
           children: <Widget>[
@@ -91,39 +98,42 @@ class _DataPageState extends State<DataPage> {
               height: spazio_tra_blocchi,
             ),
             Center(
-              child: Container(
-                color: Colors.white,
-                height: 130,
-                width: MediaQuery.of(context).size.width * perc_screen_width,
-                child: Stack(
-                  children: <Widget> [
-                    Container(
-                      height:160,
-                      child: new charts.PieChart(
-                        _CaqiData(),
-                        animate:_animate,
-                        defaultRenderer: new charts.ArcRendererConfig(
-                            arcWidth: 10,
-                            startAngle: 4 / 5 * 3.1415,
-                            arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
-                        ),
-                        behaviors: [
-                          new charts.ChartTitle(
-                            "Air quality index",
-                            titleStyleSpec: charts.TextStyleSpec(
-                                fontSize: 12, // size in Pts.
-                                color: charts.MaterialPalette.black),
-                            behaviorPosition: charts.BehaviorPosition.start,
-                            titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(raggio_blocco),
+                child: Container(
+                  color: Colors.white,
+                  height: 130,
+                  width: MediaQuery.of(context).size.width * perc_screen_width,
+                   child: Stack(
+                    children: <Widget> [
+                      Container(
+                        height:160,
+                        child: new charts.PieChart(
+                          _CaqiData(),
+                          animate:_animate,
+                          defaultRenderer: new charts.ArcRendererConfig(
+                              arcWidth: 10,
+                              startAngle: 4 / 5 * 3.1415,
+                              arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
                           ),
-                        ],
+                          behaviors: [
+                            new charts.ChartTitle(
+                              "Air quality index",
+                              titleStyleSpec: charts.TextStyleSpec(
+                                  fontSize: 12, // size in Pts.
+                                  color: charts.MaterialPalette.black),
+                              behaviorPosition: charts.BehaviorPosition.start,
+                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Align(
-                        alignment: Alignment(0.05, 0.0),
-                        child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
-                    ),
-                  ],
+                      Align(
+                          alignment: Alignment(0.05, 0.0),
+                          child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -131,28 +141,30 @@ class _DataPageState extends State<DataPage> {
               height: spazio_tra_blocchi,
             ),
             Center(
-              child:Container(
-                color: Colors.white,
-                height: 130,
-                width: MediaQuery.of(context).size.width * perc_screen_width,
-                child: Stack(
-                  children: <Widget> [
-                    Container(
-                      height:160,
-                      child: new charts.PieChart(
-                        _PmData(),
-                        animate: _animate,
-                        defaultRenderer: new charts.ArcRendererConfig(
-                            arcWidth: 10,
-                            startAngle: 4 / 5 * 3.1415,
-                            arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
-                        ),
-                        behaviors: [
-                          new charts.ChartTitle(
-                            "PM 10",
-                            titleStyleSpec: charts.TextStyleSpec(
-                                fontSize: 12, // size in Pts.
-                                color: charts.MaterialPalette.black),
+              child:ClipRRect(
+                borderRadius: BorderRadius.circular(raggio_blocco),
+                child: Container(
+                  color: Colors.white,
+                  height: 130,
+                  width: MediaQuery.of(context).size.width * perc_screen_width,
+                    child: Stack(
+                      children: <Widget> [
+                        Container(
+                          height:160,
+                          child: new charts.PieChart(
+                            _PmData(),
+                            animate: _animate,
+                            defaultRenderer: new charts.ArcRendererConfig(
+                              arcWidth: 10,
+                              startAngle: 4 / 5 * 3.1415,
+                              arcLength: (valori_sensore.pm_10.pm_10.toInt() / 100) * (7 * 3.1415) / 5
+                            ),
+                            behaviors: [
+                              new charts.ChartTitle(
+                              "PM 10",
+                              titleStyleSpec: charts.TextStyleSpec(
+                                  fontSize: 12, // size in Pts.
+                                  color: charts.MaterialPalette.black),
                             behaviorPosition: charts.BehaviorPosition.start,
                             titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                           ),
@@ -162,8 +174,9 @@ class _DataPageState extends State<DataPage> {
                     Align(
                         alignment: Alignment(0.05, 0.0),
                         child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -171,39 +184,42 @@ class _DataPageState extends State<DataPage> {
               height: spazio_tra_blocchi,
             ),
             Center(
-              child:Container(
-                color: Colors.white,
-                height: 130,
-                width: MediaQuery.of(context).size.width * perc_screen_width,
-                child: Stack(
-                  children: <Widget> [
-                    Container(
-                      height:160,
-                      child: new charts.PieChart(
-                        _NoData(),
-                        animate: _animate,
-                        defaultRenderer: new charts.ArcRendererConfig(
-                            arcWidth: 10,
-                            startAngle: 4 / 5 * 3.1415,
-                            arcLength: (valori_sensore.no2.no.toInt() / 400) * (7 * 3.1415) / 5
-                        ),
-                        behaviors: [
-                          new charts.ChartTitle(
-                            "NO2",
-                            titleStyleSpec: charts.TextStyleSpec(
-                                fontSize: 12, // size in Pts.
-                                color: charts.MaterialPalette.black),
-                            behaviorPosition: charts.BehaviorPosition.start,
-                            titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+              child:ClipRRect(
+                borderRadius: BorderRadius.circular(raggio_blocco),
+                child: Container(
+                  color: Colors.white,
+                  height: 130,
+                  width: MediaQuery.of(context).size.width * perc_screen_width,
+                  child: Stack(
+                    children: <Widget> [
+                      Container(
+                        height:160,
+                        child: new charts.PieChart(
+                          _NoData(),
+                          animate: _animate,
+                          defaultRenderer: new charts.ArcRendererConfig(
+                              arcWidth: 10,
+                              startAngle: 4 / 5 * 3.1415,
+                              arcLength: (valori_sensore.no2.no.toInt() / 400) * (7 * 3.1415) / 5
                           ),
-                        ],
+                          behaviors: [
+                            new charts.ChartTitle(
+                              "NO2",
+                              titleStyleSpec: charts.TextStyleSpec(
+                                  fontSize: 12, // size in Pts.
+                                  color: charts.MaterialPalette.black),
+                              behaviorPosition: charts.BehaviorPosition.start,
+                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Align(
-                        alignment: Alignment(0.05, 0.0),
-                        child: Text(valori_sensore.no2.no.toStringAsFixed(2).toString())
-                    ),
-                  ],
+                      Align(
+                          alignment: Alignment(0.05, 0.0),
+                          child: Text(valori_sensore.no2.no.toStringAsFixed(2).toString())
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -211,39 +227,42 @@ class _DataPageState extends State<DataPage> {
               height: spazio_tra_blocchi,
             ),
             Center(
-              child:Container(
-                color: Colors.white,
-                height: 130,
-                width: MediaQuery.of(context).size.width * perc_screen_width,
-                child: Stack(
-                  children: <Widget> [
-                    Container(
-                      height:160,
-                      child: new charts.PieChart(
-                        _O3Data(),
-                        animate: _animate,
-                        defaultRenderer: new charts.ArcRendererConfig(
-                            arcWidth: 10,
-                            startAngle: 4 / 5 * 3.1415,
-                            arcLength: (valori_sensore.o3.o3.toInt() / 300) * (7 * 3.1415) / 5
-                        ),
-                        behaviors: [
-                          new charts.ChartTitle(
-                            "O3",
-                            titleStyleSpec: charts.TextStyleSpec(
-                                fontSize: 12, // size in Pts.
-                                color: charts.MaterialPalette.black),
-                            behaviorPosition: charts.BehaviorPosition.start,
-                            titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+              child:ClipRRect(
+                borderRadius: BorderRadius.circular(raggio_blocco),
+                child: Container(
+                  color: Colors.white,
+                  height: 130,
+                  width: MediaQuery.of(context).size.width * perc_screen_width,
+                  child: Stack(
+                    children: <Widget> [
+                      Container(
+                        height:160,
+                        child: new charts.PieChart(
+                          _O3Data(),
+                          animate: _animate,
+                          defaultRenderer: new charts.ArcRendererConfig(
+                              arcWidth: 10,
+                              startAngle: 4 / 5 * 3.1415,
+                              arcLength: (valori_sensore.o3.o3.toInt() / 300) * (7 * 3.1415) / 5
                           ),
-                        ],
+                          behaviors: [
+                            new charts.ChartTitle(
+                              "O3",
+                              titleStyleSpec: charts.TextStyleSpec(
+                                  fontSize: 12, // size in Pts.
+                                  color: charts.MaterialPalette.black),
+                              behaviorPosition: charts.BehaviorPosition.start,
+                              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Align(
-                        alignment: Alignment(0.05, 0.0),
-                        child: Text(valori_sensore.o3.o3.toStringAsFixed(2).toString())
-                    ),
-                  ],
+                      Align(
+                          alignment: Alignment(0.05, 0.0),
+                          child: Text(valori_sensore.o3.o3.toStringAsFixed(2).toString())
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

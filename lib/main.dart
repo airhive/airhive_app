@@ -65,7 +65,7 @@ ThemeData app_theme(){
     brightness: Brightness.light,
     primaryColor: Colors.yellow[700],
     accentColor: Colors.yellow[700],
-    //canvasColor: Colors.yellow[700],
+    canvasColor: Colors.transparent,
 
     iconTheme: IconThemeData(
         color: Colors.white,
@@ -89,6 +89,13 @@ Drawer menulaterale(context){
       child: new ListView(
         children: <Widget> [
           new DrawerHeader(
+            decoration: new BoxDecoration(
+                boxShadow: [
+                  new BoxShadow(
+                    color: Colors.black26,
+                  )],
+                color: Colors.yellow[700]
+            ),
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
