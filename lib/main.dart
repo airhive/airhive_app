@@ -65,6 +65,7 @@ ThemeData app_theme(){
     brightness: Brightness.light,
     primaryColor: Colors.yellow[700],
     accentColor: Colors.yellow[700],
+    //canvasColor: Colors.yellow[700],
 
     iconTheme: IconThemeData(
         color: Colors.white,
@@ -83,6 +84,8 @@ ThemeData app_theme(){
 // Genera il menu laterale nel giusto context
 Drawer menulaterale(context){
   return Drawer(
+    child: new Container(
+      color: Colors.yellow[700],
       child: new ListView(
         children: <Widget> [
           new DrawerHeader(
@@ -91,55 +94,90 @@ Drawer menulaterale(context){
                 Navigator.of(context).pop();
                 },
                 child: new Image.asset(
-                  "immagini/airhive.png",
+                  "immagini/airhive_white2.png",
                   scale: 5.5,
            ), ),
-            decoration: BoxDecoration(
-              color: Colors.yellow[700],
-            ),
+
           ),
           new ListTile(
-            leading: Icon(Icons.map),
-            title: new Text(Translations.of(context).text('map_button_text')),
+            leading: Icon(Icons.map, color: Colors.white),
+            title: new Text(Translations.of(context).text('map_button_text'),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 16,
+                            )
+                          ),
             onTap: () {
               Navigator.pushNamed(context, '/homemap');
             },
           ),
           new ListTile(
-            leading: Icon(Icons.account_box),
-            title: new Text(Translations.of(context).text('account_button_text')),
+            leading: Icon(Icons.account_box, color: Colors.white),
+            title: new Text(Translations.of(context).text('account_button_text'),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 16,
+                )
+            ),
             onTap: () {
               Navigator.pushNamed(context, '/account');
             },
           ),
           new ListTile(
-            leading: Icon(Icons.markunread),
-            title: new Text(Translations.of(context).text('notifications_button_text')),
+            leading: Icon(Icons.markunread, color: Colors.white),
+            title: new Text(Translations.of(context).text('notifications_button_text'),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 16,
+                )
+            ),
             onTap: () {
               Navigator.pushNamed(context, '/messages');
             },
           ),
-          new Divider(),
+          new Divider(height: 10, color: Colors.black26,),
           new ListTile(
-            leading: Icon(Icons.settings),
-            title: new Text(Translations.of(context).text('settings_button_text')),
+            leading: Icon(Icons.settings, color: Colors.white),
+            title: new Text(Translations.of(context).text('settings_button_text'),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 16,
+                )
+            ),
             onTap: (){
               Navigator.pushNamed(context, '/settings');
             },
           ),
           new ListTile(
-            leading: Icon(Icons.receipt),
-            title: new Text(Translations.of(context).text('legal_privacy_button_text')),
+            leading: Icon(Icons.receipt, color: Colors.white),
+            title: new Text(Translations.of(context).text('legal_privacy_button_text'),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 16,
+                )
+            ),
             onTap: (){
               Navigator.pushNamed(context, '/legal');
             },
           ),
-          new Divider(),
+          new Divider(height: 10, color: Colors.black26,),
           new ListTile(
-              title: new Text('We are what we breathe.'),
+              title: new Text('We are what we breathe.',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 16,
+                  )
+              ),
           ),
         ],
       )
+    )
   );
 }
 

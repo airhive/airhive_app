@@ -340,7 +340,7 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: new Image.asset(
                     "immagini/airhive.png",
-                    scale: 7.5,
+                    scale: 6.7,
                   ),
                 ),),
               new Align(
