@@ -726,14 +726,17 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchData(http.Client client) async {
     try {
       final response =
-      await client.get('https://house.zan-tech.com/dati/tutto.py?loc=tutto');
+      await client.get('https://house.zan-tech.com/dati/tutto.py?loc=milano&merge=True');
       final parsed = json.decode(response.body);
 
-      final Uint8List markerIconBlu = await getBytesFromAsset("immagini/punto_blu.png", 100);
+      //Dimensione di tutte le icone
+      int dimensioneicone = 30;
+      final Uint8List markerIconBlu = await getBytesFromAsset("immagini/punto_blu.png", dimensioneicone);
 
       Sensori res = Sensori.fromJson(parsed);
       tempo_rilevazione = DateFormat('kk:mm il d/MM').format(DateTime.parse(res.tempo));
       List<Features> features = res.features;
+      //Marker del caqi
       for (var i = 0; i < features.length; i++) {
         Geometry geometry = features[i].geometry;
         Properties properties = features[i].properties;
@@ -745,7 +748,7 @@ class _HomePageState extends State<HomePage> {
         colore = aqi_loc < 75 ? "medium" : colore;
         colore = aqi_loc < 50 ? "low" : colore;
         colore = aqi_loc < 25 ? "very_low" : colore;
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", 100);
+        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markerscaqi.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -790,7 +793,7 @@ class _HomePageState extends State<HomePage> {
         colore = aqi_loc < 50 ? "low" : colore;
         colore = aqi_loc < 25 ? "very_low" : colore;
 
-        final Uint8List markerIcon = await getBytesFromAsset('assets/images/flutter.png', 100);
+        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markerspm.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -808,12 +811,12 @@ class _HomePageState extends State<HomePage> {
                     Marker(
                       markerId: MarkerId("Selezione"),
                       position: pos_curr_marker,
-                      icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
+                      icon: BitmapDescriptor.fromBytes(markerIconBlu),
                     )
                 );
               });
             },
-            icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
+            icon: BitmapDescriptor.fromBytes(markerIcon),
           ));
         });
       }
@@ -826,6 +829,8 @@ class _HomePageState extends State<HomePage> {
         colore = aqi_loc < 75 ? "medium" : colore;
         colore = aqi_loc < 50 ? "low" : colore;
         colore = aqi_loc < 25 ? "very_low" : colore;
+
+        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markersno.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -843,12 +848,12 @@ class _HomePageState extends State<HomePage> {
                     Marker(
                       markerId: MarkerId("Selezione"),
                       position: pos_curr_marker,
-                      icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
+                      icon: BitmapDescriptor.fromBytes(markerIconBlu),
                     )
                 );
               });
             },
-            icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
+            icon: BitmapDescriptor.fromBytes(markerIcon),
           ));
         });
       }
@@ -861,6 +866,8 @@ class _HomePageState extends State<HomePage> {
         colore = aqi_loc < 75 ? "medium" : colore;
         colore = aqi_loc < 50 ? "low" : colore;
         colore = aqi_loc < 25 ? "very_low" : colore;
+
+        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markerso3.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -878,12 +885,12 @@ class _HomePageState extends State<HomePage> {
                     Marker(
                       markerId: MarkerId("Selezione"),
                       position: pos_curr_marker,
-                      icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
+                      icon: BitmapDescriptor.fromBytes(markerIconBlu),
                     )
                 );
               });
             },
-            icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
+            icon: BitmapDescriptor.fromBytes(markerIcon),
           ));
         });
       }
@@ -916,6 +923,7 @@ class _HomePageState extends State<HomePage> {
   void _updatelocationstream() async {
     GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
     _currentLocation();
+    final Uint8List markerApe = await getBytesFromAsset("immagini/ape.png", 40);
     Geolocator geolocator = Geolocator();
     geolocator.getPositionStream(LocationOptions(
         accuracy: LocationAccuracy.high,
@@ -933,7 +941,7 @@ class _HomePageState extends State<HomePage> {
           // This marker id can be anything that uniquely identifies each marker.
           markerId: MarkerId("Posizione"),
           position: posizione_assoluta,
-          icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+          icon: BitmapDescriptor.fromBytes(markerApe),
         ));
       });
     });
@@ -942,6 +950,7 @@ class _HomePageState extends State<HomePage> {
   //Centra nella posizione e aggiunge il marker con l'ape
   void _currentLocation() async {
     final GoogleMapController controller = await _controller.future;
+    final Uint8List markerApe = await getBytesFromAsset("immagini/ape.png", 40);
     LocationData currentLocation;
     var location = new Location();
     try {
@@ -966,7 +975,7 @@ class _HomePageState extends State<HomePage> {
         // This marker id can be anything that uniquely identifies each marker.
         markerId: MarkerId("Posizione"),
         position: posizione_assoluta,
-        icon: BitmapDescriptor.fromAsset("immagini/ape.png"),
+        icon: BitmapDescriptor.fromBytes(markerApe),
       ));
     });
   }
