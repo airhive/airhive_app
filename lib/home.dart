@@ -657,7 +657,7 @@ class _HomePageState extends State<HomePage> {
             currentIndex: index,
             onTap: (int index) {
               setState((){ this.index = index; });
-              if(index == 0) {_scaffoldKey.currentState.openDrawer();}
+              if(index == 0) {_scaffoldKey.currentState.openDrawer(); this.index = 1; index = 1;}
               if(index != 2){ setState((){ apri_ricerca = false; });  }
               if(index == 2){ setState((){ apri_ricerca = !apri_ricerca; });  }
               if(!apri_ricerca && index == 2){ setState((){ this.index = 1; });  }
