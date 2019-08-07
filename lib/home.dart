@@ -241,6 +241,14 @@ class GaugeSegment {
   GaugeSegment(this.segment, this.size);
 }
 
+// Per le dimensioni delle icone
+Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  ByteData data = await rootBundle.load(path);
+  ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+  ui.FrameInfo fi = await codec.getNextFrame();
+  return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+}
+
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
@@ -250,6 +258,7 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -283,7 +292,7 @@ class _HomePageState extends State<HomePage> {
   final Set<Marker> _markersno = {};
   final Set<Marker> _markerso3 = {};
   int vedo = 0; //0 CAQI, 1 PM, 2 NO, 3 O3
-  int index = 0; //Index della bottombar
+  int index = 1; //Index della bottombar
 
   @override
   void initState() {
@@ -717,8 +726,10 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchData(http.Client client) async {
     try {
       final response =
-      await client.get('https://house.zan-tech.com/dati/tutto.py?loc=milano&merge=True');
+      await client.get('https://house.zan-tech.com/dati/tutto.py?loc=tutto');
       final parsed = json.decode(response.body);
+
+      final Uint8List markerIconBlu = await getBytesFromAsset("immagini/punto_blu.png", 100);
 
       Sensori res = Sensori.fromJson(parsed);
       tempo_rilevazione = DateFormat('kk:mm il d/MM').format(DateTime.parse(res.tempo));
@@ -734,6 +745,7 @@ class _HomePageState extends State<HomePage> {
         colore = aqi_loc < 75 ? "medium" : colore;
         colore = aqi_loc < 50 ? "low" : colore;
         colore = aqi_loc < 25 ? "very_low" : colore;
+        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", 100);
         setState(() {
           _markerscaqi.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -751,12 +763,12 @@ class _HomePageState extends State<HomePage> {
                     Marker(
                       markerId: MarkerId("Selezione"),
                       position: pos_curr_marker,
-                      icon: BitmapDescriptor.fromAsset("immagini/punto_blu.png"),
+                      icon: BitmapDescriptor.fromBytes(markerIconBlu),
                     )
                 );
               });
             },
-            icon: BitmapDescriptor.fromAsset("immagini/$colore.png"),
+            icon: BitmapDescriptor.fromBytes(markerIcon),
           ));
         });
       }
@@ -777,6 +789,8 @@ class _HomePageState extends State<HomePage> {
         colore = aqi_loc < 75 ? "medium" : colore;
         colore = aqi_loc < 50 ? "low" : colore;
         colore = aqi_loc < 25 ? "very_low" : colore;
+
+        final Uint8List markerIcon = await getBytesFromAsset('assets/images/flutter.png', 100);
         setState(() {
           _markerspm.add(Marker(
             markerId: MarkerId(properties.id_sensore),
