@@ -80,6 +80,7 @@ ThemeData app_theme(){
   );
 }
 
+
 // Genera il menu laterale nel giusto context
 Drawer menulaterale(context){
   return Drawer(

@@ -283,6 +283,7 @@ class _HomePageState extends State<HomePage> {
   final Set<Marker> _markersno = {};
   final Set<Marker> _markerso3 = {};
   int vedo = 0; //0 CAQI, 1 PM, 2 NO, 3 O3
+  int index = 0; //Index della bottombar
 
   @override
   void initState() {
@@ -401,22 +402,6 @@ class _HomePageState extends State<HomePage> {
                                   backgroundColor: Colors.yellow[700].withOpacity(0.95),
                                   elevation: 1.0,
                                 )
-                            ),
-                            SizedBox(height: 10),
-                            new Align(
-                              alignment: Alignment.bottomRight,
-                              child: FloatingActionButton(
-                                heroTag: "cerca",
-                                onPressed: () => {
-                                  setState(() {
-                                    apri_ricerca = true;
-                                  })
-                                },
-                                tooltip: 'Cerca',
-                                child: Icon(Icons.search, color: Colors.white),
-                                backgroundColor: Colors.yellow[700].withOpacity(0.95),
-                                elevation: 1.0,
-                              ),
                             ),
                           ]),
                       SizedBox(width: 15),
@@ -668,6 +653,30 @@ class _HomePageState extends State<HomePage> {
                 },
               ):Container(),
             ], ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: index,
+            onTap: (int index) {
+              setState((){ this.index = index; });
+              if(index == 0) {_scaffoldKey.currentState.openDrawer();}
+              if(index != 2){ setState((){ apri_ricerca = false; });  }
+              if(index == 2){ setState((){ apri_ricerca = !apri_ricerca; });  }
+              if(!apri_ricerca && index == 2){ setState((){ this.index = 1; });  }
+              },
+            items: [
+              new BottomNavigationBarItem(
+                icon: Icon(Icons.menu),
+                title: Text('Menu'),
+              ),
+              new BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text('Home')
+              ),
+              new BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  title: Text('Cerca')
+              )
+            ],
+          ),
         );
   }
 
