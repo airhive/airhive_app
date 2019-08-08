@@ -612,6 +612,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 setState(() {
                                   apri_ricerca = false;
+                                  index = 1;
                                 });
                                 _textcontroller.clear();
                               }),
@@ -758,6 +759,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                index = 1;
                 pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
@@ -782,18 +784,23 @@ class _HomePageState extends State<HomePage> {
       });
       _globalmarkers = _markers;
 
+      Uint8List markerHigh = await getBytesFromAsset("immagini/high.png", dimensioneicone);
+      Uint8List markerVeryHigh = await getBytesFromAsset("immagini/very_high.png", dimensioneicone);
+      Uint8List markerMedium = await getBytesFromAsset("immagini/medium.png", dimensioneicone);
+      Uint8List markerLow = await getBytesFromAsset("immagini/low.png", dimensioneicone);
+      Uint8List markerVeryLow = await getBytesFromAsset("immagini/very_low.png", dimensioneicone);
+
       //I marker del PM
       for (var i = 0; i < features.length; i++) {
         Geometry geometry = features[i].geometry;
         Properties properties = features[i].properties;
         double aqi_loc = properties.pm_10.pm_10;
         //Trucchetto per decidere di che colore mettere il marker
-        String colore = aqi_loc < 100 ? "high" : "very_high";
-        colore = aqi_loc < 75 ? "medium" : colore;
-        colore = aqi_loc < 50 ? "low" : colore;
-        colore = aqi_loc < 25 ? "very_low" : colore;
+        Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
+        markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
+        markerIcon = aqi_loc < 50 ? markerLow : markerIcon;
+        markerIcon = aqi_loc < 25 ? markerVeryLow : markerIcon;
 
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markerspm.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -803,6 +810,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                index = 1;
                 pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
@@ -825,12 +833,11 @@ class _HomePageState extends State<HomePage> {
         Properties properties = features[i].properties;
         double aqi_loc = properties.no2.no / 4;
         //Trucchetto per decidere di che colore mettere il marker
-        String colore = aqi_loc < 100 ? "high" : "very_high";
-        colore = aqi_loc < 75 ? "medium" : colore;
-        colore = aqi_loc < 50 ? "low" : colore;
-        colore = aqi_loc < 25 ? "very_low" : colore;
+        Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
+        markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
+        markerIcon = aqi_loc < 50 ? markerLow : markerIcon;
+        markerIcon = aqi_loc < 25 ? markerVeryLow : markerIcon;
 
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markersno.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -840,6 +847,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                index = 1;
                 pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
@@ -862,12 +870,11 @@ class _HomePageState extends State<HomePage> {
         Properties properties = features[i].properties;
         double aqi_loc = properties.o3.o3 / 3;
         //Trucchetto per decidere di che colore mettere il marker
-        String colore = aqi_loc < 100 ? "high" : "very_high";
-        colore = aqi_loc < 75 ? "medium" : colore;
-        colore = aqi_loc < 50 ? "low" : colore;
-        colore = aqi_loc < 25 ? "very_low" : colore;
+        Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
+        markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
+        markerIcon = aqi_loc < 50 ? markerLow : markerIcon;
+        markerIcon = aqi_loc < 25 ? markerVeryLow : markerIcon;
 
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markerso3.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -877,6 +884,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                index = 1;
                 pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
@@ -907,6 +915,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       apri_info = false;
       apri_ricerca = false;
+      index = 1;
       _markers.remove(Marker(markerId: MarkerId("Ricerca")));
       _markers.remove(Marker(markerId: MarkerId("Selezione")));
     });
@@ -923,7 +932,7 @@ class _HomePageState extends State<HomePage> {
   void _updatelocationstream() async {
     GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
     _currentLocation();
-    final Uint8List markerApe = await getBytesFromAsset("immagini/ape.png", 40);
+    final Uint8List markerApe = await getBytesFromAsset("immagini/ape.png", 60);
     Geolocator geolocator = Geolocator();
     geolocator.getPositionStream(LocationOptions(
         accuracy: LocationAccuracy.high,
@@ -950,7 +959,7 @@ class _HomePageState extends State<HomePage> {
   //Centra nella posizione e aggiunge il marker con l'ape
   void _currentLocation() async {
     final GoogleMapController controller = await _controller.future;
-    final Uint8List markerApe = await getBytesFromAsset("immagini/ape.png", 40);
+    final Uint8List markerApe = await getBytesFromAsset("immagini/ape.png", 60);
     LocationData currentLocation;
     var location = new Location();
     try {
@@ -1042,6 +1051,7 @@ class _HomePageState extends State<HomePage> {
         )
       );
       apri_ricerca = false;
+      index = 1;
     });
   }
 
