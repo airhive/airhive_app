@@ -63,6 +63,9 @@ flutter:
     - locale/i18n_it.json
     - locale/i18n_de.json
     - map_styles/gtav.txt
+    - map_styles/dark.txt
+    - map_styles/night.txt
+    - map_styles/retro.txt
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 

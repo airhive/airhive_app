@@ -1,5 +1,11 @@
 part of "main.dart";
 
+//Defining variables to define custom types of maps
+String _darkMap;
+String _nightMap;
+String _retroMap;
+String _gtaMap;
+
 
 /*
 * Defining a list to store map types:
@@ -9,6 +15,10 @@ part of "main.dart";
 *    1     -> satellite
 *    2     -> hybrid
 *    3     -> terrain
+*    4     -> dark
+*    5     -> night
+*    6     -> retro
+*    7     -> gta
  */
 const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain];
 int currMapNum; //An integer to indicate the current type of map at runtime
@@ -57,6 +67,23 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    rootBundle.loadString('map_styles/dark.txt').then((string) {
+      _darkMap = string;
+    });
+    rootBundle.loadString('map_styles/night.txt').then((string1) {
+      _nightMap = string1;
+    });
+    rootBundle.loadString('map_styles/retro.txt').then((string2) {
+      _retroMap = string2;
+    });
+    rootBundle.loadString('map_styles/gtav.txt').then((string3) {
+      _gtaMap = string3;
+    });
+  }
 
 
 
@@ -106,6 +133,15 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(3, currMapNum),
               onSelect: (){
                 setMapType(3);
+              },
+            ),
+            RadioPreference(
+              Translations.of(context).text('map_type_topographical_button_text'),
+              'DARK',
+              'map_theme',
+              isDefault: isCurrSetting(4, currMapNum),
+              onSelect: (){
+                setMapType(4);
               },
             ),
 
