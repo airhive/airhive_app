@@ -234,6 +234,22 @@ class Sensori {
   }
 }
 
+class Data{
+  final Sensori sensori;
+
+  Data({
+    this.sensori,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) {
+    print(json["data"]["tempo"]);
+
+    return Data(
+      sensori: json['data'] as Sensori,
+    );
+  }
+}
+
 class GaugeSegment {
   final String segment;
   final int size;
@@ -253,7 +269,6 @@ class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
   final String title;
-
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -315,7 +330,6 @@ class _HomePageState extends State<HomePage> {
       print("Impostazioni salvate: $settings");
     });
     _firebaseMessaging.getToken().then((String token) {
-      print(token);
       sendfiretoken(http.Client(), token);
     });
     super.initState();
@@ -693,7 +707,7 @@ class _HomePageState extends State<HomePage> {
   //Invia il token di firebase
   Future<void> sendfiretoken(http.Client client, String nottkn) async {
     try{
-      await client.get('https://www.airhive.it/php/declareNotificationToken.php?relog=true&nottkn=$nottkn&tkn=$login_token&os=flutter');
+      await client.get('https://www.airhive.it/php/declareNotTkn.php?notTkn=$nottkn&tkn=$login_token');
     }
     catch (SocketException){
       return;
@@ -725,16 +739,42 @@ class _HomePageState extends State<HomePage> {
 
   //Scarica il JSON e prepara i marker
   Future<void> fetchData(http.Client client) async {
+    //Aspetta di avere un token per il login
+    while (login_token == ""){
+      //Se non c'è connessione non fare niente
+      if (conessioneassente){
+        return ;
+      }
+    }
+    //Debug print
+    print('https://www.airhive.it/data/?tkn=$login_token');
     try {
       final response =
-      await client.get('https://house.zan-tech.com/dati/tutto.py?loc=milano&merge=True');
+      await client.get('https://www.airhive.it/data/?tkn=$login_token');
       final parsed = json.decode(response.body);
+
+      //DEBUG
+      print("PRIMO");
 
       //Dimensione di tutte le icone
       int dimensioneicone = 30;
       final Uint8List markerIconBlu = await getBytesFromAsset("immagini/punto_blu.png", dimensioneicone);
 
-      Sensori res = Sensori.fromJson(parsed);
+      //DEBUG
+      print("SECONDO");
+
+      Data risultato_req = Data.fromJson(parsed);
+
+      //DEBUG
+      print("TERZO");
+
+      Sensori res = risultato_req.sensori;
+
+      //DEBUG
+      print("FIN QUA");
+      print("OK $res");
+      print(res.tempo);
+
       tempo_rilevazione = DateFormat('kk:mm il d/MM').format(DateTime.parse(res.tempo));
       List<Features> features = res.features;
       //Marker del caqi
@@ -745,6 +785,7 @@ class _HomePageState extends State<HomePage> {
             properties.o3.o3 / 2.4) / 3;
         properties.caqi = aqi_loc;
         //Trucchetto per decidere di che colore mettere il marker
+        //ERRORE CONTROLLA SOTTO RISCHIO LAG
         String colore = aqi_loc < 100 ? "high" : "very_high";
         colore = aqi_loc < 75 ? "medium" : colore;
         colore = aqi_loc < 50 ? "low" : colore;

@@ -31,7 +31,7 @@ class Data_login{
 
   factory Data_login.fromJson(Map<String, dynamic> json) {
     return Data_login(
-      AccountPermission: json['AccountPermission'] as String,
+      AccountPermission: json['LicenseID'] as String,
       UserAccountVerified: json['UserAccountVerified'] as String,
     );
   }
@@ -274,11 +274,11 @@ Future<void> _login(http.Client client) async {
     modello_device = iosInfo.utsname.machine;
   }
 
-  print('https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
+  print('https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
   try {
     final response =
     await client.get(
-        'https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
+        'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
     final parsed = json.decode(response.body);
     LoginData res =  LoginData.fromJson(parsed);
     bool success = res.success;
@@ -292,7 +292,7 @@ Future<void> _login(http.Client client) async {
     login_data = res.data;
   }
   catch (SocketException){
-    //conessioneassente = true;
+    conessioneassente = true;
     LoginData res = LoginData(
         success: false,
         data:Data_login(AccountPermission: "0", UserAccountVerified: "0"),
@@ -300,4 +300,5 @@ Future<void> _login(http.Client client) async {
     login_token = token_old;
     login_data = res.data;
   };
+
 }
