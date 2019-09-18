@@ -258,11 +258,8 @@ class Sensori {
   });
 
   factory Sensori.fromJson(Map<String, dynamic> json) {
-    print(json['tempo']);
-    print("FATTO");
     var list = json['features'] as List;
     List<Features> featureslist = list.map((i) => Features.fromJson(i)).toList();
-    print("FATTO VERAMENTE");
 
     return Sensori(
       type: json['type'] as String,
@@ -781,35 +778,28 @@ class _HomePageState extends State<HomePage> {
 
       Sensori res = Sensori.fromJson(parsed);
 
-      //DEBUG
-      print("FIN QUA");
-      print(res.features[1].properties.pm_10.pm_10);
-      print(res.tempo);
-
       tempo_rilevazione = DateFormat('kk:mm il d/MM').format(DateTime.parse(res.tempo));
-      print("PRIMO");
       List<Features> features = res.features;
-      print("SECONDO");
+
+      Uint8List markerHigh = await getBytesFromAsset("immagini/high.png", dimensioneicone);
+      Uint8List markerVeryHigh = await getBytesFromAsset("immagini/very_high.png", dimensioneicone);
+      Uint8List markerMedium = await getBytesFromAsset("immagini/medium.png", dimensioneicone);
+      Uint8List markerLow = await getBytesFromAsset("immagini/low.png", dimensioneicone);
+      Uint8List markerVeryLow = await getBytesFromAsset("immagini/very_low.png", dimensioneicone);
+
       //Marker del caqi
       for (var i = 0; i < features.length; i++) {
         Geometry geometry = features[i].geometry;
         Properties properties = features[i].properties;
-        print("OK");
         double aqi_loc = (properties.pm_10.pm_10 + properties.no2.no / 4 +
             properties.o3.o3 / 2.4) / 3;
         properties.caqi = aqi_loc;
+
         //Trucchetto per decidere di che colore mettere il marker
-        //ERRORE CONTROLLA SOTTO RISCHIO LAG
-        String colore = aqi_loc < 100 ? "high" : "very_high";
-        colore = aqi_loc < 75 ? "medium" : colore;
-        colore = aqi_loc < 50 ? "low" : colore;
-        colore = aqi_loc < 25 ? "very_low" : colore;
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
-        print("OK2");
-        print(properties.id_sensore);
-        print(properties.no2.no);
-        print(geometry.coordinates[1]);
-        print(geometry.coordinates[0]);
+        Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
+        markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
+        markerIcon = aqi_loc < 50 ? markerLow : markerIcon;
+        markerIcon = aqi_loc < 25 ? markerVeryLow : markerIcon;
         setState(() {
           _markerscaqi.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -837,19 +827,12 @@ class _HomePageState extends State<HomePage> {
           ));
         });
       }
-      print("POST CAQI");
       //Organizzato per poter cambiare tutti i marker tranne quello della posizione.
       _oldmarker = _markers;
       setState(() {
         _markers = _oldmarker.union(_markerscaqi);
       });
       _globalmarkers = _markers;
-
-      Uint8List markerHigh = await getBytesFromAsset("immagini/high.png", dimensioneicone);
-      Uint8List markerVeryHigh = await getBytesFromAsset("immagini/very_high.png", dimensioneicone);
-      Uint8List markerMedium = await getBytesFromAsset("immagini/medium.png", dimensioneicone);
-      Uint8List markerLow = await getBytesFromAsset("immagini/low.png", dimensioneicone);
-      Uint8List markerVeryLow = await getBytesFromAsset("immagini/very_low.png", dimensioneicone);
 
       //I marker del PM
       for (var i = 0; i < features.length; i++) {
