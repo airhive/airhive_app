@@ -30,15 +30,15 @@ class Pm{
 
   factory Pm.fromJson(Map<String, dynamic> json) {
     return Pm(
-      pm_10_4: json['pm10-4'] as double,
-      pm_10_3: json['pm10-3'] as double,
-      pm_10_2: json['pm10-2'] as double,
-      pm_10_1: json['pm10-1'] as double,
-      pm_10: json['pm10'] as double,
-      pm_10p1: json['pm10+1'] as double,
-      pm_10p2: json['pm10+2'] as double,
-      pm_10p3: json['pm10+3'] as double,
-      pm_10p4: json['pm10+4'] as double,
+      pm_10_4: 0.0,
+      pm_10_3: 0.0,
+      pm_10_2: 0.0,
+      pm_10_1: 0.0,
+      pm_10: json['pm10'].toDouble(),
+      pm_10p1: 0.0,
+      pm_10p2: 0.0,
+      pm_10p3: 0.0,
+      pm_10p4: 0.0,
     );
   }
 }
@@ -68,15 +68,15 @@ class No{
 
   factory No.fromJson(Map<String, dynamic> json) {
     return No(
-      no_4: json['no2-4'] as double,
-      no_3: json['no2-3'] as double,
-      no_2: json['no2-2'] as double,
-      no_1: json['no2-1'] as double,
-      no: json['no2'] as double,
-      nop1: json['no2+1'] as double,
-      nop2: json['no2+2'] as double,
-      nop3: json['no2+3'] as double,
-      nop4: json['no2+4'] as double,
+      no_4: 0.0,
+      no_3: 0.0,
+      no_2: 0.0,
+      no_1: 0.0,
+      no: json['no2'].toDouble(),
+      nop1: 0.0,
+      nop2: 0.0,
+      nop3: 0.0,
+      nop4: 0.0,
     );
   }
 }
@@ -106,15 +106,15 @@ class O3{
 
   factory O3.fromJson(Map<String, dynamic> json) {
     return O3(
-      o3_4: json['o3-4'] as double,
-      o3_3: json['o3-3'] as double,
-      o3_2: json['o3-2'] as double,
-      o3_1: json['o3-1'] as double,
-      o3: json['o3'] as double,
-      o3p1: json['o3+1'] as double,
-      o3p2: json['o3+2'] as double,
-      o3p3: json['o3+3'] as double,
-      o3p4: json['o3+4'] as double,
+      o3_4: 0.0,
+      o3_3: 0.0,
+      o3_2: 0.0,
+      o3_1: 0.0,
+      o3: json['o3'].toDouble(),
+      o3p1: 0.0,
+      o3p2: 0.0,
+      o3p3: 0.0,
+      o3p4: 0.0,
     );
   }
 }
@@ -134,10 +134,10 @@ class Meteo{
 
   factory Meteo.fromJson(Map<String, dynamic> json) {
     return Meteo(
-      temp: json['temp'] as double,
-      umi: json['umi'] as double,
-      prec: json['prec'] as double,
-      vento: json['vento'] as double,
+      temp: json['temp'].toDouble(),
+      umi: json['umi'].toDouble(),
+      prec: json['prec'].toDouble(),
+      vento: json['vento'].toDouble(),
     );
   }
 }
@@ -163,11 +163,46 @@ class Properties{
 
   factory Properties.fromJson(Map<String, dynamic> json) {
     return Properties(
-      id_sensore: json['id_sensore'] as String,
-      pm_10: Pm.fromJson(json['pm']) as Pm,
-      no2: No.fromJson(json["no2"]) as No,
-      o3: O3.fromJson(json["o3"]) as O3,
-      meteo: Meteo.fromJson(json["meteo"]) as Meteo,
+      id_sensore: json['idsensore'] as String,
+      pm_10: Pm(
+        pm_10_4: 0.0,
+        pm_10_3: 0.0,
+        pm_10_2: 0.0,
+        pm_10_1: 0.0,
+        pm_10: json['pm10'].toDouble(),
+        pm_10p1: 0.0,
+        pm_10p2: 0.0,
+        pm_10p3: 0.0,
+        pm_10p4: 0.0,
+      ),
+      no2: No(
+        no_4: 0.0,
+        no_3: 0.0,
+        no_2: 0.0,
+        no_1: 0.0,
+        no: json['no2'].toDouble(),
+        nop1: 0.0,
+        nop2: 0.0,
+        nop3: 0.0,
+        nop4: 0.0,
+      ),
+      o3: O3(
+        o3_4: 0.0,
+        o3_3: 0.0,
+        o3_2: 0.0,
+        o3_1: 0.0,
+        o3: json['o3'].toDouble(),
+        o3p1: 0.0,
+        o3p2: 0.0,
+        o3p3: 0.0,
+        o3p4: 0.0,
+      ),
+      meteo: Meteo(
+        temp: json['temp'].toDouble(),
+        umi: 0.0,//json['umi'].toDouble(),
+        prec: json['prec'].toDouble(),
+        vento: json['vento'].toDouble(),
+      ),
       caqi: 0.0,
     );
   }
@@ -223,29 +258,16 @@ class Sensori {
   });
 
   factory Sensori.fromJson(Map<String, dynamic> json) {
+    print(json['tempo']);
+    print("FATTO");
     var list = json['features'] as List;
     List<Features> featureslist = list.map((i) => Features.fromJson(i)).toList();
+    print("FATTO VERAMENTE");
 
     return Sensori(
       type: json['type'] as String,
       tempo: json['tempo'] as String,
       features: featureslist,
-    );
-  }
-}
-
-class Data{
-  final Sensori sensori;
-
-  Data({
-    this.sensori,
-  });
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    print(json["data"]["tempo"]);
-
-    return Data(
-      sensori: json['data'] as Sensori,
     );
   }
 }
@@ -751,36 +773,28 @@ class _HomePageState extends State<HomePage> {
     try {
       final response =
       await client.get('https://www.airhive.it/data/?tkn=$login_token');
-      final parsed = json.decode(response.body);
-
-      //DEBUG
-      print("PRIMO");
+      final parsed = json.decode(response.body)['data'];
 
       //Dimensione di tutte le icone
       int dimensioneicone = 30;
       final Uint8List markerIconBlu = await getBytesFromAsset("immagini/punto_blu.png", dimensioneicone);
 
-      //DEBUG
-      print("SECONDO");
-
-      Data risultato_req = Data.fromJson(parsed);
-
-      //DEBUG
-      print("TERZO");
-
-      Sensori res = risultato_req.sensori;
+      Sensori res = Sensori.fromJson(parsed);
 
       //DEBUG
       print("FIN QUA");
-      print("OK $res");
+      print(res.features[1].properties.pm_10.pm_10);
       print(res.tempo);
 
       tempo_rilevazione = DateFormat('kk:mm il d/MM').format(DateTime.parse(res.tempo));
+      print("PRIMO");
       List<Features> features = res.features;
+      print("SECONDO");
       //Marker del caqi
       for (var i = 0; i < features.length; i++) {
         Geometry geometry = features[i].geometry;
         Properties properties = features[i].properties;
+        print("OK");
         double aqi_loc = (properties.pm_10.pm_10 + properties.no2.no / 4 +
             properties.o3.o3 / 2.4) / 3;
         properties.caqi = aqi_loc;
@@ -791,6 +805,11 @@ class _HomePageState extends State<HomePage> {
         colore = aqi_loc < 50 ? "low" : colore;
         colore = aqi_loc < 25 ? "very_low" : colore;
         Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
+        print("OK2");
+        print(properties.id_sensore);
+        print(properties.no2.no);
+        print(geometry.coordinates[1]);
+        print(geometry.coordinates[0]);
         setState(() {
           _markerscaqi.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -818,6 +837,7 @@ class _HomePageState extends State<HomePage> {
           ));
         });
       }
+      print("POST CAQI");
       //Organizzato per poter cambiare tutti i marker tranne quello della posizione.
       _oldmarker = _markers;
       setState(() {
