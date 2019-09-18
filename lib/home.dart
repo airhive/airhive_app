@@ -702,8 +702,10 @@ class _HomePageState extends State<HomePage> {
 
   //Invia il token di firebase
   Future<void> sendfiretoken(http.Client client, String nottkn) async {
+    Locale myLocale = Localizations.localeOf(context);
+    String lingua = myLocale.toString().substring(0,2).toUpperCase();
     try{
-      await client.get('https://www.airhive.it/php/declareNotTkn.php?notTkn=$nottkn&tkn=$login_token');
+      await client.get('https://www.airhive.it/php/declareNotTkn.php?notTkn=$nottkn&tkn=$login_token&hl=$lingua');
     }
     catch (SocketException){
       return;
@@ -717,7 +719,7 @@ class _HomePageState extends State<HomePage> {
       content: Text(testo_msg),
       actions: <Widget>[
         FlatButton(
-          child: const Text('Chiudi'),
+          child: Text(Translations.of(context).text('chiudi')),
           onPressed: () {
             Navigator.pop(context, false);
           },

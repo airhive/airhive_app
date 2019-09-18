@@ -25,5 +25,6 @@
   "marker_passato": "Past",
   "marker_futuro": "Future",
   "riprova": "Retry",
-  "dispositivo_offline": "Device offline"
+  "dispositivo_offline": "Device offline",
+  "chiudi": "Close"
 }
