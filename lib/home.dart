@@ -352,8 +352,8 @@ class _HomePageState extends State<HomePage> {
       sendfiretoken(http.Client(), token);
     });
     super.initState();
-    //WidgetsBinding.instance
-    //    .addPostFrameCallback((_) => _seOffline(context));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _seOffline(context));
   }
 
 
@@ -672,31 +672,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ) : new Container(),
-              conessioneassente ? showDialog<void>(
-                context: context,
-                barrierDismissible: false, // user must tap button!
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Connessione assente'),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          Text('Connessione a internet assente.'),
-                          Text('Per favore controlla la tua connessione e riavvia AirHive.'),
-                        ],
-                      ),
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('Va bene.'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ):Container(),
             ], ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: index,
@@ -767,10 +742,15 @@ class _HomePageState extends State<HomePage> {
         FlatButton(
           child: const Text('Riprova'),
           onPressed: () {
+            connectionCheck();
+            Navigator.pop(context, false);
+            if(conessioneassente){
+              _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", "Dispositivo offline");
+              return ;
+            }
             _login(http.Client());
             fetchData(http.Client());
-            Navigator.pop(context, false);
-          },
+                      },
         ),
       ],
     );
@@ -779,13 +759,13 @@ class _HomePageState extends State<HomePage> {
   void _showOfflineAlert(String testo_msg, String titolo_msg) {
     showDialog<bool>(
       context: context,
-      builder: (_) => _buildDialog(context, testo_msg, titolo_msg),
+      builder: (_) => _buildDialogOffline(context, testo_msg, titolo_msg),
     );
   }
 
   void _seOffline(BuildContext context){
     if (conessioneassente){
-      //_showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", "Dispositivo offline");
+      _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", "Dispositivo offline");
       print("offline");
     }
   }
