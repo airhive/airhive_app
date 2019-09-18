@@ -3,7 +3,6 @@ part of "main.dart";
 bool conessioneassente = false;
 String login_token;
 Data_login login_data;
-String mail_inviata = "no";
 
 class RisultatoVerifica{
   final bool success;
@@ -67,8 +66,16 @@ class _AccountPage extends State<AccountPage> {
   bool privacy = false;
   bool mostra_caricamento = true;
   bool codice_verificato = true;
-  String testo_errore_mail = null;
   final _textcontroller = TextEditingController();
+
+  @override
+  void initState() {
+    if (conessioneassente){
+      connectionCheck();
+    }
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +86,10 @@ class _AccountPage extends State<AccountPage> {
           ),
           //resizeToAvoidBottomInset: false,
           drawer: menulaterale(context),
-          body: WebView(
+          body: !conessioneassente ? WebView(
             initialUrl: "https://www.airhive.it/account/?relog=true&json=true&app=true&tkn=$login_token",
             javascriptMode: JavascriptMode.unrestricted,
-          ),
+          ) : Text("Queste informazioni non sono disponibili senza connessione a internet."),
         );
   }
 }

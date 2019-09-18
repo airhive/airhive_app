@@ -352,6 +352,8 @@ class _HomePageState extends State<HomePage> {
       sendfiretoken(http.Client(), token);
     });
     super.initState();
+    //WidgetsBinding.instance
+    //    .addPostFrameCallback((_) => _seOffline(context));
   }
 
 
@@ -754,6 +756,38 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (_) => _buildDialog(context, testo_msg, titolo_msg),
     );
+  }
+
+  // Alert in caso di offline
+  Widget _buildDialogOffline(BuildContext context, String testo_msg, String titolo_msg) {
+    return AlertDialog(
+      title: Text(titolo_msg),
+      content: Text(testo_msg),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('Riprova'),
+          onPressed: () {
+            _login(http.Client());
+            fetchData(http.Client());
+            Navigator.pop(context, false);
+          },
+        ),
+      ],
+    );
+  }
+
+  void _showOfflineAlert(String testo_msg, String titolo_msg) {
+    showDialog<bool>(
+      context: context,
+      builder: (_) => _buildDialog(context, testo_msg, titolo_msg),
+    );
+  }
+
+  void _seOffline(BuildContext context){
+    if (conessioneassente){
+      //_showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", "Dispositivo offline");
+      print("offline");
+    }
   }
 
   //Scarica il JSON e prepara i marker

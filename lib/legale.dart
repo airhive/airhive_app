@@ -10,6 +10,14 @@ class _LegalePage extends State<LegalePage> {
   int stack_visibile = 0;
 
   @override
+  void initState() {
+    if (conessioneassente){
+      connectionCheck();
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
            appBar: new AppBar(
@@ -17,10 +25,10 @@ class _LegalePage extends State<LegalePage> {
              backgroundColor: Colors.yellow[700],
            ),
            drawer: menulaterale(context),
-      body: IndexedStack(
+      body: !conessioneassente ? IndexedStack(
           index: stack_visibile,
           children: [
-            CircularProgressIndicator(),
+            Center(child: CircularProgressIndicator()),
             WebView(
              initialUrl: "https://www.airhive.it/legal?app=true",
              onWebViewCreated: (WebViewController webViewController) {
@@ -34,7 +42,7 @@ class _LegalePage extends State<LegalePage> {
              },
            ),
           ],
-      ),
+      ) : Text("Queste informazioni non sono disponibili senza una connessione a internet."),
     );
   }
 }
