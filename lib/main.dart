@@ -218,6 +218,7 @@ Future<void> connectionCheck() async {
 void main() async {
   await PrefService.init(prefix: 'pref_');
   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
   currMapNum = await getMapType();
   await _login(http.Client());
   runApp(MyApp());

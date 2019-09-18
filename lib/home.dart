@@ -750,7 +750,7 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           FlatButton(
-            child: Text(Translations.of(context).text('settings_button_text')),
+            child: Text(Translations.of(context).text('riprova')),
             onPressed: () {
               connectionCheck();
               Navigator.pop(context, false);

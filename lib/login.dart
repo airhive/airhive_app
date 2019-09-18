@@ -21,7 +21,7 @@ class RisultatoVerifica{
 }
 
 class Data_login{
-  final String AccountPermission;
+  final bool AccountPermission;
   int UserAccountVerified;
 
   Data_login({
@@ -32,7 +32,7 @@ class Data_login{
   factory Data_login.fromJson(Map<String, dynamic> json) {
     print(json['UserAccountVerified']);
     return Data_login(
-      AccountPermission: json['LicenseID'] as String,
+      AccountPermission: json['LicenseID'] as bool,
       UserAccountVerified: json['UserAccountVerified'] as int,
     );
   }
@@ -237,7 +237,7 @@ class _AccountPage extends State<AccountPage> {
     }
     catch(SocketException){
       setState(() {
-        testo_errore_mail = "Connessione a internet assente";
+        testo_errore_mail = Translations.of(context).text('dispositivo_offline');
       });
     }
   }
@@ -307,7 +307,7 @@ Future<void> _login(http.Client client) async {
     conessioneassente = true;
     LoginData res = LoginData(
         success: false,
-        data:Data_login(AccountPermission: "0", UserAccountVerified: 0),
+        data:Data_login(AccountPermission: false, UserAccountVerified: 0),
         token: token_old);
     login_token = token_old;
     login_data = res.data;
