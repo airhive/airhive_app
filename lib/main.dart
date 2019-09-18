@@ -201,6 +201,7 @@ Drawer menulaterale(context){
 //  };
 //}
 
+//Controlla se c'è connessione
 Future<void> connectionCheck() async {
   try {
     final result = await InternetAddress.lookup('google.com');

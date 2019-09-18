@@ -739,19 +739,30 @@ class _HomePageState extends State<HomePage> {
       title: Text(titolo_msg),
       content: Text(testo_msg),
       actions: <Widget>[
-        FlatButton(
-          child: const Text('Riprova'),
+        Row(
+        children:[
+          FlatButton(
+              child: const Text('Ok'),
           onPressed: () {
-            connectionCheck();
             Navigator.pop(context, false);
-            if(conessioneassente){
-              _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", "Dispositivo offline");
-              return ;
-            }
-            _login(http.Client());
-            fetchData(http.Client());
-                      },
-        ),
+            },
+          ),
+          FlatButton(
+            child: const Text('Riprova'),
+            onPressed: () {
+              connectionCheck();
+              Navigator.pop(context, false);
+              if(conessioneassente){
+                _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", "Dispositivo offline");
+                return ;
+              }
+              _login(http.Client());
+              fetchData(http.Client());
+              _updatelocationstream();
+              },
+            ),
+          ]
+        )
       ],
     );
   }

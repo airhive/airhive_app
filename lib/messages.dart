@@ -22,7 +22,7 @@ class _MessagesPageState extends State<MessagesPage> {
         title: new Text(Translations.of(context).text('notifications_button_text')),
         backgroundColor: Colors.yellow[700],
       ),
-      body: IndexedStack(
+      body: !conessioneassente ? IndexedStack(
           index: stack_visibile,
           children: [
             CircularProgressIndicator(),
@@ -37,7 +37,7 @@ class _MessagesPageState extends State<MessagesPage> {
             },
           ),
       ],
-    ),
+    ) : Text("Queste informazioni non sono disponibili senza connessione a internet."),
    );
   }
 }
