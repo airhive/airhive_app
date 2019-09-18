@@ -693,7 +693,7 @@ class _HomePageState extends State<HomePage> {
               ),
               new BottomNavigationBarItem(
                   icon: Icon(Icons.search),
-                  title: Text('Cerca')
+                  title: Text(Translations.of(context).text('blank_research_text'))
               )
             ],
           ),
@@ -748,12 +748,12 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           FlatButton(
-            child: const Text('Riprova'),
+            child: Text(Translations.of(context).text('settings_button_text')),
             onPressed: () {
               connectionCheck();
               Navigator.pop(context, false);
               if(conessioneassente){
-                _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", "Dispositivo offline");
+                _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", Translations.of(context).text('dispositivo_offline'));
                 return ;
               }
               _login(http.Client());
@@ -776,8 +776,7 @@ class _HomePageState extends State<HomePage> {
 
   void _seOffline(BuildContext context){
     if (conessioneassente){
-      _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", "Dispositivo offline");
-      print("offline");
+      _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", Translations.of(context).text('dispositivo_offline'));
     }
   }
 

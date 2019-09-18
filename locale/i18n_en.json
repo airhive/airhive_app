@@ -23,5 +23,7 @@
   "blank_research_text": "Search",
   "marker_presente": "Now",
   "marker_passato": "Past",
-  "marker_futuro": "Future"
+  "marker_futuro": "Future",
+  "riprova": "Retry",
+  "dispositivo_offline": "Device offline"
 }

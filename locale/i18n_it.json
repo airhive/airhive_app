@@ -23,5 +23,7 @@
   "blank_research_text": "Cerca",
   "marker_presente": "Presente",
   "marker_passato": "Passato",
-  "marker_futuro": "Futuro"
+  "marker_futuro": "Futuro",
+  "riprova": "Riprova",
+  "dispositivo_offline": "Dispositivo offline"
 }
