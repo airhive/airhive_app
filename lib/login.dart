@@ -102,6 +102,9 @@ class _AccountPage extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    print("https://www.airhive.it/account/?app=true&tkn=$login_token");
+
     return  new Scaffold(
           appBar: new AppBar(
             title: new Text("Account"),
@@ -209,7 +212,7 @@ class _AccountPage extends State<AccountPage> {
               ),
             ],
           ) : !conessioneassente ? WebView(
-            initialUrl: "https://www.airhive.it/account/?relog=true&json=true&app=true&tkn=$login_token",
+            initialUrl: "https://www.airhive.it/account/?app=true&tkn=$login_token",
             javascriptMode: JavascriptMode.unrestricted,
           ) : Text("Queste informazioni non sono disponibili senza connessione a internet."),
         );
@@ -276,22 +279,26 @@ class _AccountPage extends State<AccountPage> {
     String session_id = await prefs.getString("session_id");
     final response =
     await client.get(
-      'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&mail=$indirizzo_mail&tkn=$login_token&twofactor=$codice');
+      'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&twofactor=$codice');
     final parsed = json.decode(response.body);
     print(parsed);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
-    if(success){
-      setState(() {
-        login_data.UserAccountVerified = 1;
-        mail_inviata = "no";
-        codice_verificato = true;
-      });
-      prefs.setString("mail_inviata", "no");
-    }
-    else {
-      setState(() {
-        codice_verificato = false;
-      });
+    bool twofactor =  RisultatoVerifica.fromJson(parsed).twofactor;
+    if (success) {
+      if (twofactor) {
+        setState(() {
+          login_data.UserAccountVerified = 1;
+          mail_inviata = "no";
+          codice_verificato = true;
+        });
+        prefs.setString("mail_inviata", "no");
+      } else {
+        setState(() {
+          codice_verificato = false;
+        });
+      }
+    } else {
+      testo_errore_mail = Translations.of(context).text('dispositivo_offline');
     }
   }
 }
