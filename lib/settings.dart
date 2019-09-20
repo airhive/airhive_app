@@ -18,9 +18,8 @@ String _gtaMap;
  */
 const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain];
 int currMapNum; //An integer to indicate the current type of map at runtime
-int defMapNum = 3; //An integer to indicate the default type of map
-int currStyleNum; //An integer to indicate the dafault style of map at runtime
-int defStyleNum = 4; //An integer to indicate the default map style
+int defMapNum = 0; //An integer to indicate the default type of map
+
 
 
 /*
@@ -31,8 +30,11 @@ int defStyleNum = 4; //An integer to indicate the default map style
  *    1     -> night
  *    2     -> retro
  *    3     -> gta
+ *    4     -> classic
  * */
-final ListOfStyles = [_darkMap, _nightMap, _retroMap, _gtaMap];
+final ListOfStyles = [_darkMap, _nightMap, _retroMap, _gtaMap, null];
+int currStyleNum; //An integer to indicate the default style of map at runtime
+int defStyleNum = 4; //An integer to indicate the default map style
 
 
 //Defining a function to get the type of map from saved preferences (if not present set it to the default value)
@@ -52,6 +54,26 @@ Future<void> setMapType(int mapToSet) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   currMapNum = mapToSet;
   prefs.setInt('maptype', mapToSet);
+
+}
+
+//Defining a function to get the style of map from saved preferences (if not present set it to the default value)
+Future<int> getMapStyle() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  int controlValue = prefs.getInt('mapstyle');
+  if(controlValue != null) {
+    return controlValue;
+  } else {
+    prefs.setInt('mapstyle', defMapNum);
+    return defStyleNum;
+  }
+}
+
+//Defining a function to save a selected style of map into preferences and set it as current style of map
+Future<void> setMapStyle(int styleToSet) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  currStyleNum = styleToSet;
+  prefs.setInt('mapstyle', styleToSet);
 
 }
 
@@ -78,23 +100,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  @override
-  void initState() {
-    super.initState();
-
-    rootBundle.loadString('map_styles/dark.txt').then((string) {
-      _darkMap = string;
-    });
-    rootBundle.loadString('map_styles/night.txt').then((string1) {
-      _nightMap = string1;
-    });
-    rootBundle.loadString('map_styles/retro.txt').then((string2) {
-      _retroMap = string2;
-    });
-    rootBundle.loadString('map_styles/gtav.txt').then((string3) {
-      _gtaMap = string3;
-    });
-  }
 
 
 
@@ -114,9 +119,10 @@ class _SettingsPageState extends State<SettingsPage> {
               Translations.of(context).text('map_type_normal_button_text'),
               'ROADMAP',
               'map_theme',
-              isDefault: isCurrSetting(0, currMapNum),
+              isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(4, currStyleNum),
               onSelect: (){
                 setMapType(0);
+                setMapStyle(4);
               },
             ),
             RadioPreference(
@@ -126,6 +132,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(2, currMapNum),
               onSelect: (){
                 setMapType(1);
+                setMapStyle(4);
               },
             ),
             RadioPreference(
@@ -135,6 +142,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(1, currMapNum),
               onSelect: (){
                 setMapType(2);
+                setMapStyle(4);
               },
             ),
             RadioPreference(
@@ -144,15 +152,37 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(3, currMapNum),
               onSelect: (){
                 setMapType(3);
+                setMapStyle(4);
               },
             ),
             RadioPreference(
-              Translations.of(context).text('map_type_topographical_button_text'),
+              Translations.of(context).text('map_type_dark_button_text'),
               'DARK',
               'map_theme',
-              isDefault: isCurrSetting(4, currMapNum),
+              isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(0, currStyleNum),
               onSelect: (){
-                setMapType(4);
+                setMapType(0);
+                setMapStyle(0);
+              },
+            ),
+            RadioPreference(
+              Translations.of(context).text('map_type_night_button_text'),
+              'NIGHT',
+              'map_theme',
+              isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(1, currStyleNum),
+              onSelect: (){
+                setMapType(0);
+                setMapStyle(1);
+              },
+            ),
+            RadioPreference(
+              Translations.of(context).text('map_type_retro_button_text'),
+              'RETRO',
+              'map_theme',
+              isDefault: (isCurrSetting(0, currMapNum))&&(isCurrSetting(2, currStyleNum)),
+              onSelect: (){
+                setMapType(0);
+                setMapStyle(2);
               },
             ),
 

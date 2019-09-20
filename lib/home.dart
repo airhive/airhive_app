@@ -330,6 +330,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+
+    rootBundle.loadString('map_styles/dark.txt').then((string) {
+      _darkMap = string;
+    });
+    rootBundle.loadString('map_styles/night.txt').then((string1) {
+      _nightMap = string1;
+    });
+    rootBundle.loadString('map_styles/retro.txt').then((string2) {
+      _retroMap = string2;
+    });
+    rootBundle.loadString('map_styles/gtav.txt').then((string3) {
+      _gtaMap = string3;
+    });
+
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         _showAlert(message["notification"]["body"], message["notification"]["title"]);
@@ -351,6 +365,7 @@ class _HomePageState extends State<HomePage> {
     _firebaseMessaging.getToken().then((String token) {
       sendfiretoken(http.Client(), token);
     });
+
     super.initState();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _seOffline(context));
