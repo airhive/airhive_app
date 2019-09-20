@@ -1,0 +1,1 @@
+export PATH="$PATH:Desktop/Developer/flutter/bin"

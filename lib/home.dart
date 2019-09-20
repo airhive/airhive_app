@@ -797,7 +797,6 @@ class _HomePageState extends State<HomePage> {
       final response =
       await client.get('https://www.airhive.it/data/?tkn=$login_token');
       final parsed = json.decode(response.body)['data'];
-
       //Dimensione di tutte le icone
       int dimensioneicone = 30;
       final Uint8List markerIconBlu = await getBytesFromAsset("immagini/punto_blu.png", dimensioneicone);

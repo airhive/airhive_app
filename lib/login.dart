@@ -241,6 +241,10 @@ class _AccountPage extends State<AccountPage> {
       });
     }
   }
+
+
+// giulio non andrebbe eilinata la parte sotto? lato server https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&jso non esiste più, bastano i due link che abbiamo configurato insieme l'altro giorno
+
   // Verifica il codice per la registrazione
   Future<void> _verificamail(http.Client client, String codice) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -288,7 +292,10 @@ Future<void> _login(http.Client client) async {
     await client.get(
         'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
     final parsed = json.decode(response.body);
+    print(parsed['tkn']);
+    await prefs.setString('token', parsed['tkn']);
     print(parsed["data"]["Autolog"]);
+    print(parsed);
     LoginData res =  LoginData.fromJson(parsed);
     bool success = res.success;
     String token = res.token;
