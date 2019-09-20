@@ -19,6 +19,8 @@ String _gtaMap;
 const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain];
 int currMapNum; //An integer to indicate the current type of map at runtime
 int defMapNum = 3; //An integer to indicate the default type of map
+int currStyleNum; //An integer to indicate the dafault style of map at runtime
+int defStyleNum = 4; //An integer to indicate the default map style
 
 
 /*

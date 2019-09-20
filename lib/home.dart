@@ -914,13 +914,11 @@ class _HomePageState extends State<HomePage> {
 
   //Declaring a variable to use gmap controller
   GoogleMapController mapController;
-  //Declaring a variable to store the current map Style
-  String _currMapStyle;
 
   //Alla creazione della mappa scarica il JSON e centra nella giusta posizione
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    mapController.setMapStyle(_currMapStyle);
+    mapController.setMapStyle(ListOfStyles[currStyleNum]);
     _controller.complete(controller);
     fetchData(http.Client());
     _updatelocationstream();
