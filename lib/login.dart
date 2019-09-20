@@ -5,16 +5,37 @@ String login_token;
 Data_login login_data;
 String mail_inviata = "no";
 
+class InviaMail{
+  final bool success;
+  final String sid;
+
+  InviaMail({
+    this.success,
+    this.sid,
+  });
+
+  factory InviaMail.fromJson(Map<String, dynamic> json) {
+    return InviaMail(
+      success: json['success'] as bool,
+      sid: json['sid'] as String,
+    );
+  }
+
+}
+
 class RisultatoVerifica{
   final bool success;
+  final bool twofactor;
 
   RisultatoVerifica({
     this.success,
+    this.twofactor,
   });
 
   factory RisultatoVerifica.fromJson(Map<String, dynamic> json) {
     return RisultatoVerifica(
       success: json['success'] as bool,
+      twofactor: json['twofactor'] as bool,
     );
   }
 
@@ -22,7 +43,7 @@ class RisultatoVerifica{
 
 class Data_login{
   final String AccountPermission;
-  String UserAccountVerified;
+  int UserAccountVerified;
 
   Data_login({
     this.AccountPermission,
@@ -31,8 +52,8 @@ class Data_login{
 
   factory Data_login.fromJson(Map<String, dynamic> json) {
     return Data_login(
-      AccountPermission: json['AccountPermission'] as String,
-      UserAccountVerified: json['UserAccountVerified'] as String,
+      AccountPermission: json['LicenseID'] as String,
+      UserAccountVerified: json['UserAccountVerified'] as int,
     );
   }
 
@@ -71,6 +92,15 @@ class _AccountPage extends State<AccountPage> {
   final _textcontroller = TextEditingController();
 
   @override
+  void initState() {
+    if (conessioneassente){
+      connectionCheck();
+    }
+    super.initState();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return  new Scaffold(
           appBar: new AppBar(
@@ -80,49 +110,49 @@ class _AccountPage extends State<AccountPage> {
           //resizeToAvoidBottomInset: false,
           drawer: menulaterale(context),
           body:
-          ((login_data.UserAccountVerified == '0') & (mail_inviata == "no")) ? Center(
-              child:Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Center(child:Text(
-                      Translations.of(context).text('sign_in'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      ),
-                    )),
-                    Container(height: 50),
-                    TextField(
-                      controller: _textcontroller,
-                      decoration: InputDecoration(
-                          fillColor: Colors.yellow[700],
-                          prefixIcon: Icon(Icons.mail),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.send),
-                            onPressed: () {privacy ? pulsante_mail(context, _textcontroller):null;},
-                          ),
-                          hintText: "example@example.com",
-                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
-                          errorText: privacy ? testo_errore_mail : Translations.of(context).text('accept_privacy_to_continue'),
-                      ),
-                      onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
+          ((login_data.UserAccountVerified == 0) & (mail_inviata == "no")) ? Center(
+            child:Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Center(child:Text(
+                    Translations.of(context).text('sign_in'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
                     ),
-                    Container(height:50),
-                    CheckboxListTile(
-                      title: Text(Translations.of(context).text('accept_privacy_button_text')), //    <-- label
-                      value: privacy,
-                      onChanged: (newValue) {setState(() {
-                        privacy = privacy ? false : true;
-                      }); },
-                    )
-                  ],
-                ),
+                  )),
+                  Container(height: 50),
+                  TextField(
+                    controller: _textcontroller,
+                    decoration: InputDecoration(
+                      fillColor: Colors.yellow[700],
+                      prefixIcon: Icon(Icons.mail),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.send),
+                        onPressed: () {privacy ? pulsante_mail(context, _textcontroller):null;},
+                      ),
+                      hintText: "example@example.com",
+                      hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                      errorText: privacy ? testo_errore_mail : Translations.of(context).text('accept_privacy_to_continue'),
+                    ),
+                    onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
+                  ),
+                  Container(height:50),
+                  CheckboxListTile(
+                    title: Text(Translations.of(context).text('accept_privacy_button_text')), //    <-- label
+                    value: privacy,
+                    onChanged: (newValue) {setState(() {
+                      privacy = privacy ? false : true;
+                    }); },
+                  )
+                ],
               ),
-          ): (login_data.UserAccountVerified == '0') ? Stack(
+            ),
+          ): (login_data.UserAccountVerified == 0) ? Stack(
             children: <Widget>[
               Center(
                 child:Container(
@@ -148,15 +178,15 @@ class _AccountPage extends State<AccountPage> {
                         maxLengthEnforced: true,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                            fillColor: Colors.yellow[700],
-                            prefixIcon: Icon(Icons.code),
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.send),
-                              onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
-                            ),
-                            hintText: Translations.of(context).text('verification_code'),
-                            hintStyle: TextStyle(fontWeight: FontWeight.w300),
-                            errorText: codice_verificato ? null : Translations.of(context).text('error_code_text'),
+                          fillColor: Colors.yellow[700],
+                          prefixIcon: Icon(Icons.code),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.send),
+                            onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
+                          ),
+                          hintText: Translations.of(context).text('verification_code'),
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                          errorText: codice_verificato ? null : Translations.of(context).text('error_code_text'),
                         ),
                         onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
                       ),
@@ -178,13 +208,12 @@ class _AccountPage extends State<AccountPage> {
                 ),
               ),
             ],
-          ):WebView(
-            initialUrl: "https://www.airhive.it/account/?relog=true&json=true&app=true&tkn=$login_token",
+          ) : !conessioneassente ? WebView(
+            initialUrl: "https://www.airhive.it/account/?app=true&tkn=$login_token",
             javascriptMode: JavascriptMode.unrestricted,
-          ),
+          ) : Text("Queste informazioni non sono disponibili senza connessione a internet."),
         );
   }
-
   void pulsante_mail(context, TextEditingController _textcontroller) async {
     if(! _textcontroller.text.contains("@")){
       setState(() {
@@ -208,17 +237,18 @@ class _AccountPage extends State<AccountPage> {
     try {
       final response =
       await client.get(
-          'https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=$privacy');
+          'https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token');
       final parsed = json.decode(response.body);
-      bool success = RisultatoVerifica
-          .fromJson(parsed)
-          .success;
+      InviaMail res = InviaMail.fromJson(parsed);
+      bool success = res.success;
+      print("SUCCESS: $success");
       if (success) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         setState(() {
           mail_inviata = "si";
         });
         prefs.setString("mail_inviata", mail_inviata);
+        prefs.setString("session_id", res.sid);
       }
       else {
         setState(() {
@@ -228,32 +258,36 @@ class _AccountPage extends State<AccountPage> {
     }
     catch(SocketException){
       setState(() {
-        testo_errore_mail = "Connessione a internet assente";
+        testo_errore_mail = Translations.of(context).text('dispositivo_offline');
       });
     }
   }
-
   // Verifica il codice per la registrazione
   Future<void> _verificamail(http.Client client, String codice) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String indirizzo_mail = await prefs.getString("indirizzo_mail");
+    String session_id = await prefs.getString("session_id");
     final response =
     await client.get(
-        'https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&json=true&verificationCode=$codice');
+      'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&twofactor=$codice');
     final parsed = json.decode(response.body);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
-    if(success){
-      setState(() {
-        login_data.UserAccountVerified = "1";
-        mail_inviata = "no";
-        codice_verificato = true;
-      });
-      prefs.setString("mail_inviata", "no");
-    }
-    else {
-      setState(() {
-        codice_verificato = false;
-      });
+    bool twofactor =  RisultatoVerifica.fromJson(parsed).twofactor;
+    if (success) {
+      if (twofactor) {
+        setState(() {
+          login_data.UserAccountVerified = 1;
+          mail_inviata = "no";
+          codice_verificato = true;
+        });
+        prefs.setString("mail_inviata", "no");
+      } else {
+        setState(() {
+          codice_verificato = false;
+        });
+      }
+    } else {
+      testo_errore_mail = Translations.of(context).text('dispositivo_offline');
     }
   }
 }
@@ -274,11 +308,11 @@ Future<void> _login(http.Client client) async {
     modello_device = iosInfo.utsname.machine;
   }
 
-  print('https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
+  print('https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
   try {
     final response =
     await client.get(
-        'https://www.airhive.it/php/login.php?deviceModel=$modello_device&deviceName=My+Device&app=true&tkn=$token_old');
+        'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
     final parsed = json.decode(response.body);
     LoginData res =  LoginData.fromJson(parsed);
     bool success = res.success;
@@ -292,10 +326,11 @@ Future<void> _login(http.Client client) async {
     login_data = res.data;
   }
   catch (SocketException){
-    //conessioneassente = true;
+    connectionCheck();
+    conessioneassente = true;
     LoginData res = LoginData(
         success: false,
-        data:Data_login(AccountPermission: "0", UserAccountVerified: "0"),
+        data:Data_login(AccountPermission: "false", UserAccountVerified: 0),
         token: token_old);
     login_token = token_old;
     login_data = res.data;

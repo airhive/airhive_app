@@ -30,15 +30,15 @@ class Pm{
 
   factory Pm.fromJson(Map<String, dynamic> json) {
     return Pm(
-      pm_10_4: json['pm10-4'] as double,
-      pm_10_3: json['pm10-3'] as double,
-      pm_10_2: json['pm10-2'] as double,
-      pm_10_1: json['pm10-1'] as double,
-      pm_10: json['pm10'] as double,
-      pm_10p1: json['pm10+1'] as double,
-      pm_10p2: json['pm10+2'] as double,
-      pm_10p3: json['pm10+3'] as double,
-      pm_10p4: json['pm10+4'] as double,
+      pm_10_4: 0.0,
+      pm_10_3: 0.0,
+      pm_10_2: 0.0,
+      pm_10_1: 0.0,
+      pm_10: json['pm10'].toDouble(),
+      pm_10p1: 0.0,
+      pm_10p2: 0.0,
+      pm_10p3: 0.0,
+      pm_10p4: 0.0,
     );
   }
 }
@@ -68,15 +68,15 @@ class No{
 
   factory No.fromJson(Map<String, dynamic> json) {
     return No(
-      no_4: json['no2-4'] as double,
-      no_3: json['no2-3'] as double,
-      no_2: json['no2-2'] as double,
-      no_1: json['no2-1'] as double,
-      no: json['no2'] as double,
-      nop1: json['no2+1'] as double,
-      nop2: json['no2+2'] as double,
-      nop3: json['no2+3'] as double,
-      nop4: json['no2+4'] as double,
+      no_4: 0.0,
+      no_3: 0.0,
+      no_2: 0.0,
+      no_1: 0.0,
+      no: json['no2'].toDouble(),
+      nop1: 0.0,
+      nop2: 0.0,
+      nop3: 0.0,
+      nop4: 0.0,
     );
   }
 }
@@ -106,15 +106,15 @@ class O3{
 
   factory O3.fromJson(Map<String, dynamic> json) {
     return O3(
-      o3_4: json['o3-4'] as double,
-      o3_3: json['o3-3'] as double,
-      o3_2: json['o3-2'] as double,
-      o3_1: json['o3-1'] as double,
-      o3: json['o3'] as double,
-      o3p1: json['o3+1'] as double,
-      o3p2: json['o3+2'] as double,
-      o3p3: json['o3+3'] as double,
-      o3p4: json['o3+4'] as double,
+      o3_4: 0.0,
+      o3_3: 0.0,
+      o3_2: 0.0,
+      o3_1: 0.0,
+      o3: json['o3'].toDouble(),
+      o3p1: 0.0,
+      o3p2: 0.0,
+      o3p3: 0.0,
+      o3p4: 0.0,
     );
   }
 }
@@ -134,10 +134,10 @@ class Meteo{
 
   factory Meteo.fromJson(Map<String, dynamic> json) {
     return Meteo(
-      temp: json['temp'] as double,
-      umi: json['umi'] as double,
-      prec: json['prec'] as double,
-      vento: json['vento'] as double,
+      temp: json['temp'].toDouble(),
+      umi: json['umi'].toDouble(),
+      prec: json['prec'].toDouble(),
+      vento: json['vento'].toDouble(),
     );
   }
 }
@@ -163,11 +163,46 @@ class Properties{
 
   factory Properties.fromJson(Map<String, dynamic> json) {
     return Properties(
-      id_sensore: json['id_sensore'] as String,
-      pm_10: Pm.fromJson(json['pm']) as Pm,
-      no2: No.fromJson(json["no2"]) as No,
-      o3: O3.fromJson(json["o3"]) as O3,
-      meteo: Meteo.fromJson(json["meteo"]) as Meteo,
+      id_sensore: json['idsensore'] as String,
+      pm_10: Pm(
+        pm_10_4: 0.0,
+        pm_10_3: 0.0,
+        pm_10_2: 0.0,
+        pm_10_1: 0.0,
+        pm_10: json['pm10'].toDouble(),
+        pm_10p1: 0.0,
+        pm_10p2: 0.0,
+        pm_10p3: 0.0,
+        pm_10p4: 0.0,
+      ),
+      no2: No(
+        no_4: 0.0,
+        no_3: 0.0,
+        no_2: 0.0,
+        no_1: 0.0,
+        no: json['no2'].toDouble(),
+        nop1: 0.0,
+        nop2: 0.0,
+        nop3: 0.0,
+        nop4: 0.0,
+      ),
+      o3: O3(
+        o3_4: 0.0,
+        o3_3: 0.0,
+        o3_2: 0.0,
+        o3_1: 0.0,
+        o3: json['o3'].toDouble(),
+        o3p1: 0.0,
+        o3p2: 0.0,
+        o3p3: 0.0,
+        o3p4: 0.0,
+      ),
+      meteo: Meteo(
+        temp: json['temp'].toDouble(),
+        umi: 0.0,//json['umi'].toDouble(),
+        prec: json['prec'].toDouble(),
+        vento: json['vento'].toDouble(),
+      ),
       caqi: 0.0,
     );
   }
@@ -254,7 +289,6 @@ class HomePage extends StatefulWidget {
 
   final String title;
 
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -315,10 +349,11 @@ class _HomePageState extends State<HomePage> {
       print("Impostazioni salvate: $settings");
     });
     _firebaseMessaging.getToken().then((String token) {
-      print(token);
       sendfiretoken(http.Client(), token);
     });
     super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _seOffline(context));
   }
 
 
@@ -612,6 +647,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 setState(() {
                                   apri_ricerca = false;
+                                  index = 1;
                                 });
                                 _textcontroller.clear();
                               }),
@@ -636,31 +672,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ) : new Container(),
-              conessioneassente ? showDialog<void>(
-                context: context,
-                barrierDismissible: false, // user must tap button!
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Connessione assente'),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          Text('Connessione a internet assente.'),
-                          Text('Per favore controlla la tua connessione e riavvia AirHive.'),
-                        ],
-                      ),
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('Va bene.'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ):Container(),
             ], ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: index,
@@ -682,7 +693,7 @@ class _HomePageState extends State<HomePage> {
               ),
               new BottomNavigationBarItem(
                   icon: Icon(Icons.search),
-                  title: Text('Cerca')
+                  title: Text(Translations.of(context).text('blank_research_text'))
               )
             ],
           ),
@@ -691,8 +702,10 @@ class _HomePageState extends State<HomePage> {
 
   //Invia il token di firebase
   Future<void> sendfiretoken(http.Client client, String nottkn) async {
+    Locale myLocale = Localizations.localeOf(context);
+    String lingua = myLocale.toString().substring(0,2).toUpperCase();
     try{
-      await client.get('https://www.airhive.it/php/declareNotificationToken.php?relog=true&nottkn=$nottkn&tkn=$login_token&os=flutter');
+      await client.get('https://www.airhive.it/php/declareNotTkn.php?notTkn=$nottkn&tkn=$login_token&hl=$lingua');
     }
     catch (SocketException){
       return;
@@ -706,7 +719,7 @@ class _HomePageState extends State<HomePage> {
       content: Text(testo_msg),
       actions: <Widget>[
         FlatButton(
-          child: const Text('Chiudi'),
+          child: Text(Translations.of(context).text('chiudi')),
           onPressed: () {
             Navigator.pop(context, false);
           },
@@ -722,20 +735,84 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Alert in caso di offline
+  Widget _buildDialogOffline(BuildContext context, String testo_msg, String titolo_msg) {
+    return AlertDialog(
+      title: Text(titolo_msg),
+      content: Text(testo_msg),
+      actions: <Widget>[
+        Row(
+        children:[
+          FlatButton(
+              child: const Text('Ok'),
+          onPressed: () {
+            Navigator.pop(context, false);
+            },
+          ),
+          FlatButton(
+            child: Text(Translations.of(context).text('riprova')),
+            onPressed: () {
+              connectionCheck();
+              Navigator.pop(context, false);
+              if(conessioneassente){
+                _showOfflineAlert(Translations.of(context).text('funzioni_non_disponibili'), Translations.of(context).text('dispositivo_offline'));
+                return ;
+              }
+              _login(http.Client());
+              fetchData(http.Client());
+              _updatelocationstream();
+              },
+            ),
+          ]
+        )
+      ],
+    );
+  }
+
+  void _showOfflineAlert(String testo_msg, String titolo_msg) {
+    showDialog<bool>(
+      context: context,
+      builder: (_) => _buildDialogOffline(context, testo_msg, titolo_msg),
+    );
+  }
+
+  void _seOffline(BuildContext context){
+    if (conessioneassente){
+      _showOfflineAlert(Translations.of(context).text('funzioni_non_disponibili'), Translations.of(context).text('dispositivo_offline'));
+    }
+  }
+
   //Scarica il JSON e prepara i marker
   Future<void> fetchData(http.Client client) async {
+    //Aspetta di avere un token per il login
+    while (login_token == ""){
+      //Se non c'è connessione non fare niente
+      if (conessioneassente){
+        return ;
+      }
+    }
+    //Debug print
+    print('https://www.airhive.it/data/?tkn=$login_token');
     try {
       final response =
-      await client.get('https://house.zan-tech.com/dati/tutto.py?loc=milano&merge=True');
-      final parsed = json.decode(response.body);
+      await client.get('https://www.airhive.it/data/?tkn=$login_token');
+      final parsed = json.decode(response.body)['data'];
 
       //Dimensione di tutte le icone
       int dimensioneicone = 30;
       final Uint8List markerIconBlu = await getBytesFromAsset("immagini/punto_blu.png", dimensioneicone);
 
       Sensori res = Sensori.fromJson(parsed);
+
       tempo_rilevazione = DateFormat('kk:mm il d/MM').format(DateTime.parse(res.tempo));
       List<Features> features = res.features;
+
+      Uint8List markerHigh = await getBytesFromAsset("immagini/high.png", dimensioneicone);
+      Uint8List markerVeryHigh = await getBytesFromAsset("immagini/very_high.png", dimensioneicone);
+      Uint8List markerMedium = await getBytesFromAsset("immagini/medium.png", dimensioneicone);
+      Uint8List markerLow = await getBytesFromAsset("immagini/low.png", dimensioneicone);
+      Uint8List markerVeryLow = await getBytesFromAsset("immagini/very_low.png", dimensioneicone);
+
       //Marker del caqi
       for (var i = 0; i < features.length; i++) {
         Geometry geometry = features[i].geometry;
@@ -743,12 +820,12 @@ class _HomePageState extends State<HomePage> {
         double aqi_loc = (properties.pm_10.pm_10 + properties.no2.no / 4 +
             properties.o3.o3 / 2.4) / 3;
         properties.caqi = aqi_loc;
+
         //Trucchetto per decidere di che colore mettere il marker
-        String colore = aqi_loc < 100 ? "high" : "very_high";
-        colore = aqi_loc < 75 ? "medium" : colore;
-        colore = aqi_loc < 50 ? "low" : colore;
-        colore = aqi_loc < 25 ? "very_low" : colore;
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
+        Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
+        markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
+        markerIcon = aqi_loc < 50 ? markerLow : markerIcon;
+        markerIcon = aqi_loc < 25 ? markerVeryLow : markerIcon;
         setState(() {
           _markerscaqi.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -758,6 +835,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                index = 1;
                 pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
@@ -788,12 +866,11 @@ class _HomePageState extends State<HomePage> {
         Properties properties = features[i].properties;
         double aqi_loc = properties.pm_10.pm_10;
         //Trucchetto per decidere di che colore mettere il marker
-        String colore = aqi_loc < 100 ? "high" : "very_high";
-        colore = aqi_loc < 75 ? "medium" : colore;
-        colore = aqi_loc < 50 ? "low" : colore;
-        colore = aqi_loc < 25 ? "very_low" : colore;
+        Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
+        markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
+        markerIcon = aqi_loc < 50 ? markerLow : markerIcon;
+        markerIcon = aqi_loc < 25 ? markerVeryLow : markerIcon;
 
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markerspm.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -803,6 +880,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                index = 1;
                 pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
@@ -825,12 +903,11 @@ class _HomePageState extends State<HomePage> {
         Properties properties = features[i].properties;
         double aqi_loc = properties.no2.no / 4;
         //Trucchetto per decidere di che colore mettere il marker
-        String colore = aqi_loc < 100 ? "high" : "very_high";
-        colore = aqi_loc < 75 ? "medium" : colore;
-        colore = aqi_loc < 50 ? "low" : colore;
-        colore = aqi_loc < 25 ? "very_low" : colore;
+        Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
+        markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
+        markerIcon = aqi_loc < 50 ? markerLow : markerIcon;
+        markerIcon = aqi_loc < 25 ? markerVeryLow : markerIcon;
 
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markersno.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -840,6 +917,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                index = 1;
                 pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
@@ -862,12 +940,11 @@ class _HomePageState extends State<HomePage> {
         Properties properties = features[i].properties;
         double aqi_loc = properties.o3.o3 / 3;
         //Trucchetto per decidere di che colore mettere il marker
-        String colore = aqi_loc < 100 ? "high" : "very_high";
-        colore = aqi_loc < 75 ? "medium" : colore;
-        colore = aqi_loc < 50 ? "low" : colore;
-        colore = aqi_loc < 25 ? "very_low" : colore;
+        Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
+        markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
+        markerIcon = aqi_loc < 50 ? markerLow : markerIcon;
+        markerIcon = aqi_loc < 25 ? markerVeryLow : markerIcon;
 
-        Uint8List markerIcon = await getBytesFromAsset("immagini/$colore.png", dimensioneicone);
         setState(() {
           _markerso3.add(Marker(
             markerId: MarkerId(properties.id_sensore),
@@ -877,6 +954,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 apri_info = true;
                 apri_ricerca = false;
+                index = 1;
                 pos_curr_marker = LatLng(geometry.coordinates[1], geometry.coordinates[0]);
                 valori_sensore = properties;
                 _markers.remove(Marker(markerId: MarkerId("Ricerca")));
@@ -907,6 +985,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       apri_info = false;
       apri_ricerca = false;
+      index = 1;
       _markers.remove(Marker(markerId: MarkerId("Ricerca")));
       _markers.remove(Marker(markerId: MarkerId("Selezione")));
     });
@@ -1046,6 +1125,7 @@ class _HomePageState extends State<HomePage> {
         )
       );
       apri_ricerca = false;
+      index = 1;
     });
   }
 
