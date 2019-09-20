@@ -26,5 +26,6 @@
   "marker_futuro": "Future",
   "riprova": "Retry",
   "dispositivo_offline": "Device offline",
-  "chiudi": "Close"
+  "chiudi": "Close",
+  "funzioni_non_disponibili": "Some app features are not available offline."
 }

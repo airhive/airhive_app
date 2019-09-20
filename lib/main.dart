@@ -191,7 +191,7 @@ Drawer menulaterale(context){
   );
 }
 
-//Per inviare la posiione in ogni momento
+//Per inviare la posizione in ogni momento
 //Future<void> inviaposizione(http.Client client, double lat, double lng) async {
 //  try {
 //    await client.get(
