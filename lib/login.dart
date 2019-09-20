@@ -42,7 +42,7 @@ class RisultatoVerifica{
 }
 
 class Data_login{
-  final bool AccountPermission;
+  final String AccountPermission;
   int UserAccountVerified;
 
   Data_login({
@@ -51,9 +51,8 @@ class Data_login{
   });
 
   factory Data_login.fromJson(Map<String, dynamic> json) {
-    print(json['UserAccountVerified']);
     return Data_login(
-      AccountPermission: json['LicenseID'] as bool,
+      AccountPermission: json['LicenseID'] as String,
       UserAccountVerified: json['UserAccountVerified'] as int,
     );
   }
@@ -271,14 +270,10 @@ class _AccountPage extends State<AccountPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String indirizzo_mail = await prefs.getString("indirizzo_mail");
     String session_id = await prefs.getString("session_id");
-    print("OK");
-    print('https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&mail=$indirizzo_mail&tkn=$login_token&twofactor=$codice');
     final response =
     await client.get(
       'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&mail=$indirizzo_mail&tkn=$login_token&twofactor=$codice');
-    print("OK2");
     final parsed = json.decode(response.body);
-    print("OK3");
     print(parsed);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
     if(success){
@@ -319,8 +314,7 @@ Future<void> _login(http.Client client) async {
     await client.get(
         'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
     final parsed = json.decode(response.body);
-    //Correzione di Andrea
-    await prefs.setString('token', parsed['tkn']);
+    print("Parsed: $parsed");
     LoginData res =  LoginData.fromJson(parsed);
     bool success = res.success;
     String token = res.token;
@@ -337,7 +331,7 @@ Future<void> _login(http.Client client) async {
     conessioneassente = true;
     LoginData res = LoginData(
         success: false,
-        data:Data_login(AccountPermission: false, UserAccountVerified: 0),
+        data:Data_login(AccountPermission: "false", UserAccountVerified: 0),
         token: token_old);
     login_token = token_old;
     login_data = res.data;
