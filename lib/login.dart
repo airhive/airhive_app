@@ -319,6 +319,8 @@ Future<void> _login(http.Client client) async {
     await client.get(
         'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
     final parsed = json.decode(response.body);
+    //Correzione di Andrea
+    await prefs.setString('token', parsed['tkn']);
     LoginData res =  LoginData.fromJson(parsed);
     bool success = res.success;
     String token = res.token;
