@@ -365,6 +365,7 @@ class _HomePageState extends State<HomePage> {
       compassEnabled: false,
       onMapCreated: _onMapCreated,
       myLocationEnabled: false,
+      myLocationButtonEnabled: false,
       initialCameraPosition: _initialCamera,
       markers: _markers,
       mapType: ListOfMaps[currMapNum], //Also change map type
