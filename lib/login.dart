@@ -240,10 +240,8 @@ class _AccountPage extends State<AccountPage> {
       await client.get(
           'https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token');
       final parsed = json.decode(response.body);
-      print(parsed);
       InviaMail res = InviaMail.fromJson(parsed);
       bool success = res.success;
-      print("SUCCESS: $success");
       if (success) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         setState(() {
@@ -251,7 +249,6 @@ class _AccountPage extends State<AccountPage> {
         });
         prefs.setString("mail_inviata", mail_inviata);
         prefs.setString("session_id", res.sid);
-        print(res.sid);
       }
       else {
         setState(() {
@@ -274,7 +271,6 @@ class _AccountPage extends State<AccountPage> {
     await client.get(
       'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&twofactor=$codice');
     final parsed = json.decode(response.body);
-    print(parsed);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
     bool twofactor =  RisultatoVerifica.fromJson(parsed).twofactor;
     if (success) {
