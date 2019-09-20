@@ -15,14 +15,23 @@ String _gtaMap;
 *    1     -> satellite
 *    2     -> hybrid
 *    3     -> terrain
-*    4     -> dark
-*    5     -> night
-*    6     -> retro
-*    7     -> gta
  */
 const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain];
 int currMapNum; //An integer to indicate the current type of map at runtime
 int defMapNum = 3; //An integer to indicate the default type of map
+
+
+/*
+ * Defining a list to store map styles:
+ *
+ * position -> MapStyle
+ *    0     -> dark
+ *    1     -> night
+ *    2     -> retro
+ *    3     -> gta
+ * */
+final ListOfStyles = [_darkMap, _nightMap, _retroMap, _gtaMap];
+
 
 //Defining a function to get the type of map from saved preferences (if not present set it to the default value)
 Future<int> getMapType() async {
