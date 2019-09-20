@@ -755,7 +755,7 @@ class _HomePageState extends State<HomePage> {
               connectionCheck();
               Navigator.pop(context, false);
               if(conessioneassente){
-                _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", Translations.of(context).text('dispositivo_offline'));
+                _showOfflineAlert(Translations.of(context).text('funzioni_non_disponibili'), Translations.of(context).text('dispositivo_offline'));
                 return ;
               }
               _login(http.Client());
@@ -778,7 +778,7 @@ class _HomePageState extends State<HomePage> {
 
   void _seOffline(BuildContext context){
     if (conessioneassente){
-      _showOfflineAlert("Alcune funzionalità della app non sono disponibili offline.", Translations.of(context).text('dispositivo_offline'));
+      _showOfflineAlert(Translations.of(context).text('funzioni_non_disponibili'), Translations.of(context).text('dispositivo_offline'));
     }
   }
 
