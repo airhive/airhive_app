@@ -10,10 +10,10 @@ class _MessagesPage extends State<MessagesPage> {
   Completer<WebViewController> _controller = Completer<WebViewController>();
   int stack_visibile = 0;
   String urlString = "https://www.airhive.it/notification/?app=true&tkn=$login_token";
-  print(urlString);
 
   @override
   void initState() {
+    print(urlString);
     if (conessioneassente){
       connectionCheck();
     }
