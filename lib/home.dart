@@ -375,6 +375,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
+
     googleMap = GoogleMap(
       onTap: _googlemaptap,
       compassEnabled: false,
@@ -1006,16 +1007,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  //Declaring a variable to use gmap controller
-  GoogleMapController mapController;
-
-  //Alla creazione della mappa scarica il JSON e centra nella giusta posizione
+  //Alla creazione della mappa scarica il JSON e centra nella giusta posizione (also change map style if needed)
   void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-    mapController.setMapStyle(ListOfStyles[currStyleNum]);
     _controller.complete(controller);
     fetchData(http.Client());
     _updatelocationstream();
+    controller.setMapStyle(ListOfStyles[currStyleNum]);
   }
 
   void _updatelocationstream() async {

@@ -18,7 +18,7 @@ String _gtaMap;
  */
 const ListOfMaps = [MapType.normal, MapType.satellite, MapType.hybrid, MapType.terrain];
 int currMapNum; //An integer to indicate the current type of map at runtime
-int defMapNum = 0; //An integer to indicate the default type of map
+int defMapNum = 3; //An integer to indicate the default type of map
 
 
 
@@ -64,13 +64,13 @@ Future<int> getMapStyle() async {
   if(controlValue != null) {
     return controlValue;
   } else {
-    prefs.setInt('mapstyle', defMapNum);
+    prefs.setInt('mapstyle', defStyleNum);
     return defStyleNum;
   }
 }
 
 //Defining a function to save a selected style of map into preferences and set it as current style of map
-Future<void> setMapStyle(int styleToSet) async {
+Future<void> setStyleOfMap(int styleToSet) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   currStyleNum = styleToSet;
   prefs.setInt('mapstyle', styleToSet);
@@ -122,7 +122,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(4, currStyleNum),
               onSelect: (){
                 setMapType(0);
-                setMapStyle(4);
+                setStyleOfMap(4);
               },
             ),
             RadioPreference(
@@ -132,7 +132,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(2, currMapNum),
               onSelect: (){
                 setMapType(1);
-                setMapStyle(4);
+                setStyleOfMap(4);
               },
             ),
             RadioPreference(
@@ -142,7 +142,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(1, currMapNum),
               onSelect: (){
                 setMapType(2);
-                setMapStyle(4);
+                setStyleOfMap(4);
               },
             ),
             RadioPreference(
@@ -152,7 +152,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(3, currMapNum),
               onSelect: (){
                 setMapType(3);
-                setMapStyle(4);
+                setStyleOfMap(4);
               },
             ),
             RadioPreference(
@@ -162,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(0, currStyleNum),
               onSelect: (){
                 setMapType(0);
-                setMapStyle(0);
+                setStyleOfMap(0);
               },
             ),
             RadioPreference(
@@ -172,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(1, currStyleNum),
               onSelect: (){
                 setMapType(0);
-                setMapStyle(1);
+                setStyleOfMap(1);
               },
             ),
             RadioPreference(
@@ -182,7 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
               isDefault: (isCurrSetting(0, currMapNum))&&(isCurrSetting(2, currStyleNum)),
               onSelect: (){
                 setMapType(0);
-                setMapStyle(2);
+                setStyleOfMap(2);
               },
             ),
 
