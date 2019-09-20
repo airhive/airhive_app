@@ -5,23 +5,44 @@ String login_token;
 Data_login login_data;
 String mail_inviata = "no";
 
+class InviaMail{
+  final bool success;
+  final String sid;
+
+  InviaMail({
+    this.success,
+    this.sid,
+  });
+
+  factory InviaMail.fromJson(Map<String, dynamic> json) {
+    return InviaMail(
+      success: json['success'] as bool,
+      sid: json['sid'] as String,
+    );
+  }
+
+}
+
 class RisultatoVerifica{
   final bool success;
+  final bool twofactor;
 
   RisultatoVerifica({
     this.success,
+    this.twofactor,
   });
 
   factory RisultatoVerifica.fromJson(Map<String, dynamic> json) {
     return RisultatoVerifica(
       success: json['success'] as bool,
+      twofactor: json['twofactor'] as bool,
     );
   }
 
 }
 
 class Data_login{
-  final bool AccountPermission;
+  final String AccountPermission;
   int UserAccountVerified;
 
   Data_login({
@@ -30,9 +51,8 @@ class Data_login{
   });
 
   factory Data_login.fromJson(Map<String, dynamic> json) {
-    print(json['UserAccountVerified']);
     return Data_login(
-      AccountPermission: json['LicenseID'] as bool,
+      AccountPermission: json['LicenseID'] as String,
       UserAccountVerified: json['UserAccountVerified'] as int,
     );
   }
@@ -215,19 +235,23 @@ class _AccountPage extends State<AccountPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("indirizzo_mail", destinatario);
     try {
+      print('https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token');
       final response =
       await client.get(
-          'https://www.airhive.it/register/php/register.php?tkn=$login_token&email=$destinatario&relog=true&recaptcha=IYgqYOHUVafr1R142x8v&json=true&privacy=$privacy');
+          'https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token');
       final parsed = json.decode(response.body);
-      bool success = RisultatoVerifica
-          .fromJson(parsed)
-          .success;
+      print(parsed);
+      InviaMail res = InviaMail.fromJson(parsed);
+      bool success = res.success;
+      print("SUCCESS: $success");
       if (success) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         setState(() {
           mail_inviata = "si";
         });
         prefs.setString("mail_inviata", mail_inviata);
+        prefs.setString("session_id", res.sid);
+        print(res.sid);
       }
       else {
         setState(() {
@@ -249,10 +273,12 @@ class _AccountPage extends State<AccountPage> {
   Future<void> _verificamail(http.Client client, String codice) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String indirizzo_mail = await prefs.getString("indirizzo_mail");
+    String session_id = await prefs.getString("session_id");
     final response =
     await client.get(
-        'https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&json=true&verificationCode=$codice');
+      'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&mail=$indirizzo_mail&tkn=$login_token&twofactor=$codice');
     final parsed = json.decode(response.body);
+    print(parsed);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
     if(success){
       setState(() {
@@ -292,15 +318,10 @@ Future<void> _login(http.Client client) async {
     await client.get(
         'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
     final parsed = json.decode(response.body);
-    print(parsed['tkn']);
-    await prefs.setString('token', parsed['tkn']);
-    print(parsed["data"]["Autolog"]);
-    print(parsed);
+    print("Parsed: $parsed");
     LoginData res =  LoginData.fromJson(parsed);
     bool success = res.success;
     String token = res.token;
-
-    print(parsed);
 
     if((token != token_old) & success){
       prefs.setString("token", token);
@@ -308,13 +329,13 @@ Future<void> _login(http.Client client) async {
     }
     login_token = token_old;
     login_data = res.data;
-    print(res.data.UserAccountVerified);
   }
   catch (SocketException){
+    connectionCheck();
     conessioneassente = true;
     LoginData res = LoginData(
         success: false,
-        data:Data_login(AccountPermission: false, UserAccountVerified: 0),
+        data:Data_login(AccountPermission: "false", UserAccountVerified: 0),
         token: token_old);
     login_token = token_old;
     login_data = res.data;
