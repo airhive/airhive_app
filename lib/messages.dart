@@ -25,7 +25,7 @@ class _MessagesPageState extends State<MessagesPage> {
       body: !conessioneassente ? IndexedStack(
           index: stack_visibile,
           children: [
-            CircularProgressIndicator(),
+            Center(child: CircularProgressIndicator()),
             WebView(
               initialUrl: "https://www.airhive.it/notification/?relog=true&json=true&tkn=$login_token",
               javascriptMode: JavascriptMode.unrestricted,
