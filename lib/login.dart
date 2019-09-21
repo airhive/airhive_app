@@ -125,7 +125,7 @@ class _AccountPage extends State<AccountPage> {
                     Translations.of(context).text('sign_in'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      fontSize: 36,
                     ),
                   )),
                   Container(height: 50),
@@ -139,7 +139,7 @@ class _AccountPage extends State<AccountPage> {
                         onPressed: () {privacy ? pulsante_mail(context, _textcontroller):null;},
                       ),
                       hintText: "example@example.com",
-                      hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                      hintStyle: TextStyle(fontFamily: "OpenSans"),
                       errorText: privacy ? testo_errore_mail : Translations.of(context).text('accept_privacy_to_continue'),
                     ),
                     onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},

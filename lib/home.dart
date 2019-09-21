@@ -689,8 +689,8 @@ class _HomePageState extends State<HomePage> {
                 title: Text('Menu'),
               ),
               new BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  title: Text('Home')
+                  icon: Icon(Icons.map),
+                  title: Text('Map')
               ),
               new BottomNavigationBarItem(
                   icon: Icon(Icons.search),
@@ -1075,14 +1075,19 @@ class _HomePageState extends State<HomePage> {
 
   // Prende il testo della ricerca in real time e controlla se è un posto
   void gettestoricerca(String testo_parziale) async {
-    List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
+    // a volte crasha
+    try {
+      List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
         testo_parziale,
         localeIdentifier: "it_IT"
-    );
-    setState(() {
-      testo_ricerca = posizione_info[0].name + ", " + posizione_info[0].locality;
-      risultato_ricerca = posizione_info[0].position;
-    });
+      );
+      setState(() {
+        testo_ricerca = posizione_info[0].name + ", " + posizione_info[0].locality;
+        risultato_ricerca = posizione_info[0].position;
+      });
+    } catch (SocketException) {
+
+    }
   }
 
   // Se premi su invio nella ricerca parte questo
