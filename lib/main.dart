@@ -220,6 +220,7 @@ void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
   currMapNum = await getMapType();
+  currStyleNum = await getMapStyle();
   await _login(http.Client());
   runApp(MyApp());
 }
