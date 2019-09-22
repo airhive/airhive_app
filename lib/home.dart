@@ -1074,7 +1074,6 @@ class _HomePageState extends State<HomePage> {
 
   // Prende il testo della ricerca in real time e controlla se è un posto
   void gettestoricerca(String testo_parziale) async {
-    // a volte crasha
     try {
       List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
         testo_parziale,
@@ -1084,9 +1083,7 @@ class _HomePageState extends State<HomePage> {
         testo_ricerca = posizione_info[0].name + ", " + posizione_info[0].locality;
         risultato_ricerca = posizione_info[0].position;
       });
-    } catch (SocketException) {
-
-    }
+    } catch (PlatformException) {}
   }
 
   // Se premi su invio nella ricerca parte questo
