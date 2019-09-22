@@ -171,7 +171,7 @@ class _AccountPage extends State<AccountPage> {
                         Translations.of(context).text('verification_code'),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: 36,
                         ),
                       )),
                       Container(height: 50),
@@ -188,7 +188,7 @@ class _AccountPage extends State<AccountPage> {
                             onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
                           ),
                           hintText: Translations.of(context).text('verification_code'),
-                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                          hintStyle: TextStyle(fontFamily: "OpenSans"),
                           errorText: codice_verificato ? null : Translations.of(context).text('error_code_text'),
                         ),
                         onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
@@ -280,6 +280,7 @@ class _AccountPage extends State<AccountPage> {
     final response =
     await client.get(
       'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&twofactor=$codice');
+    print(response.body);
     final parsed = json.decode(response.body);
     print(parsed);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
@@ -319,11 +320,17 @@ Future<void> _login(http.Client client) async {
     modello_device = iosInfo.utsname.machine;
   }
 
-  print('https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+  String appName = packageInfo.appName;
+  String packageName = packageInfo.packageName;
+  String version = packageInfo.version+"("+packageInfo.buildNumber+")";
+
+  print('https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old&appVersion=$version');
   try {
     final response =
     await client.get(
-        'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
+        'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old&appVersion=$version');
     final parsed = json.decode(response.body);
     print("Parsed: $parsed");
     LoginData res =  LoginData.fromJson(parsed);
