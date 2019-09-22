@@ -19,7 +19,7 @@ import 'package:device_info/device_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:package_info/package_info.dart';
 
 //Local imports
 import 'translations.dart';
@@ -61,6 +61,7 @@ class MyApp extends StatelessWidget {
 }
 
 
+
 // Il tema della app
 ThemeData app_theme(){
   return ThemeData(
@@ -72,12 +73,12 @@ ThemeData app_theme(){
         color: Colors.white,
     ),
 
-    //fontFamily: 'Montserrat',
+    fontFamily: 'PassionOne', // cambia dappertutto
 
     textTheme: TextTheme(
-      headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-      title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-      body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+      headline: TextStyle(fontSize: 72.0, fontFamily: 'PassionOne'),
+      title: TextStyle(fontSize: 36.0, fontFamily: 'PassionOne'),
+      body1: TextStyle(fontSize: 14.0, fontFamily: 'OpenSans'),
     ),
   );
 }
@@ -111,12 +112,13 @@ Drawer menulaterale(context){
           new ListTile(
             leading: Icon(Icons.map, color: Colors.white),
             title: new Text(Translations.of(context).text('map_button_text'),
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 16,
-                            )
-                          ),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 24,
+                  letterSpacing: 1,
+                )
+            ),
             onTap: () {
               Navigator.pushNamed(context, '/homemap');
             },
@@ -127,7 +129,8 @@ Drawer menulaterale(context){
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 24,
+                  letterSpacing: 1,
                 )
             ),
             onTap: () {
@@ -140,7 +143,8 @@ Drawer menulaterale(context){
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 24,
+                  letterSpacing: 1,
                 )
             ),
             onTap: () {
@@ -154,7 +158,8 @@ Drawer menulaterale(context){
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 24,
+                  letterSpacing: 1,             
                 )
             ),
             onTap: (){
@@ -167,7 +172,8 @@ Drawer menulaterale(context){
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 24,
+                  letterSpacing: 1,
                 )
             ),
             onTap: (){
@@ -176,11 +182,11 @@ Drawer menulaterale(context){
           ),
           new Divider(height: 10, color: Colors.black26,),
           new ListTile(
-              title: new Text('We are what we breathe.',
+              title: new Text('Copyright © 2019 AirHive',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontFamily:"OpenSans",
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 10,
                   )
               ),
           ),

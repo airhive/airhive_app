@@ -102,6 +102,9 @@ class _AccountPage extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    print("https://www.airhive.it/account/?app=true&tkn=$login_token");
+
     return  new Scaffold(
           appBar: new AppBar(
             title: new Text("Account"),
@@ -122,7 +125,7 @@ class _AccountPage extends State<AccountPage> {
                     Translations.of(context).text('sign_in'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      fontSize: 36,
                     ),
                   )),
                   Container(height: 50),
@@ -136,7 +139,7 @@ class _AccountPage extends State<AccountPage> {
                         onPressed: () {privacy ? pulsante_mail(context, _textcontroller):null;},
                       ),
                       hintText: "example@example.com",
-                      hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                      hintStyle: TextStyle(fontFamily: "OpenSans"),
                       errorText: privacy ? testo_errore_mail : Translations.of(context).text('accept_privacy_to_continue'),
                     ),
                     onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
@@ -168,7 +171,7 @@ class _AccountPage extends State<AccountPage> {
                         Translations.of(context).text('verification_code'),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: 36,
                         ),
                       )),
                       Container(height: 50),
@@ -185,7 +188,7 @@ class _AccountPage extends State<AccountPage> {
                             onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
                           ),
                           hintText: Translations.of(context).text('verification_code'),
-                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                          hintStyle: TextStyle(fontFamily: "OpenSans"),
                           errorText: codice_verificato ? null : Translations.of(context).text('error_code_text'),
                         ),
                         onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
@@ -240,8 +243,10 @@ class _AccountPage extends State<AccountPage> {
       await client.get(
           'https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token');
       final parsed = json.decode(response.body);
+      print(parsed);
       InviaMail res = InviaMail.fromJson(parsed);
       bool success = res.success;
+      print("SUCCESS: $success");
       if (success) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         setState(() {
@@ -249,6 +254,7 @@ class _AccountPage extends State<AccountPage> {
         });
         prefs.setString("mail_inviata", mail_inviata);
         prefs.setString("session_id", res.sid);
+        print(res.sid);
       }
       else {
         setState(() {
@@ -262,6 +268,10 @@ class _AccountPage extends State<AccountPage> {
       });
     }
   }
+
+
+// giulio non andrebbe eilinata la parte sotto? lato server https://www.airhive.it/register/php/verify.php?relog=true&tkn=$login_token&email=$indirizzo_mail&jso non esiste più, bastano i due link che abbiamo configurato insieme l'altro giorno
+
   // Verifica il codice per la registrazione
   Future<void> _verificamail(http.Client client, String codice) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -270,7 +280,9 @@ class _AccountPage extends State<AccountPage> {
     final response =
     await client.get(
       'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&twofactor=$codice');
+    print(response.body);
     final parsed = json.decode(response.body);
+    print(parsed);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
     bool twofactor =  RisultatoVerifica.fromJson(parsed).twofactor;
     if (success) {
@@ -308,12 +320,19 @@ Future<void> _login(http.Client client) async {
     modello_device = iosInfo.utsname.machine;
   }
 
-  print('https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+  String appName = packageInfo.appName;
+  String packageName = packageInfo.packageName;
+  String version = packageInfo.version+"("+packageInfo.buildNumber+")";
+
+  print('https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old&appVersion=$version');
   try {
     final response =
     await client.get(
-        'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old');
+        'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old&appVersion=$version');
     final parsed = json.decode(response.body);
+    print("Parsed: $parsed");
     LoginData res =  LoginData.fromJson(parsed);
     bool success = res.success;
     String token = res.token;

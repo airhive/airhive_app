@@ -68,8 +68,8 @@ class _SettingsPageState extends State<SettingsPage> {
             title: new Text(Translations.of(context).text('settings_title')),
             backgroundColor: Colors.yellow[700],
           ),
+          
           body: new PreferencePage([
-
             //Impostazioni stile mappa
             PreferenceTitle(Translations.of(context).text('map_style_title')),
             RadioPreference(
