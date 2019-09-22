@@ -364,7 +364,9 @@ class _HomePageState extends State<HomePage> {
       onTap: _googlemaptap,
       compassEnabled: false,
       onMapCreated: _onMapCreated,
+      mapToolbarEnabled: false,
       myLocationEnabled: false,
+      myLocationButtonEnabled: false,
       initialCameraPosition: _initialCamera,
       markers: _markers,
       mapType: ListOfMaps[currMapNum], //Also change map type
