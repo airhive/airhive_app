@@ -27,5 +27,6 @@
   "riprova": "Retry",
   "dispositivo_offline": "Device offline",
   "chiudi": "Close",
-  "funzioni_non_disponibili": "Some app features are not available offline."
+  "funzioni_non_disponibili": "Some app features are not available offline.",
+  "indirizzo_sconosciuto": "Address not found."
 }

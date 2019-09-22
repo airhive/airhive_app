@@ -981,15 +981,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   //Chiude robe toccando la mappa
-  void _googlemaptap(LatLng posizione_toccata){
-    //Ritardo studiato per tenere nascosti i pulsanti non nascondibili di gmaps
-    sleep(const Duration(milliseconds:135));
+  void _googlemaptap(LatLng posizione_toccata) async {
     setState(() {
       apri_info = false;
       apri_ricerca = false;
-      index = 1;
       _markers.remove(Marker(markerId: MarkerId("Ricerca")));
       _markers.remove(Marker(markerId: MarkerId("Selezione")));
+      index = 1;
     });
   }
 
@@ -1077,54 +1075,71 @@ class _HomePageState extends State<HomePage> {
 
   // Prende il testo della ricerca in real time e controlla se è un posto
   void gettestoricerca(String testo_parziale) async {
-    List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
+    try {
+      List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
         testo_parziale,
         localeIdentifier: "it_IT"
-    );
-    setState(() {
-      testo_ricerca = posizione_info[0].name + ", " + posizione_info[0].locality;
-      risultato_ricerca = posizione_info[0].position;
-    });
+      );
+      setState(() {
+        testo_ricerca = posizione_info[0].name + ", " + posizione_info[0].locality;
+        risultato_ricerca = posizione_info[0].position;
+      });
+    } catch (PlatformException) {}
   }
 
   // Se premi su invio nella ricerca parte questo
   void ricerca(String testo) async {
-    List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(testo);
-    setState(() {
-      risultato_ricerca = posizione_info[0].position;
-    });
-    vaaposizione();
+    try {
+      List<Placemark> posizione_info = await Geolocator().placemarkFromAddress(
+          testo);
+      setState(() {
+        risultato_ricerca = posizione_info[0].position;
+      });
+      vaaposizione();
+    }
+    catch (PlatformException) {
+      setState(() {
+        testo_ricerca = Translations.of(context).text('indirizzo_sconosciuto');
+      });
+    }
   }
 
   // Muove la camera fino alla posizione risultato_ricerca
   void vaaposizione() async {
-    final GoogleMapController controller = await _controller.future;
-    LatLng posizione = LatLng(risultato_ricerca.latitude, risultato_ricerca.longitude);
+    try {
+      final GoogleMapController controller = await _controller.future;
+      LatLng posizione = LatLng(
+          risultato_ricerca.latitude, risultato_ricerca.longitude);
 
-    _textcontroller.clear();
+      _textcontroller.clear();
 
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        bearing: 0,
-        target: posizione,
-        zoom: 13.0,
-      ),
-    ));
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0,
+          target: posizione,
+          zoom: 13.0,
+        ),
+      ));
 
-    setState(() {
-      _markers.remove(Marker(markerId: MarkerId("Ricerca")));
-      _markers.add(
-        Marker(
-          markerId: MarkerId("Ricerca"),
-          position: posizione,
-          infoWindow: InfoWindow(
-            title: 'Posto cercato',
-          ),
-        )
-      );
-      apri_ricerca = false;
-      index = 1;
-    });
+      setState(() {
+        _markers.remove(Marker(markerId: MarkerId("Ricerca")));
+        _markers.add(
+            Marker(
+              markerId: MarkerId("Ricerca"),
+              position: posizione,
+              infoWindow: InfoWindow(
+                title: 'Posto cercato',
+              ),
+            )
+        );
+        apri_ricerca = false;
+        index = 1;
+      });
+    } catch (NoSuchMethodError){
+      setState(() {
+        testo_ricerca = Translations.of(context).text('indirizzo_sconosciuto');
+      });
+    }
   }
 
   // Ritorna una lista col widget dei valori per CAQI
