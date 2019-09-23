@@ -19,11 +19,13 @@ import 'package:device_info/device_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
 
 
 //Local imports
 import 'translations.dart';
+import 'dynamic_models.dart';
 
 part "home.dart";
 part "login.dart";
@@ -36,6 +38,8 @@ part "moredata.dart";
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+
     return new MaterialApp(
       theme: app_theme(),
       localizationsDelegates: [
@@ -222,5 +226,14 @@ void main() async {
   currMapNum = await getMapType();
   currStyleNum = await getMapStyle();
   await _login(http.Client());
-  runApp(MyApp());
+  //runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers:[
+        ChangeNotifierProvider<MapStyleModel>(builder: (context) => MapStyleModel(),
+        ),
+      ],
+      child: MyApp(),
+    )
+  );
 }

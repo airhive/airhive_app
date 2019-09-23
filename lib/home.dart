@@ -295,6 +295,7 @@ class HomePage extends StatefulWidget {
 
 
 class _HomePageState extends State<HomePage> {
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
@@ -376,6 +377,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
 
+    /*
+    //Alla creazione della mappa scarica il JSON e centra nella giusta posizione (also change map style if needed)
+    void _onMapCreated(GoogleMapController controller) {
+      _controller.complete(controller);
+      fetchData(http.Client());
+      _updatelocationstream();
+      controller.setMapStyle(ListOfStyles[mapStyleModel.getStyle()]);
+    }
+    */
+
+    /*
     googleMap = GoogleMap(
       onTap: _googlemaptap,
       compassEnabled: false,
@@ -385,7 +397,7 @@ class _HomePageState extends State<HomePage> {
       markers: _markers,
       mapType: ListOfMaps[currMapNum], //Also change map type
     );
-
+    */
 
     return new Scaffold(
           key: _scaffoldKey,
@@ -393,7 +405,25 @@ class _HomePageState extends State<HomePage> {
           drawer: menulaterale(context),
           body: Stack(
             children: <Widget>[
-              googleMap,
+              //googleMap,
+              new Consumer<MapStyleModel>(builder: (context, mapStyleModel, child){
+                return GoogleMap(
+                  onTap: _googlemaptap,
+                  compassEnabled: false,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                    _updatelocationstream();
+                    fetchData(http.Client());
+                    controller.setMapStyle(ListOfStyles[mapStyleModel.getStyle()]);
+
+                  },
+                  myLocationEnabled: false,
+                  initialCameraPosition: _initialCamera,
+                  markers: _markers,
+                  mapType: ListOfMaps[currMapNum], //Also change map type
+                );
+              }),
+
               new Align(
                 alignment: FractionalOffset(0.01, 0.02),
                 child: GestureDetector(
@@ -1007,13 +1037,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  //Alla creazione della mappa scarica il JSON e centra nella giusta posizione (also change map style if needed)
-  void _onMapCreated(GoogleMapController controller) {
-    controller.setMapStyle(ListOfStyles[currStyleNum]);
-    _controller.complete(controller);
-    fetchData(http.Client());
-    _updatelocationstream();
-  }
+
 
   void _updatelocationstream() async {
     GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
