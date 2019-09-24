@@ -89,6 +89,7 @@ class _AccountPage extends State<AccountPage> {
   bool mostra_caricamento = true;
   bool codice_verificato = true;
   String testo_errore_mail = null;
+  int stack_visibile = 0;
   final _textcontroller = TextEditingController();
 
   @override
@@ -209,10 +210,22 @@ class _AccountPage extends State<AccountPage> {
                 ),
               ),
             ],
-          ) : !conessioneassente ? WebView(
-            initialUrl: "https://www.airhive.it/account/?app=true&tkn=$login_token",
-            javascriptMode: JavascriptMode.unrestricted,
-          ) : Text("Queste informazioni non sono disponibili senza connessione a internet."),
+          ) : !conessioneassente ? IndexedStack(
+              index: stack_visibile,
+              children: [
+                Center(child: CircularProgressIndicator()),
+                WebView(
+                  initialUrl: "https://www.airhive.it/account/?app=true&tkn=$login_token",
+                  javascriptMode: JavascriptMode.unrestricted,
+                  onPageFinished: (st) {
+                    setState(() {
+                      stack_visibile = 1;
+                    });
+                  },
+               )
+              ]
+          )
+          : Text("Queste informazioni non sono disponibili senza connessione a internet."),
         );
   }
   void pulsante_mail(context, TextEditingController _textcontroller) async {
