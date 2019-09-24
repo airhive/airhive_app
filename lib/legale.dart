@@ -42,7 +42,7 @@ class _LegalePage extends State<LegalePage> {
              },
            ),
           ],
-      ) : Text("Queste informazioni non sono disponibili senza una connessione a internet."),
+      ) : Text(Translations.of(context).text('no_info_offline')),
     );
   }
 }

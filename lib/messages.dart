@@ -44,7 +44,7 @@ class _MessagesPage extends State<MessagesPage> {
              },
            ),
           ],
-      ) : Text("Queste informazioni non sono disponibili senza una connessione a internet."),
+      ) : Text(Translations.of(context).text('no_info_offline')),
     );
   }
 }

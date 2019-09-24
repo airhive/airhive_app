@@ -201,7 +201,7 @@ class _AccountPage extends State<AccountPage> {
                 child: FloatingActionButton.extended(
                   label: Text("Mail"),
                   icon: Icon(Icons.arrow_back),
-                  tooltip: 'Torna alla mail.',
+                  tooltip: Translations.of(context).text('back_to_mail'),
                   onPressed: () {
                     setState(() {
                       mail_inviata = "no";
@@ -225,13 +225,13 @@ class _AccountPage extends State<AccountPage> {
                )
               ]
           )
-          : Text("Queste informazioni non sono disponibili senza connessione a internet."),
+          : Text(Translations.of(context).text('no_info_offline')),
         );
   }
   void pulsante_mail(context, TextEditingController _textcontroller) async {
     if(! _textcontroller.text.contains("@")){
       setState(() {
-        testo_errore_mail = "Non si direbbe un indirizzo mail.";
+        testo_errore_mail = Translations.of(context).text('non_indirizzo_mail');
       });
       return;
     };
@@ -241,8 +241,9 @@ class _AccountPage extends State<AccountPage> {
     };
     _inviamail(http.Client(), _textcontroller.text);
     _textcontroller.clear();
-    SnackBar(content: Text('Mail inviata!'),
+    final snackBar = SnackBar(content: Text(Translations.of(context).text('mail_inviata')),
       duration: const Duration(minutes: 5),);
+    Scaffold.of(context).showSnackBar(snackBar);
   }
   // Invia la mail per la registrazione
   Future<void> _inviamail(http.Client client, String destinatario) async {

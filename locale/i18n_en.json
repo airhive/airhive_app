@@ -35,5 +35,10 @@
   "precipitazioni": "Rainfall",
   "temperatura": "Temperature",
   "vento": "Wind",
-  "aggiornato_alle": "Last update:"
+  "aggiornato_alle": "Last update:",
+  "non_indirizzo_mail": "This doesn't look like an e-mail address.",
+  "mail_inviata": "Mail sent!",
+  "back_to_mail": "Use a different e-mail",
+  "no_info_offline": "Not available offline.",
+  "grafici": "Graphics"
 }

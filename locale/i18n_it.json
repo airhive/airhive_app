@@ -24,7 +24,7 @@
   "map_type_night_button_text":"Notte",
   "map_type_retro_button_text": "Vintage",
   "blank_research_text": "Cerca",
-  "marker_presente": "Presente",
+  "marker_presente": "Attuale",
   "marker_passato": "Passato",
   "marker_futuro": "Futuro",
   "riprova": "Riprova",
@@ -35,5 +35,10 @@
   "precipitazioni": "Precipitazioni",
   "temperatura": "Temperatura",
   "vento": "Vento",
-  "aggiornato_alle": "Aggiornato alle:"
+  "aggiornato_alle": "Aggiornato alle:",
+  "non_indirizzo_mail": "Non sembra un indirizzo mail.",
+  "mail_inviata": "Mail inviata!",
+  "back_to_mail": "Inserisci un'altra e-mail",
+  "no_info_offline": "Pagina non disponibile offline",
+  "grafici": "Grafici"
 }
