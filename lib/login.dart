@@ -326,6 +326,8 @@ Future<void> _login(http.Client client) async {
   String packageName = packageInfo.packageName;
   String version = packageInfo.version+"("+packageInfo.buildNumber+")";
 
+  
+
   print('https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old&appVersion=$version');
   try {
     final response =
