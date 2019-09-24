@@ -100,12 +100,25 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  Future<bool> _willPopCalback() async {
+    Navigator.pushNamed(context, '/homemap');
+    return false;
+  }
 
 
 
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
+
+
+
+
+
+    @override
+    Widget build(BuildContext context) {
+
+    return WillPopScope(
+
+          onWillPop: _willPopCalback,
+    child: new Scaffold(
           drawer: menulaterale(context),
           appBar: new AppBar(
             title: new Text(Translations.of(context).text('settings_title')),
@@ -195,6 +208,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
 
 
-        );
+        ));
   }
 }
