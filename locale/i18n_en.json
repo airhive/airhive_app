@@ -31,5 +31,9 @@
   "dispositivo_offline": "Device offline",
   "chiudi": "Close",
   "funzioni_non_disponibili": "Some app features are not available offline.",
-  "indirizzo_sconosciuto": "Address not found."
+  "indirizzo_sconosciuto": "Address not found.",
+  "precipitazioni": "Rainfall",
+  "temperatura": "Temperature",
+  "vento": "Wind",
+  "aggiornato_alle": "Last update:"
 }

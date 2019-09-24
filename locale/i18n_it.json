@@ -31,5 +31,9 @@
   "dispositivo_offline": "Dispositivo offline",
   "chiudi": "Chiudi",
   "funzioni_non_disponibili": "Alcune funzionalità della app non sono disponibili offline.",
-  "indirizzo_sconosciuto": "Indirizzo non trovato."
+  "indirizzo_sconosciuto": "Indirizzo non trovato.",
+  "precipitazioni": "Precipitazioni",
+  "temperatura": "Temperatura",
+  "vento": "Vento",
+  "aggiornato_alle": "Aggiornato alle:"
 }

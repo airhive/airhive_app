@@ -530,7 +530,7 @@ class _HomePageState extends State<HomePage> {
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
                                        color: Colors.yellow[700],
-                                       child: Center(child: Text("Aggiornato alle: $tempo_rilevazione")),
+                                       child: Center(child: Text("${Translations.of(context).text('aggiornato_alle')} $tempo_rilevazione")),
                                      ),
                                      Container(
                                        height: 150,
@@ -554,12 +554,12 @@ class _HomePageState extends State<HomePage> {
                                                       ),
                                                       behaviors: [
                                                         new charts.ChartTitle(
-                                                          "Precipitazioni",
+                                                          Translations.of(context).text('precipitazioni'),
                                                           titleStyleSpec: charts.TextStyleSpec(
                                                             fontSize: 12, // size in Pts.
                                                             color: charts.MaterialPalette.black),
                                                           behaviorPosition: charts.BehaviorPosition.bottom,
-                                                          titleOutsideJustification: charts.OutsideJustification.endDrawArea,
+                                                          titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                                                         ),
                                                       ],
                                                     ),
@@ -587,7 +587,7 @@ class _HomePageState extends State<HomePage> {
                                                        ),
                                                        behaviors: [
                                                          new charts.ChartTitle(
-                                                           "Temperatura",
+                                                           Translations.of(context).text('temperatura'),
                                                            titleStyleSpec: charts.TextStyleSpec(
                                                                fontSize: 12, // size in Pts.
                                                                color: charts.MaterialPalette.black),
@@ -620,7 +620,7 @@ class _HomePageState extends State<HomePage> {
                                                        ),
                                                        behaviors: [
                                                          new charts.ChartTitle(
-                                                           "Vento",
+                                                           Translations.of(context).text('vento'),
                                                            titleStyleSpec: charts.TextStyleSpec(
                                                                fontSize: 12, // size in Pts.
                                                                color: charts.MaterialPalette.black),
@@ -847,7 +847,7 @@ class _HomePageState extends State<HomePage> {
 
       Sensori res = Sensori.fromJson(parsed);
 
-      tempo_rilevazione = DateFormat('kk:mm il d/MM').format(DateTime.parse(res.tempo));
+      tempo_rilevazione = DateFormat('kk:mm - d/MM').format(DateTime.parse(res.tempo));
       List<Features> features = res.features;
 
       Uint8List markerHigh = await getBytesFromAsset("immagini/high.png", dimensioneicone);

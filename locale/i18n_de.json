@@ -31,5 +31,9 @@
   "dispositivo_offline": "Gerät offline",
   "chiudi": "Schließen",
   "funzioni_non_disponibili": "Einige Funktionen der App sind offline nicht verfügbar.",
-  "indirizzo_sconosciuto": "Adresse nicht gefunden."
+  "indirizzo_sconosciuto": "Adresse nicht gefunden.",
+  "precipitazioni": "Niederschlag",
+  "temperatura": "Temperatur",
+  "vento": "Wind",
+  "aggiornato_alle": "Letztes Update:"
 }
