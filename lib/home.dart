@@ -834,8 +834,6 @@ class _HomePageState extends State<HomePage> {
         return ;
       }
     }
-    //Debug print
-    print('https://www.airhive.it/data/?tkn=$login_token');
     try {
       final response =
       await client.get('https://www.airhive.it/data/?tkn=$login_token');
@@ -1055,19 +1053,60 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _updatelocationstream() async {
-    GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
-    _currentLocation();
-    final Uint8List markerApe = await getBytesFromAsset("immagini/ape.png", 60);
-    Geolocator geolocator = Geolocator();
-    geolocator.getPositionStream(LocationOptions(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 5
-    )).listen((position) {
+    try {
+      GeolocationStatus geolocationStatus = await Geolocator()
+          .checkGeolocationPermissionStatus();
+      _currentLocation();
+      final Uint8List markerApe = await getBytesFromAsset(
+          "immagini/ape.png", 60);
+      Geolocator geolocator = Geolocator();
+      geolocator.getPositionStream(LocationOptions(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 5
+      )).listen((position) {
+        try {
+          posizione_assoluta = LatLng(position.latitude, position.longitude);
+        } on Exception {
+          null;
+        }
+
+        setState(() {
+          _markers.remove(Marker(markerId: MarkerId("Posizione")));
+          _markers.add(Marker(
+            // This marker id can be anything that uniquely identifies each marker.
+            markerId: MarkerId("Posizione"),
+            position: posizione_assoluta,
+            icon: BitmapDescriptor.fromBytes(markerApe),
+          ));
+        });
+      });
+    } catch (PlatformException){}
+  }
+
+  //Centra nella posizione e aggiunge il marker con l'ape
+  void _currentLocation() async {
+    final GoogleMapController controller = await _controller.future;
+    final Uint8List markerApe = await getBytesFromAsset(
+        "immagini/ape.png", 60);
+    try {
+      LocationData currentLocation;
+      var location = new Location();
       try {
-        posizione_assoluta = LatLng(position.latitude, position.longitude);
+        currentLocation = await location.getLocation();
       } on Exception {
-        null;
+        currentLocation = null;
       }
+
+      posizione_assoluta =
+          LatLng(currentLocation.latitude, currentLocation.longitude);
+
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0,
+          target: posizione_assoluta,
+          zoom: 13.0,
+        ),
+      ));
 
       setState(() {
         _markers.remove(Marker(markerId: MarkerId("Posizione")));
@@ -1078,40 +1117,7 @@ class _HomePageState extends State<HomePage> {
           icon: BitmapDescriptor.fromBytes(markerApe),
         ));
       });
-    });
-  }
-
-  //Centra nella posizione e aggiunge il marker con l'ape
-  void _currentLocation() async {
-    final GoogleMapController controller = await _controller.future;
-    final Uint8List markerApe = await getBytesFromAsset("immagini/ape.png", 60);
-    LocationData currentLocation;
-    var location = new Location();
-    try {
-      currentLocation = await location.getLocation();
-    } on Exception {
-      currentLocation = null;
-    }
-
-    posizione_assoluta = LatLng(currentLocation.latitude, currentLocation.longitude);
-
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        bearing: 0,
-        target: posizione_assoluta,
-        zoom: 13.0,
-      ),
-    ));
-
-    setState(() {
-      _markers.remove(Marker(markerId: MarkerId("Posizione")));
-      _markers.add(Marker(
-        // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId("Posizione"),
-        position: posizione_assoluta,
-        icon: BitmapDescriptor.fromBytes(markerApe),
-      ));
-    });
+    } catch (PlatformException){}
   }
 
   // Questa map prende le cose in attesa.
