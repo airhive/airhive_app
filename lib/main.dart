@@ -20,9 +20,13 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info/package_info.dart';
+import 'package:provider/provider.dart';
+
+
 
 //Local imports
 import 'translations.dart';
+import 'dynamic_models.dart';
 
 part "home.dart";
 part "login.dart";
@@ -59,7 +63,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 
 // Il tema della app
@@ -159,7 +162,7 @@ Drawer menulaterale(context){
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontSize: 24,
-                  letterSpacing: 1,             
+                  letterSpacing: 1,
                 )
             ),
             onTap: (){
@@ -225,6 +228,16 @@ void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
   currMapNum = await getMapType();
+  currStyleNum = await getMapStyle();
   await _login(http.Client());
-  runApp(MyApp());
+  //runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers:[
+        ChangeNotifierProvider<MapStyleModel>(builder: (context) => MapStyleModel(),
+        ),
+      ],
+      child: MyApp(),
+    )
+  );
 }

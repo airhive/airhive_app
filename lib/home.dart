@@ -289,6 +289,7 @@ class HomePage extends StatefulWidget {
 
   final String title;
 
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -330,6 +331,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+
+    rootBundle.loadString('map_styles/dark.txt').then((string) {
+      _darkMap = string;
+    });
+    rootBundle.loadString('map_styles/night.txt').then((string1) {
+      _nightMap = string1;
+    });
+    rootBundle.loadString('map_styles/retro.txt').then((string2) {
+      _retroMap = string2;
+    });
+    rootBundle.loadString('map_styles/gtav.txt').then((string3) {
+      _gtaMap = string3;
+    });
+
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         _showAlert(message["notification"]["body"], message["notification"]["title"]);
@@ -349,6 +364,7 @@ class _HomePageState extends State<HomePage> {
       print("Impostazioni salvate: $settings");
     });
     _firebaseMessaging.getToken().then((String token) {
+      print(token);
       sendfiretoken(http.Client(), token);
     });
     super.initState();
@@ -360,17 +376,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    googleMap = GoogleMap(
-      onTap: _googlemaptap,
-      compassEnabled: false,
-      onMapCreated: _onMapCreated,
-      mapToolbarEnabled: false,
-      myLocationEnabled: false,
-      myLocationButtonEnabled: false,
-      initialCameraPosition: _initialCamera,
-      markers: _markers,
-      mapType: ListOfMaps[currMapNum], //Also change map type
-    );
+
 
 
     return new Scaffold(
@@ -379,7 +385,27 @@ class _HomePageState extends State<HomePage> {
           drawer: menulaterale(context),
           body: Stack(
             children: <Widget>[
-              googleMap,
+              //googleMap,
+              new Consumer<MapStyleModel>(builder: (context, mapStyleModel, child){
+                return GoogleMap(
+                  onTap: _googlemaptap,
+                  compassEnabled: false,
+                  mapToolbarEnabled: false,
+                  myLocationButtonEnabled: false,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                    _updatelocationstream();
+                    fetchData(http.Client());
+                    controller.setMapStyle(ListOfStyles[mapStyleModel.getStyle()]);
+
+                  },
+                  myLocationEnabled: false,
+                  initialCameraPosition: _initialCamera,
+                  markers: _markers,
+                  mapType: ListOfMaps[currMapNum], //Also change map type
+                );
+              }),
+
               new Align(
                 alignment: FractionalOffset(0.01, 0.02),
                 child: GestureDetector(
@@ -674,6 +700,31 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ) : new Container(),
+              conessioneassente ? showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Connessione assente'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          Text('Connessione a internet assente.'),
+                          Text('Per favore controlla la tua connessione e riavvia AirHive.'),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Va bene.'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ):Container(),
             ], ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: index,
@@ -821,7 +872,6 @@ class _HomePageState extends State<HomePage> {
         double aqi_loc = (properties.pm_10.pm_10 + properties.no2.no / 4 +
             properties.o3.o3 / 2.4) / 3;
         properties.caqi = aqi_loc;
-
         //Trucchetto per decidere di che colore mettere il marker
         Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
         markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
@@ -991,12 +1041,6 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  //Alla creazione della mappa scarica il JSON e centra nella giusta posizione
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-    fetchData(http.Client());
-    _updatelocationstream();
-  }
 
   void _updatelocationstream() async {
     GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
