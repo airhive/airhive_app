@@ -35,8 +35,10 @@ class _DataPageState extends State<DataPage> {
     return MaterialApp(
       theme: app_theme(),
       home: DefaultTabController(
-        length: 3,
-        initialIndex: 1,
+        //length: 3,
+        //initialIndex: 1,
+        length: 1,
+        initialIndex: 0,
         child: Scaffold(
           appBar: AppBar(
             /*shape: RoundedRectangleBorder(
@@ -54,9 +56,9 @@ class _DataPageState extends State<DataPage> {
             bottom: TabBar(
 
               tabs: [
-                Tab(text: "Storico"),
+                //Tab(text: "Storico"),
                 Tab(text: "Attuale",),
-                Tab(text: "Previsioni"),
+                //Tab(text: "Previsioni"),
               ],
             ),
             title: Text('Grafici'),
@@ -75,9 +77,9 @@ class _DataPageState extends State<DataPage> {
                 color: Colors.transparent,
                 child:TabBarView(
                   children: [
-                    storico(),
+                    //storico(),
                     attuale(),
-                    previsioni(),
+                    //previsioni(),
                   ],
                 ),
               ),
