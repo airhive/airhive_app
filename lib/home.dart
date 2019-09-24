@@ -386,8 +386,9 @@ class _HomePageState extends State<HomePage> {
       mapType: ListOfMaps[currMapNum], //Also change map type
     );
 
-
-    return new Scaffold(
+    return WillPopScope(
+        onWillPop: _willPopCalbackHome,
+        child: new Scaffold(
           key: _scaffoldKey,
           //resizeToAvoidBottomInset: false,
           drawer: menulaterale(context),
@@ -738,7 +739,8 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-        );
+        ),
+    );
   }
 
   //Invia il token di firebase
@@ -1019,8 +1021,21 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<bool> _willPopCalbackHome() async {
+    bool torna_indietro = true;
+    if (apri_info || apri_ricerca){
+      torna_indietro = false;
+    }
+    chiudi_tutto();
+    return torna_indietro;
+  }
+
   //Chiude robe toccando la mappa
   void _googlemaptap(LatLng posizione_toccata) async {
+    chiudi_tutto();
+  }
+
+  void chiudi_tutto(){
     setState(() {
       apri_info = false;
       apri_ricerca = false;
