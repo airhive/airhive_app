@@ -103,8 +103,6 @@ class _AccountPage extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
 
-    print("https://www.airhive.it/account/?app=true&tkn=$login_token");
-
     return  new Scaffold(
           appBar: new AppBar(
             title: new Text("Account"),
@@ -238,15 +236,12 @@ class _AccountPage extends State<AccountPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("indirizzo_mail", destinatario);
     try {
-      print('https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token');
       final response =
       await client.get(
           'https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token');
       final parsed = json.decode(response.body);
-      print(parsed);
       InviaMail res = InviaMail.fromJson(parsed);
       bool success = res.success;
-      print("SUCCESS: $success");
       if (success) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         setState(() {
@@ -254,7 +249,6 @@ class _AccountPage extends State<AccountPage> {
         });
         prefs.setString("mail_inviata", mail_inviata);
         prefs.setString("session_id", res.sid);
-        print(res.sid);
       }
       else {
         setState(() {
@@ -280,9 +274,7 @@ class _AccountPage extends State<AccountPage> {
     final response =
     await client.get(
       'https://www.airhive.it/explore/php/login.php?inApp=true&sid=$session_id&twofactor=$codice');
-    print(response.body);
     final parsed = json.decode(response.body);
-    print(parsed);
     bool success =  RisultatoVerifica.fromJson(parsed).success;
     bool twofactor =  RisultatoVerifica.fromJson(parsed).twofactor;
     if (success) {
@@ -326,13 +318,11 @@ Future<void> _login(http.Client client) async {
   String packageName = packageInfo.packageName;
   String version = packageInfo.version+"("+packageInfo.buildNumber+")";
 
-  print('https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old&appVersion=$version');
   try {
     final response =
     await client.get(
         'https://www.airhive.it/php/wakeDevice.php?deviceType=$modello_device&deviceName=My+Device&tkn=$token_old&appVersion=$version');
     final parsed = json.decode(response.body);
-    print("Parsed: $parsed");
     LoginData res =  LoginData.fromJson(parsed);
     bool success = res.success;
     String token = res.token;
