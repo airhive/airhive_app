@@ -101,13 +101,23 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
+  Future<bool> _willPopCalback() async {
+    Navigator.pushNamed(context, '/homemap');
+    return false;
+  }
 
 
   @override
   Widget build(BuildContext context) {
 
+  return WillPopScope(
 
-  return Consumer<MapStyleModel>(
+  onWillPop: _willPopCalback,
+
+
+
+
+  child: Consumer<MapStyleModel>(
     builder: (context, mapStyleModel, child){
     return new Scaffold(
       drawer: menulaterale(context),
@@ -207,6 +217,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
 
     );}
-    );
+    ));
   }
 }
