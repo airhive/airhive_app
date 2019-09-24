@@ -200,14 +200,14 @@ Drawer menulaterale(context){
 }
 
 //Per inviare la posizione in ogni momento
-//Future<void> inviaposizione(http.Client client, double lat, double lng) async {
-//  try {
-//    await client.get(
-//        'airhive.it/php/updateDevicePos.php?deviceTkn=$login_token&lat=$lat&lng=$lng');
-//  }
-//  catch (SocketException){
-//  };
-//}
+Future<void> inviaposizione(http.Client client, double lat, double lng) async {
+  try {
+    await client.get(
+        'airhive.it/php/updateDevicePos.php?deviceTkn=$login_token&lat=$lat&lng=$lng');
+  }
+  catch (SocketException){
+  };
+}
 
 //Controlla se c'è connessione
 Future<void> connectionCheck() async {

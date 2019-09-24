@@ -1117,6 +1117,7 @@ class _HomePageState extends State<HomePage> {
           icon: BitmapDescriptor.fromBytes(markerApe),
         ));
       });
+      inviaposizione(http.Client(), posizione_assoluta.latitude, posizione_assoluta.longitude);
     } catch (PlatformException){}
   }
 
