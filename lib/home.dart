@@ -289,7 +289,6 @@ class HomePage extends StatefulWidget {
 
   final String title;
 
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -364,9 +363,9 @@ class _HomePageState extends State<HomePage> {
       print("Impostazioni salvate: $settings");
     });
     _firebaseMessaging.getToken().then((String token) {
-      print(token);
       sendfiretoken(http.Client(), token);
     });
+
     super.initState();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _seOffline(context));
@@ -377,6 +376,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
 
+    googleMap = GoogleMap(
+      onTap: _googlemaptap,
+      compassEnabled: false,
+      onMapCreated: _onMapCreated,
+      myLocationEnabled: false,
+      initialCameraPosition: _initialCamera,
+      markers: _markers,
+      mapType: ListOfMaps[currMapNum], //Also change map type
+    );
 
 
     return new Scaffold(
@@ -385,27 +393,7 @@ class _HomePageState extends State<HomePage> {
           drawer: menulaterale(context),
           body: Stack(
             children: <Widget>[
-              //googleMap,
-              new Consumer<MapStyleModel>(builder: (context, mapStyleModel, child){
-                return GoogleMap(
-                  onTap: _googlemaptap,
-                  compassEnabled: false,
-                  mapToolbarEnabled: false,
-                  myLocationButtonEnabled: false,
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                    _updatelocationstream();
-                    fetchData(http.Client());
-                    controller.setMapStyle(ListOfStyles[mapStyleModel.getStyle()]);
-
-                  },
-                  myLocationEnabled: false,
-                  initialCameraPosition: _initialCamera,
-                  markers: _markers,
-                  mapType: ListOfMaps[currMapNum], //Also change map type
-                );
-              }),
-
+              googleMap,
               new Align(
                 alignment: FractionalOffset(0.01, 0.02),
                 child: GestureDetector(
@@ -850,6 +838,7 @@ class _HomePageState extends State<HomePage> {
       final response =
       await client.get('https://www.airhive.it/data/?tkn=$login_token');
       final parsed = json.decode(response.body)['data'];
+
       //Dimensione di tutte le icone
       int dimensioneicone = 30;
       final Uint8List markerIconBlu = await getBytesFromAsset("immagini/punto_blu.png", dimensioneicone);
@@ -872,6 +861,7 @@ class _HomePageState extends State<HomePage> {
         double aqi_loc = (properties.pm_10.pm_10 + properties.no2.no / 4 +
             properties.o3.o3 / 2.4) / 3;
         properties.caqi = aqi_loc;
+
         //Trucchetto per decidere di che colore mettere il marker
         Uint8List markerIcon = aqi_loc < 100 ? markerHigh : markerVeryHigh;
         markerIcon = aqi_loc < 75 ? markerMedium : markerIcon;
@@ -1040,7 +1030,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  //Alla creazione della mappa scarica il JSON e centra nella giusta posizione (also change map style if needed)
+  void _onMapCreated(GoogleMapController controller) {
+    controller.setMapStyle(ListOfStyles[currStyleNum]);
+    _controller.complete(controller);
+    fetchData(http.Client());
+    _updatelocationstream();
 
+  }
 
   void _updatelocationstream() async {
     GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
