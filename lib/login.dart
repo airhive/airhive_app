@@ -241,9 +241,6 @@ class _AccountPage extends State<AccountPage> {
     };
     _inviamail(http.Client(), _textcontroller.text);
     _textcontroller.clear();
-    final snackBar = SnackBar(content: Text(Translations.of(context).text('mail_inviata')),
-      duration: const Duration(minutes: 5),);
-    Scaffold.of(context).showSnackBar(snackBar);
   }
   // Invia la mail per la registrazione
   Future<void> _inviamail(http.Client client, String destinatario) async {

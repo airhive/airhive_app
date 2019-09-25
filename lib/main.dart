@@ -116,10 +116,10 @@ Drawer menulaterale(context){
             leading: Icon(Icons.map, color: Colors.white),
             title: new Text(Translations.of(context).text('map_button_text'),
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 24,
-                  letterSpacing: 1,
+                  fontSize: 18,
                 )
             ),
             onTap: () {
@@ -130,10 +130,10 @@ Drawer menulaterale(context){
             leading: Icon(Icons.account_box, color: Colors.white),
             title: new Text(Translations.of(context).text('account_button_text'),
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 24,
-                  letterSpacing: 1,
+                  fontSize: 18,
                 )
             ),
             onTap: () {
@@ -142,12 +142,12 @@ Drawer menulaterale(context){
           ),
           new ListTile(
             leading: Icon(Icons.markunread, color: Colors.white),
-            title: new Text(Translations.of(context).text('notifications_button_text'),
+            title: new Text(Translations.of(context).text('alerts_button_text'),
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 24,
-                  letterSpacing: 1,
+                  fontSize: 18,
                 )
             ),
             onTap: () {
@@ -159,10 +159,10 @@ Drawer menulaterale(context){
             leading: Icon(Icons.settings, color: Colors.white),
             title: new Text(Translations.of(context).text('settings_button_text'),
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 24,
-                  letterSpacing: 1,
+                  fontSize: 18,
                 )
             ),
             onTap: (){
@@ -173,10 +173,10 @@ Drawer menulaterale(context){
             leading: Icon(Icons.receipt, color: Colors.white),
             title: new Text(Translations.of(context).text('legal_privacy_button_text'),
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 24,
-                  letterSpacing: 1,
+                  fontSize: 18,
                 )
             ),
             onTap: (){
