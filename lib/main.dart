@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: app_theme(),
       localizationsDelegates: [
         const TranslationsDelegate(),
