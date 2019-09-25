@@ -185,13 +185,20 @@ Drawer menulaterale(context){
           ),
           new Divider(height: 10, color: Colors.black26,),
           new ListTile(
-              title: new Text('Copyright © 2019 AirHive',
-                  style: TextStyle(
-                    fontFamily:"OpenSans",
-                    color: Colors.white,
-                    fontSize: 10,
-                  )
-              ),
+            title: new Text('We are what we breathe',
+                style: TextStyle(
+                  fontFamily:"OpenSans",
+                  color: Colors.white,
+                  fontSize: 15,
+                )
+            ),
+            subtitle: new Text('Copyright © 2019 AirHive',
+              style: TextStyle(
+                fontFamily:"OpenSans",
+                color: Colors.white,
+                fontSize: 10,
+              )
+            ),
           ),
         ],
       )

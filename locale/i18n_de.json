@@ -40,5 +40,6 @@
   "mail_inviata": "E-Mail gesendet!",
   "back_to_mail": "Verwenden Sie eine andere E-Mail",
   "no_info_offline": "Seite offline nicht verfügbar.",
-  "grafici": "Grafik"
+  "grafici": "Grafik",
+  "alerts_button_text": "Warnen"
 }

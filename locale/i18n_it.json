@@ -40,5 +40,6 @@
   "mail_inviata": "Mail inviata!",
   "back_to_mail": "Inserisci un'altra e-mail",
   "no_info_offline": "Pagina non disponibile offline",
-  "grafici": "Grafici"
+  "grafici": "Grafici",
+  "alerts_button_text": "Avvisi"
 }
