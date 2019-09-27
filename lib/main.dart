@@ -235,7 +235,7 @@ Drawer menulaterale(context){
 Future<void> inviaposizione(http.Client client, double lat, double lng) async {
   try {
     await client.get(
-        'airhive.it/php/updateDevicePos.php?deviceTkn=$login_token&lat=$lat&lng=$lng');
+        'https://www.airhive.it/php/updateDevicePos.php?deviceTkn=$login_token&lat=$lat&lng=$lng');
   }
   catch (SocketException){
   };

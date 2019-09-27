@@ -247,9 +247,10 @@ class _AccountPage extends State<AccountPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("indirizzo_mail", destinatario);
     try {
+      // Timeout per evitare caricamenti infiniti
       final response =
       await client.get(
-          'https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token');
+          'https://www.airhive.it/explore/php/login.php?inApp=true&mail=$destinatario&tkn=$login_token').timeout(const Duration(seconds: 7));
       final parsed = json.decode(response.body);
       InviaMail res = InviaMail.fromJson(parsed);
       bool success = res.success;
@@ -266,8 +267,11 @@ class _AccountPage extends State<AccountPage> {
           testo_errore_mail = Translations.of(context).text('error_text');
         });
       }
-    }
-    catch(SocketException){
+    } on SocketException catch(_){
+      setState(() {
+        testo_errore_mail = Translations.of(context).text('dispositivo_offline');
+      });
+    } on TimeoutException catch (_){
       setState(() {
         testo_errore_mail = Translations.of(context).text('dispositivo_offline');
       });
