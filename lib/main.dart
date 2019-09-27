@@ -93,7 +93,7 @@ ThemeData app_theme(){
 ThemeData app_theme_dark(){
  return ThemeData(
    brightness: Brightness.dark,
-   primaryColor: Colors.black87,
+   primaryColor: Colors.black26,
    accentColor: Colors.white,
 
    iconTheme: IconThemeData (
@@ -116,7 +116,7 @@ ThemeData app_theme_dark(){
 Drawer menulaterale(context){
   return Drawer(
     child: new Container(
-      color: Colors.yellow[700],
+      color: Theme.of(context).primaryColor,
       child: new ListView(
         children: <Widget> [
           new DrawerHeader(
@@ -125,7 +125,7 @@ Drawer menulaterale(context){
                   new BoxShadow(
                     color: Colors.black26,
                   )],
-                color: Colors.yellow[700]
+                color: Theme.of(context).primaryColor,
             ),
             child: GestureDetector(
               onTap: () {
