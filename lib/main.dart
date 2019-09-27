@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: app_theme(),
+      darkTheme: app_theme_dark(),
       localizationsDelegates: [
         const TranslationsDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -85,6 +86,29 @@ ThemeData app_theme(){
       body1: TextStyle(fontSize: 14.0, fontFamily: 'OpenSans'),
     ),
   );
+}
+
+
+//The dark theme for the app
+ThemeData app_theme_dark(){
+ return ThemeData(
+   brightness: Brightness.dark,
+   primaryColor: Colors.black87,
+   accentColor: Colors.white,
+
+   iconTheme: IconThemeData (
+     color: Colors.white,
+   ),
+
+   fontFamily: 'PassionOne',
+
+   textTheme: TextTheme(
+     headline: TextStyle(fontSize:72.0, fontFamily: 'PassionOne'),
+     title: TextStyle(fontSize: 36.0, fontFamily: 'PassionOne'),
+     body1: TextStyle(fontSize: 14.0, fontFamily: 'OpenSans'),
+
+   ),
+ );
 }
 
 
