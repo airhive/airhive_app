@@ -654,15 +654,16 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Container(
                     child: TextField(
+                      style: TextStyle(color: Colors.black),
                       controller: _textcontroller,
                       textInputAction: TextInputAction.search,
                       textCapitalization: TextCapitalization.sentences,
-                      cursorColor: Colors.yellow[700],
+                      cursorColor: Theme.of(context).primaryColor,
                       decoration: InputDecoration(
                           fillColor: Colors.yellow[700],
-                          prefixIcon: Icon(Icons.search),
+                          prefixIcon: Icon(Icons.search, color: Theme.of(context).primaryColor,),
                           suffixIcon: IconButton(
-                              icon: Icon(Icons.clear),
+                              icon: Icon(Icons.clear, color: Theme.of(context).primaryColor,),
                               onPressed: () {
                                 setState(() {
                                   apri_ricerca = false;
@@ -671,7 +672,7 @@ class _HomePageState extends State<HomePage> {
                                 _textcontroller.clear();
                               }),
                           hintText: Translations.of(context).text('blank_research_text'),
-                          hintStyle: TextStyle(fontWeight: FontWeight.w300)
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300, color: Colors.black45)
                       ),
                       textAlign: TextAlign.left,
                       onSubmitted: ricerca,
@@ -683,7 +684,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     child: FlatButton(
                       child: Text(testo_ricerca),
-                      color: Colors.yellow[700],
+                      color: Theme.of(context).primaryColor,
                       onPressed: vaaposizione,
                     ),
                     color: Colors.white,
