@@ -516,7 +516,7 @@ class _HomePageState extends State<HomePage> {
                                              ),
                                             Align(
                                                  alignment: Alignment(0.05, 0.0),
-                                                 child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
+                                                 child: Text(valori_sensore.caqi.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                                              ),
                                              Align(
                                                  alignment: Alignment(1.0, -1.0),
@@ -529,7 +529,7 @@ class _HomePageState extends State<HomePage> {
                                      Container(
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
-                                       color: Colors.yellow[700],
+                                       color: Theme.of(context).primaryColor,
                                        child: Center(child: Text("${Translations.of(context).text('aggiornato_alle')} $tempo_rilevazione")),
                                      ),
                                      Container(
@@ -566,7 +566,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   Align(
                                                       alignment: Alignment(0, -0.1),
-                                                      child: Text((valori_sensore.meteo.prec * 5/10).toStringAsFixed(2).toString())
+                                                      child: Text((valori_sensore.meteo.prec * 5/10).toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                                                   )
                                                 ],
                                               ),
@@ -599,7 +599,7 @@ class _HomePageState extends State<HomePage> {
                                                    ),
                                                    Align(
                                                        alignment: Alignment(0.0, -0.1),
-                                                       child: Text((valori_sensore.meteo.temp * 3/10).toStringAsFixed(2).toString())
+                                                       child: Text((valori_sensore.meteo.temp * 3/10).toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                                                    )
                                                  ],
                                                ),
@@ -632,7 +632,7 @@ class _HomePageState extends State<HomePage> {
                                                    ),
                                                    Align(
                                                        alignment: Alignment(0.0, -0.1),
-                                                       child: Text((valori_sensore.meteo.vento * 5/10).toStringAsFixed(2).toString())
+                                                       child: Text((valori_sensore.meteo.vento * 5/10).toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                                                    )
                                                  ],
                                                ),
