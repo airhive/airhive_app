@@ -107,7 +107,7 @@ class _AccountPage extends State<AccountPage> {
     return  new Scaffold(
           appBar: new AppBar(
             title: new Text("Account"),
-            backgroundColor: Colors.yellow[700],
+            backgroundColor: Theme.of(context).primaryColor,
           ),
           //resizeToAvoidBottomInset: false,
           drawer: menulaterale(context),

@@ -114,7 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
             drawer: menulaterale(context),
             appBar: new AppBar(
               title: new Text(Translations.of(context).text('settings_title')),
-              backgroundColor: Colors.yellow[700],
+              backgroundColor: Theme.of(context).primaryColor,
             ),
             body: new PreferencePage([
 

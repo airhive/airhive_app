@@ -34,6 +34,7 @@ class _DataPageState extends State<DataPage> {
 
     return MaterialApp(
       theme: app_theme(),
+      darkTheme: app_theme_dark(),
       home: DefaultTabController(
         //length: 3,
         //initialIndex: 1,
@@ -55,6 +56,7 @@ class _DataPageState extends State<DataPage> {
             leading: new Container(),
             bottom: TabBar(
 
+
               tabs: [
                 //Tab(text: "Storico"),
                 Tab(text: Translations.of(context).text('marker_presente')),
@@ -62,12 +64,15 @@ class _DataPageState extends State<DataPage> {
               ],
             ),
             title: Text(Translations.of(context).text('grafici')),
+            backgroundColor: Theme.of(context).primaryColor,
           ),
           body: Stack(
             children: <Widget> [
               GoogleMap(
                 compassEnabled: false,
-                onMapCreated:(controller) {},
+                onMapCreated:(controller) {
+                  controller.setMapStyle(ListOfStyles[currStyleNum]);
+                  },
                 myLocationEnabled: false,
                 initialCameraPosition: _initialCamera,
                 markers: _globalmarkers,
@@ -132,7 +137,7 @@ class _DataPageState extends State<DataPage> {
                       ),
                       Align(
                           alignment: Alignment(0.05, 0.0),
-                          child: Text(valori_sensore.caqi.toStringAsFixed(2).toString())
+                          child: Text(valori_sensore.caqi.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                       ),
                     ],
                   ),
@@ -175,7 +180,7 @@ class _DataPageState extends State<DataPage> {
                     ),
                     Align(
                         alignment: Alignment(0.05, 0.0),
-                        child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString())
+                        child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                       ),
                     ],
                   ),
@@ -218,7 +223,7 @@ class _DataPageState extends State<DataPage> {
                       ),
                       Align(
                           alignment: Alignment(0.05, 0.0),
-                          child: Text(valori_sensore.no2.no.toStringAsFixed(2).toString())
+                          child: Text(valori_sensore.no2.no.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                       ),
                     ],
                   ),
@@ -261,7 +266,7 @@ class _DataPageState extends State<DataPage> {
                       ),
                       Align(
                           alignment: Alignment(0.05, 0.0),
-                          child: Text(valori_sensore.o3.o3.toStringAsFixed(2).toString())
+                          child: Text(valori_sensore.o3.o3.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                       ),
                     ],
                   ),

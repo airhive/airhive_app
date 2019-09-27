@@ -22,7 +22,7 @@ class _LegalePage extends State<LegalePage> {
     return new Scaffold(
            appBar: new AppBar(
              title: new Text("Legale e privacy"),
-             backgroundColor: Colors.yellow[700],
+             backgroundColor: Theme.of(context).primaryColor,
            ),
            drawer: menulaterale(context),
       body: !conessioneassente ? IndexedStack(

@@ -24,7 +24,7 @@ class _MessagesPage extends State<MessagesPage> {
     return new Scaffold(
            appBar: new AppBar(
              title: new Text(Translations.of(context).text('notifications_button_text')),
-             backgroundColor: Colors.yellow[700],
+             backgroundColor: Theme.of(context).primaryColor,
            ),
            drawer: menulaterale(context),
       body: !conessioneassente ? IndexedStack(
