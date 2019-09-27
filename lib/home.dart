@@ -450,7 +450,7 @@ class _HomePageState extends State<HomePage> {
                                     Text("PM10", style: TextStyle(color: Colors.white)),
                                     Text("NO2", style: TextStyle(color: Colors.white)),
                                     Text("O3", style: TextStyle(color: Colors.white))][vedo],
-                                  backgroundColor: Colors.yellow[700].withOpacity(0.95),
+                                  backgroundColor: Theme.of(context).primaryColor.withOpacity(0.95),
                                   elevation: 1.0,
                                 )
                             ),
@@ -462,7 +462,7 @@ class _HomePageState extends State<HomePage> {
                                   onPressed: () => _currentLocation(),
                                   tooltip: 'Localizzami',
                                   child: Icon(Icons.location_on, color: Colors.white),
-                                  backgroundColor: Colors.yellow[700].withOpacity(0.95),
+                                  backgroundColor: Theme.of(context).primaryColor.withOpacity(0.95),
                                   elevation: 1.0,
                                 )
                             ),
@@ -718,6 +718,9 @@ class _HomePageState extends State<HomePage> {
               ):Container(),
             ], ),
           bottomNavigationBar: BottomNavigationBar(
+            selectedItemColor: Colors.white,
+            backgroundColor: Theme.of(context).primaryColor,
+
             currentIndex: index,
             onTap: (int index) {
               setState((){ this.index = index; });

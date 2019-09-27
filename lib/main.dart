@@ -93,7 +93,7 @@ ThemeData app_theme(){
 ThemeData app_theme_dark(){
  return ThemeData(
    brightness: Brightness.dark,
-   primaryColor: Colors.black26,
+   primaryColor: Colors.black,
    accentColor: Colors.white,
 
    iconTheme: IconThemeData (
