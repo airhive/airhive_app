@@ -150,10 +150,15 @@ class _SettingsPageState extends State<SettingsPage> {
               backgroundColor: Theme.of(context).primaryColor,
             ),
             body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: <Widget>[
 
-                  new Text(Translations.of(context).text('map_style_title')),
+                  new Container(
+                    child: Text(Translations.of(context).text('map_style_title'), style: new TextStyle(fontSize: 20),),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+
+                  ),
 
                   new Expanded(
                       child: new GridView.count(
@@ -283,7 +288,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                       )),
 
-                  ]
+                ]
             )
         ));
   }
