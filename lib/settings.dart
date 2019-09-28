@@ -5,6 +5,8 @@ String _darkMap;
 String _nightMap;
 String _retroMap;
 String _gtaMap;
+String _silverMap;
+String _aubergineMap;
 
 
 /*
@@ -31,8 +33,10 @@ int defMapNum = 3; //An integer to indicate the default type of map
  *    2     -> retro
  *    3     -> gta
  *    4     -> classic
+ *    5     -> silver
+ *    6     -> aubergine
  * */
-final ListOfStyles = [_darkMap, _nightMap, _retroMap, _gtaMap, null];
+final ListOfStyles = [_darkMap, _nightMap, _retroMap, _gtaMap, null, _silverMap, _aubergineMap];
 int currStyleNum; //An integer to indicate the default style of map at runtime
 int defStyleNum = 4; //An integer to indicate the default map style
 
@@ -93,6 +97,7 @@ class SettingsPage extends StatefulWidget {
   SettingsPage({Key key, this.title}) : super(key: key);
 
   final String title;
+  String mapDropdownValue;
 
 
   @override
@@ -105,94 +110,117 @@ class _SettingsPageState extends State<SettingsPage> {
     return false;
   }
 
-    @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
 
     return WillPopScope(
-          onWillPop: _willPopCalback,
-          child: new Scaffold(
+        onWillPop: _willPopCalback,
+        child: new Scaffold(
             drawer: menulaterale(context),
             appBar: new AppBar(
               title: new Text(Translations.of(context).text('settings_title')),
               backgroundColor: Theme.of(context).primaryColor,
             ),
-            body: new PreferencePage([
+            body: Stack(children: <Widget>[
 
-              //Impostazioni stile mappa
-              PreferenceTitle(Translations.of(context).text('map_style_title')),
-              RadioPreference(
-                Translations.of(context).text('map_type_normal_button_text'),
-                'ROADMAP',
-                'map_theme',
-                isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(4, currStyleNum),
-                onSelect: (){
-                  setMapType(0);
-                  setStyleOfMap(4);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_satellite_button_text'),
-                'SATELLITE',
-                'map_theme',
-                isDefault: isCurrSetting(2, currMapNum),
-                onSelect: (){
-                  setMapType(1);
-                  setStyleOfMap(4);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_hybrid_button_text'),
-                'HYBRID',
-                'map_theme',
-                isDefault: isCurrSetting(1, currMapNum),
-                onSelect: (){
-                  setMapType(2);
-                  setStyleOfMap(4);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_topographical_button_text'),
-                'TERRAIN',
-                'map_theme',
-                isDefault: isCurrSetting(3, currMapNum),
-                onSelect: (){
-                  setMapType(3);
-                  setStyleOfMap(4);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_dark_button_text'),
-                'DARK',
-                'map_theme',
-                isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(0, currStyleNum),
-                onSelect: (){
-                  setMapType(0);
-                  setStyleOfMap(0);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_night_button_text'),
-                'NIGHT',
-                'map_theme',
-                isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(1, currStyleNum),
-                onSelect: (){
-                  setMapType(0);
-                  setStyleOfMap(1);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_retro_button_text'),
-                'RETRO',
-                'map_theme',
-                isDefault: (isCurrSetting(0, currMapNum))&&(isCurrSetting(2, currStyleNum)),
-                onSelect: (){
-                  setMapType(0);
-                  setStyleOfMap(2);
-                },
-              ),
-            ]
-          ),
-        )
-    );
+              new PreferencePage([
+
+
+                //Impostazioni stile mappa
+                PreferenceTitle(Translations.of(context).text('map_style_title')),
+                RadioPreference(
+                  Translations.of(context).text('map_type_normal_button_text'),
+                  'ROADMAP',
+                  'map_theme',
+                  isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(4, currStyleNum),
+                  onSelect: (){
+                    setMapType(0);
+                    setStyleOfMap(4);
+                  },
+                ),
+                RadioPreference(
+                  Translations.of(context).text('map_type_satellite_button_text'),
+                  'SATELLITE',
+                  'map_theme',
+                  isDefault: isCurrSetting(2, currMapNum),
+                  onSelect: (){
+                    setMapType(1);
+                    setStyleOfMap(4);
+                  },
+                ),
+                RadioPreference(
+                  Translations.of(context).text('map_type_hybrid_button_text'),
+                  'HYBRID',
+                  'map_theme',
+                  isDefault: isCurrSetting(1, currMapNum),
+                  onSelect: (){
+                    setMapType(2);
+                    setStyleOfMap(4);
+                  },
+                ),
+                RadioPreference(
+                  Translations.of(context).text('map_type_topographical_button_text'),
+                  'TERRAIN',
+                  'map_theme',
+                  isDefault: isCurrSetting(3, currMapNum),
+                  onSelect: (){
+                    setMapType(3);
+                    setStyleOfMap(4);
+                  },
+                ),
+                RadioPreference(
+                  Translations.of(context).text('map_type_dark_button_text'),
+                  'DARK',
+                  'map_theme',
+                  isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(0, currStyleNum),
+                  onSelect: (){
+                    setMapType(0);
+                    setStyleOfMap(0);
+                  },
+                ),
+                RadioPreference(
+                  Translations.of(context).text('map_type_night_button_text'),
+                  'NIGHT',
+                  'map_theme',
+                  isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(1, currStyleNum),
+                  onSelect: (){
+                    setMapType(0);
+                    setStyleOfMap(1);
+                  },
+                ),
+                RadioPreference(
+                  Translations.of(context).text('map_type_retro_button_text'),
+                  'RETRO',
+                  'map_theme',
+                  isDefault: (isCurrSetting(0, currMapNum))&&(isCurrSetting(2, currStyleNum)),
+                  onSelect: (){
+                    setMapType(0);
+                    setStyleOfMap(2);
+                  },
+                ),
+                RadioPreference(
+                  Translations.of(context).text('map_type_silver_button_text'),
+                  'SILVER',
+                  'map_theme',
+                  isDefault: (isCurrSetting(0, currMapNum))&&(isCurrSetting(5, currStyleNum)),
+                  onSelect: (){
+                    setMapType(0);
+                    setStyleOfMap(5);
+                  },
+                ),
+                RadioPreference(
+                  Translations.of(context).text('map_type_aubergine_button_text'),
+                  'AUBERGINE',
+                  'map_theme',
+                  isDefault: (isCurrSetting(0, currMapNum))&&(isCurrSetting(6, currStyleNum)),
+                  onSelect: (){
+                    setMapType(0);
+                    setStyleOfMap(6);
+                  },
+                ),
+              ]
+              ),]
+            )
+        ));
   }
 }

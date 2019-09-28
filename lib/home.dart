@@ -343,6 +343,12 @@ class _HomePageState extends State<HomePage> {
     rootBundle.loadString('map_styles/gtav.txt').then((string3) {
       _gtaMap = string3;
     });
+    rootBundle.loadString('map_styles/silver.txt').then((string4) {
+      _silverMap = string4;
+    });
+    rootBundle.loadString('map_styles/aubergine.txt').then((string5) {
+      _aubergineMap = string5;
+    });
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
