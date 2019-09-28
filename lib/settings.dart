@@ -122,8 +122,9 @@ class _SettingsPageState extends State<SettingsPage> {
               backgroundColor: Theme.of(context).primaryColor,
             ),
             body: Stack(children: <Widget>[
+              new MapCustomRadio(),
 
-              new PreferencePage([
+              /*new PreferencePage([
 
 
                 //Impostazioni stile mappa
@@ -219,7 +220,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
               ]
-              ),]
+              ),*/]
             )
         ));
   }

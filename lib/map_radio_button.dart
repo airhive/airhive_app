@@ -13,18 +13,20 @@ class MapCustomRadioState extends State<MapCustomRadio> {
   @override
   void initState() {
     super.initState();
-    sampleData.add(new RadioModel(false, 'A', 'April 18'));
-    sampleData.add(new RadioModel(false, 'B', 'April 17'));
-    sampleData.add(new RadioModel(false, 'C', 'April 16'));
-    sampleData.add(new RadioModel(false, 'D', 'April 15'));
+    sampleData.add(new RadioModel(false, "immagini/normale.png", ""));
+    sampleData.add(new RadioModel(false, "immagini/satellite.png", ""));
+    sampleData.add(new RadioModel(false, "immagini/ibrido.png", ""));
+    sampleData.add(new RadioModel(false, "immagini/topo.png", ""));
+    sampleData.add(new RadioModel(false, "immagini/dark.png", ""));
+    sampleData.add(new RadioModel(false, "immagini/night.png", ""));
+    sampleData.add(new RadioModel(false, "immagini/retro.png", ""));
+    sampleData.add(new RadioModel(false, "immagini/silver.png", ""));
+    sampleData.add(new RadioModel(false, "immagini/aubergine.png", ""));
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("ListItem"),
-      ),
       body: new ListView.builder(
         itemCount: sampleData.length,
         itemBuilder: (BuildContext context, int index) {
@@ -51,24 +53,20 @@ class RadioItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: new EdgeInsets.all(15.0),
+      margin: new EdgeInsets.all(10.0),
       child: new Row(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           new Container(
-            height: 50.0,
-            width: 50.0,
+            height: 75.0,
+            width: 75.0,
             child: new Center(
-              child: new Text(_item.buttonText,
-                  style: new TextStyle(
-                      color:
-                      _item.isSelected ? Colors.white : Colors.black,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 18.0)),
+              child: new Image.asset(_item.buttonText),
+
             ),
             decoration: new BoxDecoration(
               border: new Border.all(
-                  width: 1.0,
+                  width: 4.0,
                   color: _item.isSelected
                       ? Colors.blueAccent
                       : Colors.grey),
