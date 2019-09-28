@@ -279,10 +279,14 @@ int getCurrMap(){
 //main
 void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
+
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
+
+  //Retrieve map information from shared preferences
   currMapNum = await getMapType();
   currStyleNum = await getMapStyle();
   currMap = getCurrMap();
+
   await _login(http.Client());
   //runApp(MyApp());
   runApp(
