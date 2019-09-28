@@ -314,11 +314,11 @@ class RadioItem extends StatelessWidget {
             ),
             decoration: new BoxDecoration(
               border: new Border.all(
-                  width: 4.0,
+                  width: 5.0,
                   color: _item.isSelected
                       ? Colors.yellow[700]
                       : Colors.grey),
-              borderRadius: const BorderRadius.all(const Radius.circular(2.0)),
+              borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
             ),
           ),
           new Container(
