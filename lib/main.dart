@@ -253,6 +253,29 @@ Future<void> connectionCheck() async {
   }
 }
 
+//Function to check the current map used
+int getCurrMap(){
+  if(isCurrSetting(0, currMapNum)&&isCurrSetting(4, currStyleNum)){
+    return 0;
+  }else if(isCurrSetting(2, currMapNum)){
+    return 1;
+  } else if (isCurrSetting(1, currMapNum)){
+    return 2;
+  } else if(isCurrSetting(3, currMapNum)){
+    return 3;
+  }else if(isCurrSetting(0, currMapNum)&&isCurrSetting(0, currStyleNum)){
+    return 4;
+  }else if(isCurrSetting(0, currMapNum)&&isCurrSetting(1, currStyleNum)){
+    return 5;
+  } else if(isCurrSetting(0, currMapNum)&&isCurrSetting(2, currStyleNum)){
+    return 6;
+  } else if(isCurrSetting(0, currMapNum)&&isCurrSetting(5, currStyleNum)){
+    return 7;
+  }else if(isCurrSetting(0, currMapNum)&&isCurrSetting(6, currStyleNum)){
+    return 8;
+  }
+}
+
 
 //main
 void main() async {
@@ -261,6 +284,7 @@ void main() async {
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
   currMapNum = await getMapType();
   currStyleNum = await getMapStyle();
+  currMap = getCurrMap();
   await _login(http.Client());
   //runApp(MyApp());
   runApp(

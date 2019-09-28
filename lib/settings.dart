@@ -8,7 +8,7 @@ String _gtaMap;
 String _silverMap;
 String _aubergineMap;
 
-int currMap = 0;
+int currMap;
 
 
 /*
@@ -124,6 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
     mapData.add(new RadioModel(false, "immagini/retro.png", "Vintage"));
     mapData.add(new RadioModel(false, "immagini/silver.png", "Silver"));
     mapData.add(new RadioModel(false, "immagini/aubergine.png", "Aubergine"));
+    mapData[currMap].isSelected = true;
 
   }
 
@@ -220,7 +221,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 mapData.forEach((element) => element.isSelected = false);
                                 currMap = 4;
                                 setMapType(0);
-                                setStyleOfMap(1);
+                                setStyleOfMap(0);
                                 mapData[currMap].isSelected = true;
                               });
                             },
@@ -233,7 +234,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 mapData.forEach((element) => element.isSelected = false);
                                 currMap = 5;
                                 setMapType(0);
-                                setStyleOfMap(2);
+                                setStyleOfMap(1);
                                 mapData[currMap].isSelected = true;
                               });
                             },
@@ -246,7 +247,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 mapData.forEach((element) => element.isSelected = false);
                                 currMap = 6;
                                 setMapType(0);
-                                setStyleOfMap(3);
+                                setStyleOfMap(2);
                                 mapData[currMap].isSelected = true;
                               });
                             },
