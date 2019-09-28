@@ -70,6 +70,8 @@ class _DataPageState extends State<DataPage> {
             children: <Widget> [
               GoogleMap(
                 compassEnabled: false,
+                mapToolbarEnabled: false,
+                myLocationButtonEnabled: false,
                 onMapCreated:(controller) {
                   controller.setMapStyle(ListOfStyles[currStyleNum]);
                   },
