@@ -1,4 +1,5 @@
-part of 'main.dart';
+import 'package:flutter/material.dart';
+
 
 class MapCustomRadio extends StatefulWidget {
   @override
@@ -32,7 +33,7 @@ class MapCustomRadioState extends State<MapCustomRadio> {
         itemBuilder: (BuildContext context, int index) {
           return new InkWell(
             //highlightColor: Colors.red,
-            splashColor: Colors.blueAccent,
+            splashColor: Colors.yellowAccent,
             onTap: () {
               setState(() {
                 sampleData.forEach((element) => element.isSelected = false);

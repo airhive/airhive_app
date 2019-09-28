@@ -8,6 +8,8 @@ String _gtaMap;
 String _silverMap;
 String _aubergineMap;
 
+int currMap = 0;
+
 
 /*
 * Defining a list to store map types:
@@ -110,8 +112,33 @@ class _SettingsPageState extends State<SettingsPage> {
     return false;
   }
 
+  List<RadioModel> mapData = new List<RadioModel>();
+
+  void loadMapSettings() {
+    mapData.add(new RadioModel(false, "immagini/normale.png", "Standard"));
+    mapData.add(new RadioModel(false, "immagini/satellite.png", "Satellite"));
+    mapData.add(new RadioModel(false, "immagini/ibrido.png", "Hybrid"));
+    mapData.add(new RadioModel(false, "immagini/topo.png", "Topographical"));
+    mapData.add(new RadioModel(false, "immagini/dark.png", "Dark"));
+    mapData.add(new RadioModel(false, "immagini/night.png", "Night"));
+    mapData.add(new RadioModel(false, "immagini/retro.png", "Vintage"));
+    mapData.add(new RadioModel(false, "immagini/silver.png", "Silver"));
+    mapData.add(new RadioModel(false, "immagini/aubergine.png", "Aubergine"));
+
+  }
+
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    loadMapSettings();
+  }
+
   @override
   Widget build(BuildContext context) {
+
 
     return WillPopScope(
         onWillPop: _willPopCalback,
@@ -121,10 +148,164 @@ class _SettingsPageState extends State<SettingsPage> {
               title: new Text(Translations.of(context).text('settings_title')),
               backgroundColor: Theme.of(context).primaryColor,
             ),
-            body: Stack(children: <Widget>[
-              new MapCustomRadio(),
+            body: Column(
 
-              /*new PreferencePage([
+                children: <Widget>[
+
+                  new Text(Translations.of(context).text('map_style_title')),
+
+                  new Expanded(
+                      child: new GridView.count(
+
+                        crossAxisCount: 3,
+                        children: <Widget>[
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 0;
+                                setMapType(0);
+                                setStyleOfMap(4);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[0]),
+                          ),
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 1;
+                                setMapType(1);
+                                setStyleOfMap(4);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[1]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 2;
+                                setMapType(2);
+                                setStyleOfMap(4);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[2]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 3;
+                                setMapType(3);
+                                setStyleOfMap(4);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[3]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 4;
+                                setMapType(0);
+                                setStyleOfMap(1);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[4]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 5;
+                                setMapType(0);
+                                setStyleOfMap(2);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[5]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 6;
+                                setMapType(0);
+                                setStyleOfMap(3);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[6]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 7;
+                                setMapType(0);
+                                setStyleOfMap(5);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[7]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 8;
+                                setMapType(0);
+                                setStyleOfMap(6);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[8]),
+                          ),
+                        ],
+
+                      )),
+
+                  /*new Expanded(
+
+                      child: GridView.builder(
+                        gridDelegate:
+                        new SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
+                        itemCount: mapData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return new InkWell(
+                            //highlightColor: Colors.red,
+                            splashColor: Colors.yellow[700],
+                            onTap: () {
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                mapData[index].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[index]),
+                          );
+                        },
+                      )),*/
+                  //new MapCustomRadio(),
+
+                  /*new PreferencePage([
 
 
                 //Impostazioni stile mappa
@@ -224,4 +405,49 @@ class _SettingsPageState extends State<SettingsPage> {
             )
         ));
   }
+}
+
+//Radio button model for map selection
+class RadioItem extends StatelessWidget {
+  final RadioModel _item;
+  RadioItem(this._item);
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: new EdgeInsets.all(10.0),
+      child: new Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          new Container(
+            height: 75.0,
+            width: 75.0,
+            child: new Center(
+              child: new Image.asset(_item.buttonText),
+
+            ),
+            decoration: new BoxDecoration(
+              border: new Border.all(
+                  width: 4.0,
+                  color: _item.isSelected
+                      ? Colors.yellow[700]
+                      : Colors.grey),
+              borderRadius: const BorderRadius.all(const Radius.circular(2.0)),
+            ),
+          ),
+          new Container(
+            margin: new EdgeInsets.only(top: 5.0),
+            child: new Text(_item.text),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class RadioModel {
+  bool isSelected;
+  final String buttonText;
+  final String text;
+
+  RadioModel(this.isSelected, this.buttonText, this.text);
 }

@@ -34,7 +34,6 @@ part "legale.dart";
 part "settings.dart";
 part "messages.dart";
 part "moredata.dart";
-part "map_radio_button.dart";
 
 
 class MyApp extends StatelessWidget {
