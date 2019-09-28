@@ -692,31 +692,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ) : new Container(),
-              conessioneassente ? showDialog<void>(
-                context: context,
-                barrierDismissible: false, // user must tap button!
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Connessione assente'),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          Text('Connessione a internet assente.'),
-                          Text('Per favore controlla la tua connessione e riavvia AirHive.'),
-                        ],
-                      ),
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('Va bene.'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ):Container(),
             ], ),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor: Colors.white,
@@ -737,7 +712,7 @@ class _HomePageState extends State<HomePage> {
               ),
               new BottomNavigationBarItem(
                   icon: Icon(Icons.map),
-                  title: Text('Map')
+                  title: Text(Translations.of(context).text('map_button_text'))
               ),
               new BottomNavigationBarItem(
                   icon: Icon(Icons.search),
