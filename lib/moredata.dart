@@ -132,11 +132,15 @@ class _DataPageState extends State<DataPage> {
                               behaviorPosition: charts.BehaviorPosition.start,
                               titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                             ),
+                            // Per centrare
+                            new charts.ChartTitle(
+                              "",
+                              behaviorPosition: charts.BehaviorPosition.end,
+                            ),
                           ],
                         ),
                       ),
-                      Align(
-                          alignment: Alignment(0.05, 0.0),
+                      Center(
                           child: Text(valori_sensore.caqi.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                       ),
                     ],
@@ -175,11 +179,15 @@ class _DataPageState extends State<DataPage> {
                             behaviorPosition: charts.BehaviorPosition.start,
                             titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                           ),
+                          // Per centrare
+                           new charts.ChartTitle(
+                             "",
+                             behaviorPosition: charts.BehaviorPosition.end,
+                          ),
                         ],
                       ),
                     ),
-                    Align(
-                        alignment: Alignment(0.05, 0.0),
+                    Center(
                         child: Text(valori_sensore.pm_10.pm_10.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                       ),
                     ],
@@ -218,11 +226,15 @@ class _DataPageState extends State<DataPage> {
                               behaviorPosition: charts.BehaviorPosition.start,
                               titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                             ),
+                            // Per centrare
+                            new charts.ChartTitle(
+                              "",
+                              behaviorPosition: charts.BehaviorPosition.end,
+                            ),
                           ],
                         ),
                       ),
-                      Align(
-                          alignment: Alignment(0.05, 0.0),
+                      Center(
                           child: Text(valori_sensore.no2.no.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                       ),
                     ],
@@ -261,11 +273,15 @@ class _DataPageState extends State<DataPage> {
                               behaviorPosition: charts.BehaviorPosition.start,
                               titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                             ),
+                            // Per centrare
+                            new charts.ChartTitle(
+                              "",
+                              behaviorPosition: charts.BehaviorPosition.end,
+                            ),
                           ],
                         ),
                       ),
-                      Align(
-                          alignment: Alignment(0.05, 0.0),
+                      Center(
                           child: Text(valori_sensore.o3.o3.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                       ),
                     ],

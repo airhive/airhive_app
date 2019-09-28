@@ -511,16 +511,20 @@ class _HomePageState extends State<HomePage> {
                                                      behaviorPosition: charts.BehaviorPosition.start,
                                                      titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
                                                    ),
+                                                   // Per centrare
+                                                   new charts.ChartTitle(
+                                                     "",
+                                                     behaviorPosition: charts.BehaviorPosition.end,
+                                                   ),
                                                  ],
                                               ),
                                              ),
-                                            Align(
-                                                 alignment: Alignment(0.05, 0.0),
+                                            Center(
                                                  child: Text(valori_sensore.caqi.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
                                              ),
                                              Align(
                                                  alignment: Alignment(1.0, -1.0),
-                                                 child: Icon(Icons.navigate_next, color: Colors.black),
+                                                 child: Icon(Icons.info_outline, color: Colors.black),
                                              )
                                             ],
                                            ),
