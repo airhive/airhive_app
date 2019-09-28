@@ -16,6 +16,15 @@
         android:icon="@mipmap/ic_launcher">
         <!-- Occhio a questa roba -->
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCkWs0u3VdobkImHKj0xo8CI4bcqJ7EXHQ"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icona_notifiche" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -37,13 +46,5 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCkWs0u3VdobkImHKj0xo8CI4bcqJ7EXHQ"/>
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher_foreground" />
     </application>
 </manifest>
