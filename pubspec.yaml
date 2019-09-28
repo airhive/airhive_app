@@ -27,7 +27,6 @@ dependencies:
   location:
   http:
   dynamic_theme:
-  preferences:
   shared_preferences:
   charts_flutter:
   percent_indicator:
@@ -76,6 +75,8 @@ flutter:
     - map_styles/dark.txt
     - map_styles/night.txt
     - map_styles/retro.txt
+    - map_styles/silver.txt
+    - map_styles/aubergine.txt
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 

@@ -5,6 +5,10 @@ String _darkMap;
 String _nightMap;
 String _retroMap;
 String _gtaMap;
+String _silverMap;
+String _aubergineMap;
+
+int currMap;
 
 
 /*
@@ -31,8 +35,10 @@ int defMapNum = 3; //An integer to indicate the default type of map
  *    2     -> retro
  *    3     -> gta
  *    4     -> classic
+ *    5     -> silver
+ *    6     -> aubergine
  * */
-final ListOfStyles = [_darkMap, _nightMap, _retroMap, _gtaMap, null];
+final ListOfStyles = [_darkMap, _nightMap, _retroMap, _gtaMap, null, _silverMap, _aubergineMap];
 int currStyleNum; //An integer to indicate the default style of map at runtime
 int defStyleNum = 4; //An integer to indicate the default map style
 
@@ -93,6 +99,7 @@ class SettingsPage extends StatefulWidget {
   SettingsPage({Key key, this.title}) : super(key: key);
 
   final String title;
+  String mapDropdownValue;
 
 
   @override
@@ -105,94 +112,229 @@ class _SettingsPageState extends State<SettingsPage> {
     return false;
   }
 
-    @override
-    Widget build(BuildContext context) {
+  List<RadioModel> mapData = new List<RadioModel>();
+
+  void loadMapSettings() {
+    mapData.add(new RadioModel(false, "immagini/normale.png", "Standard"));
+    mapData.add(new RadioModel(false, "immagini/satellite.png", "Satellite"));
+    mapData.add(new RadioModel(false, "immagini/ibrido.png", "Hybrid"));
+    mapData.add(new RadioModel(false, "immagini/topo.png", "Topographical"));
+    mapData.add(new RadioModel(false, "immagini/dark.png", "Dark"));
+    mapData.add(new RadioModel(false, "immagini/night.png", "Night"));
+    mapData.add(new RadioModel(false, "immagini/retro.png", "Vintage"));
+    mapData.add(new RadioModel(false, "immagini/silver.png", "Silver"));
+    mapData.add(new RadioModel(false, "immagini/aubergine.png", "Aubergine"));
+    mapData[currMap].isSelected = true;
+
+  }
+
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    loadMapSettings();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
 
     return WillPopScope(
-          onWillPop: _willPopCalback,
-          child: new Scaffold(
+        onWillPop: _willPopCalback,
+        child: new Scaffold(
             drawer: menulaterale(context),
             appBar: new AppBar(
               title: new Text(Translations.of(context).text('settings_title')),
               backgroundColor: Theme.of(context).primaryColor,
             ),
-            body: new PreferencePage([
+            body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
 
-              //Impostazioni stile mappa
-              PreferenceTitle(Translations.of(context).text('map_style_title')),
-              RadioPreference(
-                Translations.of(context).text('map_type_normal_button_text'),
-                'ROADMAP',
-                'map_theme',
-                isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(4, currStyleNum),
-                onSelect: (){
-                  setMapType(0);
-                  setStyleOfMap(4);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_satellite_button_text'),
-                'SATELLITE',
-                'map_theme',
-                isDefault: isCurrSetting(2, currMapNum),
-                onSelect: (){
-                  setMapType(1);
-                  setStyleOfMap(4);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_hybrid_button_text'),
-                'HYBRID',
-                'map_theme',
-                isDefault: isCurrSetting(1, currMapNum),
-                onSelect: (){
-                  setMapType(2);
-                  setStyleOfMap(4);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_topographical_button_text'),
-                'TERRAIN',
-                'map_theme',
-                isDefault: isCurrSetting(3, currMapNum),
-                onSelect: (){
-                  setMapType(3);
-                  setStyleOfMap(4);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_dark_button_text'),
-                'DARK',
-                'map_theme',
-                isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(0, currStyleNum),
-                onSelect: (){
-                  setMapType(0);
-                  setStyleOfMap(0);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_night_button_text'),
-                'NIGHT',
-                'map_theme',
-                isDefault: isCurrSetting(0, currMapNum)&&isCurrSetting(1, currStyleNum),
-                onSelect: (){
-                  setMapType(0);
-                  setStyleOfMap(1);
-                },
-              ),
-              RadioPreference(
-                Translations.of(context).text('map_type_retro_button_text'),
-                'RETRO',
-                'map_theme',
-                isDefault: (isCurrSetting(0, currMapNum))&&(isCurrSetting(2, currStyleNum)),
-                onSelect: (){
-                  setMapType(0);
-                  setStyleOfMap(2);
-                },
-              ),
-            ]
+                children: <Widget>[
+
+                  new Container(
+                    child: Text(Translations.of(context).text('map_style_title'), style: new TextStyle(fontSize: 20),),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+
+                  ),
+
+                  new Expanded(
+                      child: new GridView.count(
+
+                        crossAxisCount: 3,
+                        children: <Widget>[
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 0;
+                                setMapType(0);
+                                setStyleOfMap(4);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[0]),
+                          ),
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 1;
+                                setMapType(1);
+                                setStyleOfMap(4);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[1]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 2;
+                                setMapType(2);
+                                setStyleOfMap(4);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[2]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 3;
+                                setMapType(3);
+                                setStyleOfMap(4);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[3]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 4;
+                                setMapType(0);
+                                setStyleOfMap(0);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[4]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 5;
+                                setMapType(0);
+                                setStyleOfMap(1);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[5]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 6;
+                                setMapType(0);
+                                setStyleOfMap(2);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[6]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 7;
+                                setMapType(0);
+                                setStyleOfMap(5);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[7]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                mapData.forEach((element) => element.isSelected = false);
+                                currMap = 8;
+                                setMapType(0);
+                                setStyleOfMap(6);
+                                mapData[currMap].isSelected = true;
+                              });
+                            },
+                            child: new RadioItem(mapData[8]),
+                          ),
+                        ],
+
+                      )),
+
+                ]
+            )
+        ));
+  }
+}
+
+//Radio button model for map selection
+class RadioItem extends StatelessWidget {
+  final RadioModel _item;
+  RadioItem(this._item);
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: new EdgeInsets.all(10.0),
+      child: new Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          new Container(
+            height: 75.0,
+            width: 75.0,
+            child: new Center(
+              child: new Image.asset(_item.buttonText),
+
+            ),
+            decoration: new BoxDecoration(
+              border: new Border.all(
+                  width: 5.0,
+                  color: _item.isSelected
+                      ? Colors.yellow[700]
+                      : Colors.grey),
+              borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
+            ),
           ),
-        )
+          new Container(
+            margin: new EdgeInsets.only(top: 5.0),
+            child: new Text(_item.text),
+          )
+        ],
+      ),
     );
   }
+}
+
+class RadioModel {
+  bool isSelected;
+  final String buttonText;
+  final String text;
+
+  RadioModel(this.isSelected, this.buttonText, this.text);
 }
