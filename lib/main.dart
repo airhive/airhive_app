@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/services.dart';
-import 'package:preferences/preferences.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -279,7 +278,6 @@ int getCurrMap(){
 
 //main
 void main() async {
-  await PrefService.init(prefix: 'pref_');
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
   currMapNum = await getMapType();

@@ -50,13 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
-  custom_radio:
-    dependency: "direct main"
-    description:
-      name: custom_radio
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
   device_info:
     dependency: "direct main"
     description:
@@ -212,13 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
-  preferences:
-    dependency: "direct main"
-    description:
-      name: preferences
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0"
   provider:
     dependency: "direct main"
     description:
