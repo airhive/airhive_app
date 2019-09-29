@@ -309,8 +309,8 @@ class _DataPageState extends State<DataPage> {
         id: 'CAQI',
         colorFn: (_, __) => (val_pm < 25) ?
         charts.MaterialPalette.green.shadeDefault:
-        (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
-        (val_pm < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        (val_pm < 50) ? charts.MaterialPalette.lime.shadeDefault:
+        (val_pm < 75) ? charts.MaterialPalette.yellow.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
@@ -330,8 +330,8 @@ class _DataPageState extends State<DataPage> {
         id: 'PM',
         colorFn: (_, __) => (val_pm < 25) ?
         charts.MaterialPalette.green.shadeDefault:
-        (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
-        (val_pm < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        (val_pm < 50) ? charts.MaterialPalette.lime.shadeDefault:
+        (val_pm < 75) ? charts.MaterialPalette.yellow.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
@@ -351,8 +351,8 @@ class _DataPageState extends State<DataPage> {
         id: 'NO',
         colorFn: (_, __) => (val_pm < 100) ?
         charts.MaterialPalette.green.shadeDefault:
-        (val_pm < 200) ? charts.MaterialPalette.yellow.shadeDefault:
-        (val_pm < 300) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        (val_pm < 200) ? charts.MaterialPalette.lime.shadeDefault:
+        (val_pm < 300) ? charts.MaterialPalette.yellow.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
@@ -372,8 +372,8 @@ class _DataPageState extends State<DataPage> {
         id: 'O3',
         colorFn: (_, __) => (val_pm < 150) ?
         charts.MaterialPalette.green.shadeDefault:
-        (val_pm < 250) ? charts.MaterialPalette.yellow.shadeDefault:
-        (val_pm < 400) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        (val_pm < 250) ? charts.MaterialPalette.lime.shadeDefault:
+        (val_pm < 400) ? charts.MaterialPalette.yellow.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,

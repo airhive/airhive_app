@@ -494,9 +494,9 @@ class _HomePageState extends State<HomePage> {
                                      Container(
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
-                                       color: valori_sensore.caqi < 25 ? Colors.green.withOpacity(0.7) :
-                                       valori_sensore.caqi < 50 ? Colors.lightGreen.withOpacity(0.7):
-                                       valori_sensore.caqi < 75 ? Colors.yellow[500].withOpacity(0.7): Colors.deepOrange[600].withOpacity(0.7),
+                                       color: valori_sensore.caqi < 25 ? Colors.green.withOpacity(0.85) :
+                                       valori_sensore.caqi < 50 ? Colors.lime.withOpacity(0.85):
+                                       valori_sensore.caqi < 75 ? Colors.yellow[500].withOpacity(0.85): Colors.deepOrange[600].withOpacity(0.85),
                                        child: Center(child:
                                        valori_sensore.caqi < 25 ? Text(Translations.of(context).text('ottima_aria')):
                                        valori_sensore.caqi < 50 ? Text(Translations.of(context).text('buona_aria')):
@@ -556,7 +556,7 @@ class _HomePageState extends State<HomePage> {
                                      Container(
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
-                                       color: Theme.of(context).primaryColor,
+                                       color: Colors.white,
                                        child: Center(child: Text("${Translations.of(context).text('aggiornato_alle')} $tempo_rilevazione")),
                                      ),
                                      Container(
@@ -1214,18 +1214,18 @@ class _HomePageState extends State<HomePage> {
 
   // Ritorna una lista col widget dei valori per CAQI
   List<charts.Series<GaugeSegment, String>> _PmData() {
-    int val_pm = valori_sensore.pm_10.pm_10.toInt();
+    int val_caqi = valori_sensore.caqi.toInt();
     List<GaugeSegment> data = [
-      new GaugeSegment('High', val_pm),
+      new GaugeSegment('High', val_caqi),
     ];
 
     return [
       new charts.Series<GaugeSegment, String>(
         id: 'CAQI',
-        colorFn: (_, __) => (val_pm < 25) ?
+        colorFn: (_, __) => (val_caqi < 25) ?
           charts.MaterialPalette.green.shadeDefault:
-          (val_pm < 50) ? charts.MaterialPalette.yellow.shadeDefault:
-          (val_pm < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+          (val_caqi < 50) ? charts.MaterialPalette.lime.shadeDefault :
+          (val_caqi < 75) ? charts.MaterialPalette.yellow.shadeDefault:
           charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
@@ -1246,8 +1246,8 @@ class _HomePageState extends State<HomePage> {
         id: 'PREC',
         colorFn: (_, __) => (val_prec < 25) ?
         charts.MaterialPalette.green.shadeDefault:
-        (val_prec < 50) ? charts.MaterialPalette.yellow.shadeDefault:
-        (val_prec < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        (val_prec < 50) ? charts.MaterialPalette.lime.shadeDefault:
+        (val_prec < 75) ? charts.MaterialPalette.yellow.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
@@ -1267,8 +1267,8 @@ class _HomePageState extends State<HomePage> {
         id: 'PREC',
         colorFn: (_, __) => (val_temp < 25) ?
         charts.MaterialPalette.green.shadeDefault:
-        (val_temp < 50) ? charts.MaterialPalette.yellow.shadeDefault:
-        (val_temp < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        (val_temp < 50) ? charts.MaterialPalette.lime.shadeDefault:
+        (val_temp < 75) ? charts.MaterialPalette.yellow.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
@@ -1288,8 +1288,8 @@ class _HomePageState extends State<HomePage> {
         id: 'PREC',
         colorFn: (_, __) => (val_vento < 25) ?
         charts.MaterialPalette.green.shadeDefault:
-        (val_vento < 50) ? charts.MaterialPalette.yellow.shadeDefault:
-        (val_vento < 75) ? charts.MaterialPalette.deepOrange.shadeDefault:
+        (val_vento < 50) ? charts.MaterialPalette.lime.shadeDefault:
+        (val_vento < 75) ? charts.MaterialPalette.yellow.shadeDefault:
         charts.MaterialPalette.red.shadeDefault,
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
