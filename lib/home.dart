@@ -506,7 +506,6 @@ class _HomePageState extends State<HomePage> {
                                      ),
                                      Container(
                                        height:1,
-                                       //color: Colors.black,
                                      ),
                                      GestureDetector(
                                        onTap: () => {Navigator.pushNamed(context, '/moredata')},
@@ -554,10 +553,18 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                      ),
                                      Container(
+                                       height:0.3,
+                                       color: Colors.black,
+                                     ),
+                                     Container(
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
                                        color: Colors.white,
                                        child: Center(child: Text("${Translations.of(context).text('aggiornato_alle')} $tempo_rilevazione")),
+                                     ),
+                                     Container(
+                                       height:0.3,
+                                       color: Colors.black,
                                      ),
                                      Container(
                                        height: 150,
