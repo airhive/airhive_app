@@ -741,7 +741,7 @@ class _HomePageState extends State<HomePage> {
     try{
       await client.get('https://www.airhive.it/php/declareNotTkn.php?notTkn=$nottkn&tkn=$login_token&hl=$lingua');
     }
-    catch (SocketException){
+    on SocketException catch(_){
       return;
     }
   }
@@ -1005,7 +1005,7 @@ class _HomePageState extends State<HomePage> {
         });
       }
     }
-    catch(SocketException){
+    on SocketException catch (_){
       return;
     }
   }
@@ -1071,7 +1071,7 @@ class _HomePageState extends State<HomePage> {
           ));
         });
       });
-    } catch (PlatformException){}
+    } on PlatformException catch(_){}
   }
 
   //Centra nella posizione e aggiunge il marker con l'ape
@@ -1109,7 +1109,7 @@ class _HomePageState extends State<HomePage> {
         ));
       });
       inviaposizione(http.Client(), posizione_assoluta.latitude, posizione_assoluta.longitude);
-    } catch (PlatformException){}
+    } on PlatformException catch(_){}
   }
 
   // Questa map prende le cose in attesa.
@@ -1137,7 +1137,7 @@ class _HomePageState extends State<HomePage> {
         testo_ricerca = posizione_info[0].name + ", " + posizione_info[0].locality;
         risultato_ricerca = posizione_info[0].position;
       });
-    } catch (PlatformException) {}
+    } on PlatformException catch(_) {}
   }
 
   // Se premi su invio nella ricerca parte questo
@@ -1150,7 +1150,7 @@ class _HomePageState extends State<HomePage> {
       });
       vaaposizione();
     }
-    catch (PlatformException) {
+    on PlatformException catch(_) {
       setState(() {
         testo_ricerca = Translations.of(context).text('indirizzo_sconosciuto');
       });
@@ -1188,7 +1188,7 @@ class _HomePageState extends State<HomePage> {
         apri_ricerca = false;
         index = 1;
       });
-    } catch (NoSuchMethodError){
+    } on NoSuchMethodError catch(_){
       setState(() {
         testo_ricerca = Translations.of(context).text('indirizzo_sconosciuto');
       });

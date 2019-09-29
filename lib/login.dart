@@ -349,7 +349,7 @@ Future<void> _login(http.Client client) async {
     login_token = token_old;
     login_data = res.data;
   }
-  catch (SocketException){
+  on SocketException catch(_){
     connectionCheck();
     conessioneassente = true;
     LoginData res = LoginData(
