@@ -20,6 +20,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
+import 'package:bloc_pattern/bloc_pattern.dart';
 
 
 
@@ -33,6 +34,7 @@ part "legale.dart";
 part "settings.dart";
 part "messages.dart";
 part "moredata.dart";
+part "global_translations.dart";
 
 
 class MyApp extends StatelessWidget {
