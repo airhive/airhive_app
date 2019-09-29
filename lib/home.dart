@@ -381,6 +381,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
+    final TranslationsBloc translationsBloc = BlocProvider.of<TranslationsBloc>(context);
+
 
     googleMap = GoogleMap(
       onTap: _googlemaptap,
@@ -540,7 +542,7 @@ class _HomePageState extends State<HomePage> {
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
                                        color: Theme.of(context).primaryColor,
-                                       child: Center(child: Text("${Translations.of(context).text('aggiornato_alle')} $tempo_rilevazione")),
+                                       child: Center(child: Text("${allTranslations.text('homepage.last_update')} $tempo_rilevazione")),
                                      ),
                                      Container(
                                        height: 150,

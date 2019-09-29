@@ -1,0 +1,45 @@
+{
+  "sideMenu": {
+    "map_button": "Mappa",
+    "account_button": "Account",
+    "alerts_button": "Avvisi",
+    "settings_button": "Impostazioni",
+    "legal_button": "Legale e privacy"
+  },
+  "homePage": {
+    "map_button":"Mappa",
+    "menu_button": "Menu",
+    "search_button": "Cerca",
+    "last_update": "Aggiornato alle"
+  },
+  "settingsPage": {
+    "title": "Impostazioni",
+    "map_settings": "Stile Mappa",
+    "standard_map": "Standard",
+    "satellite_map": "Satellite",
+    "hybrid_map": "Ibrido",
+    "topographical_map": "Topografico",
+    "dark_map": "Scuro",
+    "night_map": "Notte",
+    "retro_map": "Vintage",
+    "silver_map": "Silver",
+    "aubergine_map": "Melanzana",
+    "language_settings": "Impostazioni lingua"
+  },
+  "moreDataPage": {
+    "title": "My Page Title",
+    "changeLanguage": "Tap this button to select 'French'"
+  },
+  "loginPage": {
+    "title": "My Page Title",
+    "changeLanguage": "Tap this button to select 'French'"
+  },
+  "legalePage": {
+    "title": "My Page Title",
+    "changeLanguage": "Tap this button to select 'French'"
+  },
+  "messagesPage": {
+    "title": "My Page Title",
+    "changeLanguage": "Tap this button to select 'French'"
+  }
+}

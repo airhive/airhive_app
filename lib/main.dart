@@ -154,6 +154,8 @@ ThemeData app_theme_dark(){
 
 // Genera il menu laterale nel giusto context
 Drawer menulaterale(context){
+  final TranslationsBloc translationsBloc = BlocProvider.of<TranslationsBloc>(context);
+
   return Drawer(
       child: new Container(
           color: Theme.of(context).primaryColor,
@@ -179,7 +181,7 @@ Drawer menulaterale(context){
               ),
               new ListTile(
                 leading: Icon(Icons.map, color: Colors.white),
-                title: new Text(Translations.of(context).text('map_button_text'),
+                title: new Text(allTranslations.text('sideMenu.map_button'),
                     style: TextStyle(
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.w600,
@@ -193,7 +195,7 @@ Drawer menulaterale(context){
               ),
               new ListTile(
                 leading: Icon(Icons.account_box, color: Colors.white),
-                title: new Text(Translations.of(context).text('account_button_text'),
+                title: new Text(allTranslations.text('sideMenu.account_button'),
                     style: TextStyle(
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.w600,
@@ -207,7 +209,7 @@ Drawer menulaterale(context){
               ),
               new ListTile(
                 leading: Icon(Icons.markunread, color: Colors.white),
-                title: new Text(Translations.of(context).text('alerts_button_text'),
+                title: new Text(allTranslations.text('sideMenu.alerts_button'),
                     style: TextStyle(
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.w600,
@@ -222,7 +224,7 @@ Drawer menulaterale(context){
               new Divider(height: 10, color: Colors.black26,),
               new ListTile(
                 leading: Icon(Icons.settings, color: Colors.white),
-                title: new Text(Translations.of(context).text('settings_button_text'),
+                title: new Text(allTranslations.text('sideMenu.settings_button'),
                     style: TextStyle(
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.w600,
@@ -236,7 +238,7 @@ Drawer menulaterale(context){
               ),
               new ListTile(
                 leading: Icon(Icons.receipt, color: Colors.white),
-                title: new Text(Translations.of(context).text('legal_privacy_button_text'),
+                title: new Text(allTranslations.text('sideMenu.legal_button'),
                     style: TextStyle(
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.w600,
