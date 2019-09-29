@@ -43,5 +43,9 @@
   "back_to_mail": "Inserisci un'altra e-mail",
   "no_info_offline": "Pagina non disponibile offline",
   "grafici": "Grafici",
-  "alerts_button_text": "Avvisi"
+  "alerts_button_text": "Avvisi",
+  "ottima_aria": "La qualità dell'aria è ottima",
+  "buona_aria": "La qualità dell'aria è buona",
+  "cattiva_aria": "La qualità dell'aria è cattiva",
+  "pessima_aria": "La qualità dell'aria è pessima"
 }

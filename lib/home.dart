@@ -483,7 +483,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Container(
                     color: Colors.transparent,
-                    height : 195,
+                    height : MediaQuery.of(context).size.height * 0.35,
                     child:ListView(
                       scrollDirection: Axis.vertical,
                       children: <Widget> [
@@ -491,6 +491,17 @@ class _HomePageState extends State<HomePage> {
                                    mainAxisAlignment: MainAxisAlignment.start,
                                    crossAxisAlignment: CrossAxisAlignment.center,
                                    children: <Widget>[
+                                     Container(
+                                       height: 30,
+                                       width: MediaQuery.of(context).size.width,
+                                       color: Theme.of(context).secondaryHeaderColor,
+                                       child: Center(child:
+                                         valori_sensore.caqi < 15 ? Text(Translations.of(context).text('ottima_aria')):
+                                         valori_sensore.caqi < 30 ? Text(Translations.of(context).text('buona_aria')):
+                                         valori_sensore.caqi < 50 ? Text(Translations.of(context).text('cattiva_aria')):
+                                         Text(Translations.of(context).text('pessima_aria'))
+                                       ),
+                                     ),
                                      GestureDetector(
                                        onTap: () => {Navigator.pushNamed(context, '/moredata')},
                                        child: Container(

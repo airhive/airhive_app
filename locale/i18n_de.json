@@ -43,5 +43,9 @@
   "back_to_mail": "Verwenden Sie eine andere E-Mail",
   "no_info_offline": "Seite offline nicht verfügbar.",
   "grafici": "Grafik",
-  "alerts_button_text": "Warnen"
+  "alerts_button_text": "Warnen",
+  "ottima_aria": "Die Luftqualität ist ausgezeichnet",
+  "buona_aria": "Die Luftqualität ist gut",
+  "cattiva_aria": "Die Luftqualität ist schlecht",
+  "pessima_aria": "Die Luftqualität ist sehr schlecht"
 }
