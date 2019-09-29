@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: app_theme(),
       darkTheme: app_theme_dark(),
+      /*
       localizationsDelegates: [
         const TranslationsDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -52,6 +53,8 @@ class MyApp extends StatelessWidget {
         const Locale('it', ''),
         const Locale('de', ''),
       ],
+      */
+
       home: new HomePage(),
       routes: <String, WidgetBuilder> {
       '/homemap': (BuildContext context) => new HomePage(),
