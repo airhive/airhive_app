@@ -22,8 +22,6 @@ import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 
-
-
 //Local imports
 import 'translations.dart';
 import 'dynamic_models.dart';
@@ -284,6 +282,7 @@ int getCurrMap(){
 //main
 void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await allTranslations.init();
 
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
 
