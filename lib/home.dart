@@ -500,7 +500,7 @@ class _HomePageState extends State<HomePage> {
                                        child: Center(child:
                                        valori_sensore.caqi < 25 ? Text(Translations.of(context).text('ottima_aria')):
                                        valori_sensore.caqi < 50 ? Text(Translations.of(context).text('buona_aria')):
-                                       valori_sensore.caqi < 70 ? Text(Translations.of(context).text('cattiva_aria')):
+                                       valori_sensore.caqi < 75 ? Text(Translations.of(context).text('cattiva_aria')):
                                        Text(Translations.of(context).text('pessima_aria'))
                                        ),
                                      ),
