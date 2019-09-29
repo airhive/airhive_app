@@ -494,47 +494,53 @@ class _HomePageState extends State<HomePage> {
                                      Container(
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
-                                       color: Theme.of(context).secondaryHeaderColor,
+                                       color: valori_sensore.caqi < 25 ? Colors.green.withOpacity(0.7) :
+                                       valori_sensore.caqi < 50 ? Colors.lightGreen.withOpacity(0.7):
+                                       valori_sensore.caqi < 75 ? Colors.yellow[500].withOpacity(0.7): Colors.deepOrange[600].withOpacity(0.7),
                                        child: Center(child:
-                                         valori_sensore.caqi < 15 ? Text(Translations.of(context).text('ottima_aria')):
-                                         valori_sensore.caqi < 30 ? Text(Translations.of(context).text('buona_aria')):
-                                         valori_sensore.caqi < 50 ? Text(Translations.of(context).text('cattiva_aria')):
-                                         Text(Translations.of(context).text('pessima_aria'))
+                                       valori_sensore.caqi < 25 ? Text(Translations.of(context).text('ottima_aria')):
+                                       valori_sensore.caqi < 50 ? Text(Translations.of(context).text('buona_aria')):
+                                       valori_sensore.caqi < 70 ? Text(Translations.of(context).text('cattiva_aria')):
+                                       Text(Translations.of(context).text('pessima_aria'))
                                        ),
+                                     ),
+                                     Container(
+                                       height:1,
+                                       //color: Colors.black,
                                      ),
                                      GestureDetector(
                                        onTap: () => {Navigator.pushNamed(context, '/moredata')},
                                        child: Container(
                                          color: Colors.white,
-                                         height: 130,
+                                         height: MediaQuery.of(context).size.height * 0.20,
                                          child: Stack(
                                            children: <Widget> [
                                              Container(
                                                height:160,
-                                               child: new charts.PieChart(
-                                                 _PmData(),
-                                                 animate:true,
-                                                 defaultRenderer: new charts.ArcRendererConfig(
-                                                     arcWidth: 10,
-                                                     startAngle: 4 / 5 * 3.1415,
-                                                     arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
-                                                 ),
-                                                 behaviors: [
-                                                   new charts.ChartTitle(
-                                                     "Air quality index",
-                                                     titleStyleSpec: charts.TextStyleSpec(
-                                                       fontSize: 12, // size in Pts.
-                                                       color: charts.MaterialPalette.black),
-                                                     behaviorPosition: charts.BehaviorPosition.start,
-                                                     titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                                                 child: new charts.PieChart(
+                                                   _PmData(),
+                                                   animate:true,
+                                                   defaultRenderer: new charts.ArcRendererConfig(
+                                                       arcWidth: 10,
+                                                       startAngle: 4 / 5 * 3.1415,
+                                                       arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
                                                    ),
-                                                   // Per centrare
-                                                   new charts.ChartTitle(
-                                                     "",
-                                                     behaviorPosition: charts.BehaviorPosition.end,
-                                                   ),
-                                                 ],
-                                              ),
+                                                   behaviors: [
+                                                     new charts.ChartTitle(
+                                                       "Air quality index",
+                                                       titleStyleSpec: charts.TextStyleSpec(
+                                                         fontSize: 12, // size in Pts.
+                                                         color: charts.MaterialPalette.black),
+                                                       behaviorPosition: charts.BehaviorPosition.start,
+                                                       titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                                                     ),
+                                                     // Per centrare
+                                                     new charts.ChartTitle(
+                                                       "",
+                                                       behaviorPosition: charts.BehaviorPosition.end,
+                                                     ),
+                                                   ],
+                                               ),
                                              ),
                                             Center(
                                                  child: Text(valori_sensore.caqi.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
