@@ -106,7 +106,7 @@ class _AccountPage extends State<AccountPage> {
 
     return  new Scaffold(
           appBar: new AppBar(
-            title: new Text("Account"),
+            title: new Text(allTranslations.text('loginPage.title')),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           //resizeToAvoidBottomInset: false,
@@ -121,7 +121,7 @@ class _AccountPage extends State<AccountPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Center(child:Text(
-                    Translations.of(context).text('sign_in'),
+                    allTranslations.text('loginPage.sign_in'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 36,
@@ -139,13 +139,13 @@ class _AccountPage extends State<AccountPage> {
                       ),
                       hintText: "example@example.com",
                       hintStyle: TextStyle(fontFamily: "OpenSans"),
-                      errorText: privacy ? testo_errore_mail : Translations.of(context).text('accept_privacy_to_continue'),
+                      errorText: privacy ? testo_errore_mail : allTranslations.text('loginPage.accept_privacy_to_continue'),
                     ),
                     onSubmitted: (a) => {pulsante_mail(context, _textcontroller)},
                   ),
                   Container(height:50),
                   CheckboxListTile(
-                    title: Text(Translations.of(context).text('accept_privacy_button_text')), //    <-- label
+                    title: Text(allTranslations.text('loginPage.accept_privacy')), //    <-- label
                     value: privacy,
                     onChanged: (newValue) {setState(() {
                       privacy = privacy ? false : true;
@@ -167,7 +167,7 @@ class _AccountPage extends State<AccountPage> {
                     children: <Widget>[
                       //Container(height: 50),
                       Center(child:Text(
-                        Translations.of(context).text('verification_code'),
+                        allTranslations.text('loginPage.verification_code'),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 36,
@@ -186,9 +186,9 @@ class _AccountPage extends State<AccountPage> {
                             icon: Icon(Icons.send),
                             onPressed: () {_verificamail(http.Client(), _textcontroller.text);_textcontroller.clear();},
                           ),
-                          hintText: Translations.of(context).text('verification_code'),
+                          hintText: allTranslations.text('loginPage.verification_code'),
                           hintStyle: TextStyle(fontFamily: "OpenSans"),
-                          errorText: codice_verificato ? null : Translations.of(context).text('error_code_text'),
+                          errorText: codice_verificato ? null : allTranslations.text('loginPage.error_code'),
                         ),
                         onSubmitted: (a) => {_verificamail(http.Client(), _textcontroller.text), _textcontroller.clear()},
                       ),
@@ -201,7 +201,7 @@ class _AccountPage extends State<AccountPage> {
                 child: FloatingActionButton.extended(
                   label: Text("Mail"),
                   icon: Icon(Icons.arrow_back),
-                  tooltip: Translations.of(context).text('back_to_mail'),
+                  tooltip: allTranslations.text('loginPage.back_to_mail'),
                   onPressed: () {
                     setState(() {
                       mail_inviata = "no";
@@ -225,13 +225,13 @@ class _AccountPage extends State<AccountPage> {
                )
               ]
           )
-          : Text(Translations.of(context).text('no_info_offline')),
+          : Text(allTranslations.text('loginPage.no_info_offline')),
         );
   }
   void pulsante_mail(context, TextEditingController _textcontroller) async {
     if(! _textcontroller.text.contains("@")){
       setState(() {
-        testo_errore_mail = Translations.of(context).text('non_indirizzo_mail');
+        testo_errore_mail = allTranslations.text('loginPage.not_email');
       });
       return;
     };
@@ -264,16 +264,16 @@ class _AccountPage extends State<AccountPage> {
       }
       else {
         setState(() {
-          testo_errore_mail = Translations.of(context).text('error_text');
+          testo_errore_mail = allTranslations.text('loginPage.error');
         });
       }
     } on SocketException catch(_){
       setState(() {
-        testo_errore_mail = Translations.of(context).text('dispositivo_offline');
+        testo_errore_mail = allTranslations.text('loginPage.offline_device');
       });
     } on TimeoutException catch (_){
       setState(() {
-        testo_errore_mail = Translations.of(context).text('dispositivo_offline');
+        testo_errore_mail = allTranslations.text('loginPage.offline_device');
       });
     }
   }
@@ -306,7 +306,7 @@ class _AccountPage extends State<AccountPage> {
         });
       }
     } else {
-      testo_errore_mail = Translations.of(context).text('dispositivo_offline');
+      testo_errore_mail = allTranslations.text('loginPage.offline_device');
     }
   }
 }

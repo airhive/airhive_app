@@ -107,7 +107,7 @@ class Preferences {
 
 
 //Writing a singleton to handle translations
-const List<String> _kSupportedLanguages = ["en","fr"];
+const List<String> _kSupportedLanguages = ["en","it","de"];
 const String _kDefaultLanguage = "en";
 
 class GlobalTranslations {
@@ -211,7 +211,7 @@ class GlobalTranslations {
     _locale = Locale(language, "");
 
     // Load the language strings
-    String jsonContent = await rootBundle.loadString("assets/locale/locale_${_locale.languageCode}.json");
+    String jsonContent = await rootBundle.loadString("locale/locale_${_locale.languageCode}.json");
     _localizedValues = json.decode(jsonContent);
 
     // Clear the cache

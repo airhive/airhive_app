@@ -146,7 +146,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: new Scaffold(
             drawer: menulaterale(context),
             appBar: new AppBar(
-              title: new Text(Translations.of(context).text('settings_title')),
+              title: new Text(allTranslations.text('settingsPage.title')),
               backgroundColor: Theme.of(context).primaryColor,
             ),
             body: Column(
@@ -155,7 +155,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
 
                   new Container(
-                    child: Text(Translations.of(context).text('map_style_title'), style: new TextStyle(fontSize: 20),),
+                    child: Text(allTranslations.text('settingsPage.map_settings'), style: new TextStyle(fontSize: 20),),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
 
                   ),

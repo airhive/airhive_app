@@ -10,7 +10,16 @@
     "map_button":"Mappa",
     "menu_button": "Menu",
     "search_button": "Cerca",
-    "last_update": "Aggiornato alle"
+    "last_update": "Aggiornato alle",
+    "rainfall": "Precipitazioni",
+    "temperature": "Temperatura",
+    "wind": "Vento",
+    "blank_research_text": "Cerca",
+    "close": "Chiudi",
+    "retry": "Riprova",
+    "functions_not_available": "Alcune funzionalità della app non sono disponibili offline",
+    "offline_device": "Dispositivo offline",
+    "unknown_address": "Indirizzo non trovato"
   },
   "settingsPage": {
     "title": "Impostazioni",
@@ -27,19 +36,28 @@
     "language_settings": "Impostazioni lingua"
   },
   "moreDataPage": {
-    "title": "My Page Title",
-    "changeLanguage": "Tap this button to select 'French'"
+    "title": "Grafici",
+    "present": "Attuale"
   },
   "loginPage": {
-    "title": "My Page Title",
-    "changeLanguage": "Tap this button to select 'French'"
+    "title": "Account",
+    "sign_in": "Registrati",
+    "accept_privacy_to_continue": "Accetta la privacy per proseguire",
+    "accept_privacy": "Acconsento alla privacy",
+    "verification_code": "Codice di verifica",
+    "error_code":"Codice errato",
+    "back_to_mail": "Inserisci un'altra e-mail",
+    "no_info_offline": "Pagina non disponibile offline",
+    "not_email": "Non sembra un indirizzo e-mail",
+    "error": "Errore",
+    "offline_device": "Dispositivo offline"
   },
-  "legalePage": {
-    "title": "My Page Title",
-    "changeLanguage": "Tap this button to select 'French'"
+  "legalPage": {
+    "title": "Legale e Privacy",
+    "no_info_offline": "Pagina non disponibile offline"
   },
   "messagesPage": {
-    "title": "My Page Title",
-    "changeLanguage": "Tap this button to select 'French'"
+    "title": "Avvisi",
+    "no_info_offline": "Pagina non disponibile offline"
   }
 }

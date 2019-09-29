@@ -566,7 +566,7 @@ class _HomePageState extends State<HomePage> {
                                                       ),
                                                       behaviors: [
                                                         new charts.ChartTitle(
-                                                          Translations.of(context).text('precipitazioni'),
+                                                          allTranslations.text('homePage.rainfall'),
                                                           titleStyleSpec: charts.TextStyleSpec(
                                                             fontSize: 12, // size in Pts.
                                                             color: charts.MaterialPalette.black),
@@ -599,7 +599,7 @@ class _HomePageState extends State<HomePage> {
                                                        ),
                                                        behaviors: [
                                                          new charts.ChartTitle(
-                                                           Translations.of(context).text('temperatura'),
+                                                           allTranslations.text('homePage.temperature'),
                                                            titleStyleSpec: charts.TextStyleSpec(
                                                                fontSize: 12, // size in Pts.
                                                                color: charts.MaterialPalette.black),
@@ -632,7 +632,7 @@ class _HomePageState extends State<HomePage> {
                                                        ),
                                                        behaviors: [
                                                          new charts.ChartTitle(
-                                                           Translations.of(context).text('vento'),
+                                                           allTranslations.text('homePage.wind'),
                                                            titleStyleSpec: charts.TextStyleSpec(
                                                                fontSize: 12, // size in Pts.
                                                                color: charts.MaterialPalette.black),
@@ -683,7 +683,7 @@ class _HomePageState extends State<HomePage> {
                                 });
                                 _textcontroller.clear();
                               }),
-                          hintText: Translations.of(context).text('blank_research_text'),
+                          hintText: allTranslations.text('homePage.blank_research_text'),
                           hintStyle: TextStyle(fontWeight: FontWeight.w300, color: Colors.black45)
                       ),
                       textAlign: TextAlign.left,
@@ -724,11 +724,11 @@ class _HomePageState extends State<HomePage> {
               ),
               new BottomNavigationBarItem(
                   icon: Icon(Icons.map),
-                  title: Text(Translations.of(context).text('map_button_text'))
+                  title: Text(allTranslations.text('homePage.map_button'))
               ),
               new BottomNavigationBarItem(
                   icon: Icon(Icons.search),
-                  title: Text(Translations.of(context).text('blank_research_text'))
+                  title: Text(allTranslations.text('homePage.search_button'))
               )
             ],
           ),
@@ -755,7 +755,7 @@ class _HomePageState extends State<HomePage> {
       content: Text(testo_msg),
       actions: <Widget>[
         FlatButton(
-          child: Text(Translations.of(context).text('chiudi')),
+          child: Text(allTranslations.text('homePage.close')),
           onPressed: () {
             Navigator.pop(context, false);
           },
@@ -786,12 +786,12 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           FlatButton(
-            child: Text(Translations.of(context).text('riprova')),
+            child: Text(allTranslations.text('homePage.retry')),
             onPressed: () {
               connectionCheck();
               Navigator.pop(context, false);
               if(conessioneassente){
-                _showOfflineAlert(Translations.of(context).text('funzioni_non_disponibili'), Translations.of(context).text('dispositivo_offline'));
+                _showOfflineAlert(allTranslations.text('homePage.functions_not_available'), allTranslations.text('homePage.offline_device'));
                 return ;
               }
               _login(http.Client());
@@ -814,7 +814,7 @@ class _HomePageState extends State<HomePage> {
 
   void _seOffline(BuildContext context){
     if (conessioneassente){
-      _showOfflineAlert(Translations.of(context).text('funzioni_non_disponibili'), Translations.of(context).text('dispositivo_offline'));
+      _showOfflineAlert(allTranslations.text('homePage.functions_not_available'), allTranslations.text('homePage.offline_device'));
     }
   }
 
@@ -1154,7 +1154,7 @@ class _HomePageState extends State<HomePage> {
     }
     catch (PlatformException) {
       setState(() {
-        testo_ricerca = Translations.of(context).text('indirizzo_sconosciuto');
+        testo_ricerca = allTranslations.text('homePage.unknown_address');
       });
     }
   }
@@ -1192,7 +1192,7 @@ class _HomePageState extends State<HomePage> {
       });
     } catch (NoSuchMethodError){
       setState(() {
-        testo_ricerca = Translations.of(context).text('indirizzo_sconosciuto');
+        testo_ricerca = allTranslations.text('homePage.unknown_address');
       });
     }
   }

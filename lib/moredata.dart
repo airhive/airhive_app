@@ -59,11 +59,11 @@ class _DataPageState extends State<DataPage> {
 
               tabs: [
                 //Tab(text: "Storico"),
-                Tab(text: Translations.of(context).text('marker_presente')),
+                Tab(text: allTranslations.text('moreDataPage.present')),
                 //Tab(text: "Previsioni"),
               ],
             ),
-            title: Text(Translations.of(context).text('grafici')),
+            title: Text(allTranslations.text('moreDataPage.title')),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           body: Stack(
