@@ -404,14 +404,14 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               googleMap,
               new Align(
-                alignment: FractionalOffset(0.01, 0.02),
+                alignment: FractionalOffset(0.035, 0.07),
                 child: GestureDetector(
                   onTap: () {
                     _scaffoldKey.currentState.openDrawer();
                   },
                   child: new Image.asset(
-                    "immagini/airhive.png",
-                    scale: 6.7,
+                    "immagini/logo.png",
+                    scale: 27,
                   ),
                 ),),
               new Align(
