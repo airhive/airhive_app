@@ -169,8 +169,8 @@ class _SettingsPageState extends State<SettingsPage> {
               title: new Text(allTranslations.text('settingsPage.title')),
               backgroundColor: Theme.of(context).primaryColor,
             ),
-            body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            body: ListView(
+                //crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: <Widget>[
 
@@ -181,8 +181,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
 
                   new ConstrainedBox(
-                    constraints: BoxConstraints.expand(height: 385),
+                    constraints: BoxConstraints.expand(height: 400),
                       child: new GridView.count(
+
+                        shrinkWrap: true,
+                        physics: new NeverScrollableScrollPhysics(),
 
                         crossAxisCount: 3,
                         children: <Widget>[
@@ -319,8 +322,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: new GridView.count(
 
                         shrinkWrap: true,
-                        childAspectRatio: (itemWidth / itemHeight),
-                        crossAxisCount: 3,
+                        physics: new NeverScrollableScrollPhysics(),
+
                         children: <Widget>[
 
                           new InkWell(
@@ -375,7 +378,7 @@ class RadioItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: new EdgeInsets.all(10.0),
+      margin: new EdgeInsets.only(top: 10.0),
       child: new Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
