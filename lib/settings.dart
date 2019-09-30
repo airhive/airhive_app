@@ -10,6 +10,9 @@ String _aubergineMap;
 
 int currMap;
 
+int currLang;
+
+
 
 /*
 * Defining a list to store map types:
@@ -113,8 +116,10 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   List<RadioModel> mapData = new List<RadioModel>();
+  List<LanguageRadioModel> languageData = new List<LanguageRadioModel>();
 
   void loadMapSettings() {
+    //Initialise mapData list
     mapData.add(new RadioModel(false, "immagini/normale.png", "Standard"));
     mapData.add(new RadioModel(false, "immagini/satellite.png", "Satellite"));
     mapData.add(new RadioModel(false, "immagini/ibrido.png", "Hybrid"));
@@ -124,6 +129,12 @@ class _SettingsPageState extends State<SettingsPage> {
     mapData.add(new RadioModel(false, "immagini/retro.png", "Vintage"));
     mapData.add(new RadioModel(false, "immagini/silver.png", "Silver"));
     mapData.add(new RadioModel(false, "immagini/aubergine.png", "Aubergine"));
+
+    //Initialize languageData list
+    languageData.add(new LanguageRadioModel(false, 'it', "Italiano"));
+    languageData.add(new LanguageRadioModel(false, 'gb', "English"));
+    languageData.add(new LanguageRadioModel(false, 'de', "Deutsch"));
+
     mapData[currMap].isSelected = true;
 
   }
@@ -139,6 +150,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 2;
+
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.light,
     ));
@@ -297,6 +314,54 @@ class _SettingsPageState extends State<SettingsPage> {
 
                   ),
 
+                  new ConstrainedBox(
+                      constraints: BoxConstraints.expand(height: 120),
+                      child: new GridView.count(
+
+                        shrinkWrap: true,
+                        childAspectRatio: (itemWidth / itemHeight),
+                        crossAxisCount: 3,
+                        children: <Widget>[
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                languageData.forEach((element) => element.isSelected = false);
+                                currLang = 0;
+                                languageData[currLang].isSelected = true;
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[0]),
+                          ),
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                languageData.forEach((element) => element.isSelected = false);
+                                currLang = 1;
+                                languageData[currLang].isSelected = true;
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[1]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: (){
+                              setState(() {
+                                languageData.forEach((element) => element.isSelected = false);
+                                currLang = 2;
+                                languageData[currLang].isSelected = true;
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[2]),
+                          ),
+
+                        ],
+
+                      )),
+
                 ]
             )
         ));
@@ -346,4 +411,50 @@ class RadioModel {
   final String text;
 
   RadioModel(this.isSelected, this.buttonText, this.text);
+}
+
+
+//Radio button model for language selection
+class LanguageRadioItem extends StatelessWidget {
+  final LanguageRadioModel _item;
+  LanguageRadioItem(this._item);
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: new EdgeInsets.all(10.0),
+      child: new Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          new Container(
+            height: 52.0,
+            width: 75.0,
+            child: new Center(
+              child: new Image.asset('immagini/${_item.buttonText}.png'),
+
+            ),
+            decoration: new BoxDecoration(
+              border: new Border.all(
+                  width: 4.0,
+                  color: _item.isSelected
+                      ? Colors.yellow[700]
+                      : Colors.grey),
+              borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
+            ),
+          ),
+          new Container(
+            margin: new EdgeInsets.only(top: 5.0),
+            child: new Text(_item.text),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class LanguageRadioModel {
+  bool isSelected;
+  final String buttonText;
+  final String text;
+
+  LanguageRadioModel(this.isSelected, this.buttonText, this.text);
 }
