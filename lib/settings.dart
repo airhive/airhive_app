@@ -160,7 +160,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
                   ),
 
-                  new Expanded(
+                  new ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 405),
                       child: new GridView.count(
 
                         crossAxisCount: 3,
