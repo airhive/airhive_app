@@ -287,6 +287,11 @@ class _SettingsPageState extends State<SettingsPage> {
                         ],
 
                       )),
+                  new Container(
+                    child: Text(allTranslations.text('settingsPage.language_settings'), style: new TextStyle(fontSize: 20),),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+
+                  ),
 
                 ]
             )
