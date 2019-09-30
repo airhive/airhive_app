@@ -47,6 +47,7 @@ class _MyAppState extends State<MyApp> {
   void initState(){
     super.initState();
     translationsBloc = TranslationsBloc();
+
   }
 
   @override
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
 
 
             builder: (BuildContext context, AsyncSnapshot<Locale> snapshot){
+
               return new MaterialApp(
                   debugShowCheckedModeBanner: false,
                   theme: app_theme(),

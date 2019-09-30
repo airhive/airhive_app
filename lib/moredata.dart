@@ -31,6 +31,9 @@ class _DataPageState extends State<DataPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
 
     return MaterialApp(
       theme: app_theme(),

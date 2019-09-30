@@ -139,6 +139,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
 
 
     return WillPopScope(
@@ -161,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
 
                   new ConstrainedBox(
-                    constraints: const BoxConstraints(maxHeight: 405),
+                    constraints: BoxConstraints.expand(height: 385),
                       child: new GridView.count(
 
                         crossAxisCount: 3,

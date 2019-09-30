@@ -103,6 +103,9 @@ class _AccountPage extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
 
     return  new Scaffold(
           appBar: new AppBar(

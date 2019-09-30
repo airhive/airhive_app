@@ -380,6 +380,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
 
     final TranslationsBloc translationsBloc = BlocProvider.of<TranslationsBloc>(context);
 

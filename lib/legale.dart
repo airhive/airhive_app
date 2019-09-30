@@ -19,6 +19,9 @@ class _LegalePage extends State<LegalePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
     final TranslationsBloc translationsBloc = BlocProvider.of<TranslationsBloc>(context);
 
     return new Scaffold(

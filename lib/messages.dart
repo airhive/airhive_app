@@ -21,6 +21,9 @@ class _MessagesPage extends State<MessagesPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
     return new Scaffold(
            appBar: new AppBar(
              title: new Text(allTranslations.text('messagesPage.title')),
