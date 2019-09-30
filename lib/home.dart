@@ -498,10 +498,10 @@ class _HomePageState extends State<HomePage> {
                                        valori_sensore.caqi < 50 ? Colors.lime.withOpacity(0.85):
                                        valori_sensore.caqi < 75 ? Colors.yellow[500].withOpacity(0.85): Colors.deepOrange[600].withOpacity(0.85),
                                        child: Center(child:
-                                       valori_sensore.caqi < 25 ? Text(Translations.of(context).text('ottima_aria')):
-                                       valori_sensore.caqi < 50 ? Text(Translations.of(context).text('buona_aria')):
-                                       valori_sensore.caqi < 75 ? Text(Translations.of(context).text('cattiva_aria')):
-                                       Text(Translations.of(context).text('pessima_aria'))
+                                       valori_sensore.caqi < 25 ? Text(Translations.of(context).text('ottima_aria'), style: TextStyle(color: Colors.black),):
+                                       valori_sensore.caqi < 50 ? Text(Translations.of(context).text('buona_aria'), style: TextStyle(color: Colors.black),):
+                                       valori_sensore.caqi < 75 ? Text(Translations.of(context).text('cattiva_aria'), style: TextStyle(color: Colors.black),):
+                                       Text(Translations.of(context).text('pessima_aria'), style: TextStyle(color: Colors.black),)
                                        ),
                                      ),
                                      Container(
@@ -560,7 +560,7 @@ class _HomePageState extends State<HomePage> {
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
                                        color: Colors.white,
-                                       child: Center(child: Text("${Translations.of(context).text('aggiornato_alle')} $tempo_rilevazione")),
+                                       child: Center(child: Text("${Translations.of(context).text('aggiornato_alle')} $tempo_rilevazione", style: TextStyle(color: Colors.black),)),
                                      ),
                                      Container(
                                        height:0.3,
