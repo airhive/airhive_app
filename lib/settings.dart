@@ -193,21 +193,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   }
 
-  /*
-  void refreshRadioSetting(){
-    mapData[0].text = allTranslations.text('settingsPage.standard_map');
-    mapData[1].text = allTranslations.text('settingsPage.satellite_map');
-    mapData[2].text = allTranslations.text('settingsPage.hybrid_map');
-    mapData[3].text = allTranslations.text('settingsPage.topographical_map');
-    mapData[4].text = allTranslations.text('settingsPage.dark_map');
-    mapData[5].text = allTranslations.text('settingsPage.night_map');
-    mapData[6].text = allTranslations.text('settingsPage.retro_map');
-    mapData[7].text = allTranslations.text('settingsPage.silver_map');
-    mapData[8].text = allTranslations.text('settingsPage.aubergine_map');
-  }
-
-   */
-
 
 
 
@@ -217,12 +202,21 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    loadRadioSettings();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    loadRadioSettings();
+    mapData[0].text = allTranslations.text('settingsPage.standard_map');
+    mapData[1].text = allTranslations.text('settingsPage.satellite_map');
+    mapData[2].text = allTranslations.text('settingsPage.hybrid_map');
+    mapData[3].text = allTranslations.text('settingsPage.topographical_map');
+    mapData[4].text = allTranslations.text('settingsPage.dark_map');
+    mapData[5].text = allTranslations.text('settingsPage.night_map');
+    mapData[6].text = allTranslations.text('settingsPage.retro_map');
+    mapData[7].text = allTranslations.text('settingsPage.silver_map');
+    mapData[8].text = allTranslations.text('settingsPage.aubergine_map');
 
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
