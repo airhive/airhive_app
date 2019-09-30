@@ -56,6 +56,11 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
+  _onLocaleChanged() async {
+    // do anything you need to do if the language changes
+    print('Language has been changed to: ${allTranslations.currentLanguage}');
+  }
+
   @override
   Widget build(BuildContext context) {
 

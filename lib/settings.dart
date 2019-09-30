@@ -324,13 +324,17 @@ class _SettingsPageState extends State<SettingsPage> {
                         shrinkWrap: true,
                         physics: new NeverScrollableScrollPhysics(),
 
+                        crossAxisCount: 3,
+
                         children: <Widget>[
 
                           new InkWell(
                             splashColor: Colors.yellow[700],
                             onTap: (){
-                              setState(() {
+                              setState(() async {
                                 languageData.forEach((element) => element.isSelected = false);
+                                await allTranslations.setNewLanguage("it");
+                                setState((){});
                                 currLang = 0;
                                 languageData[currLang].isSelected = true;
                               });
@@ -341,8 +345,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           new InkWell(
                             splashColor: Colors.yellow[700],
                             onTap: (){
-                              setState(() {
+                              setState(() async {
                                 languageData.forEach((element) => element.isSelected = false);
+                                await allTranslations.setNewLanguage("en");
+                                setState((){});
                                 currLang = 1;
                                 languageData[currLang].isSelected = true;
                               });
@@ -351,9 +357,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                           new InkWell(
                             splashColor: Colors.yellow[700],
-                            onTap: (){
-                              setState(() {
+                            onTap: () {
+                              setState(() async {
                                 languageData.forEach((element) => element.isSelected = false);
+                                await allTranslations.setNewLanguage("de");
+                                setState((){});
                                 currLang = 2;
                                 languageData[currLang].isSelected = true;
                               });
@@ -429,7 +437,7 @@ class LanguageRadioItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           new Container(
-            height: 52.0,
+            height: 53.0,
             width: 75.0,
             child: new Center(
               child: new Image.asset('immagini/${_item.buttonText}.png'),
