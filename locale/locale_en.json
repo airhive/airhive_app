@@ -4,14 +4,22 @@
     "account_button": "Account",
     "alerts_button": "Alerts",
     "settings_button": "Settings",
-    "legal_button": "Legal and Privacy"
+    "legal_button": "Legal and privacy"
   },
   "homePage": {
     "map_button":"Map",
     "menu_button": "Menu",
     "search_button": "Search",
-    "last_update": "Last update at"
-
+    "last_update": "Last update at",
+    "rainfall": "Rainfalls",
+    "temperature": "Temperature",
+    "wind": "Wind",
+    "blank_research_text": "Search",
+    "close": "Close",
+    "retry": "Retry",
+    "functions_not_available": "Some functions are not available offline",
+    "offline_device": "Offline device",
+    "unknown_address": "Address not found"
   },
   "settingsPage": {
     "title": "Settings",
@@ -28,19 +36,28 @@
     "language_settings": "Language Settings"
   },
   "moreDataPage": {
-    "title": "My Page Title",
-    "changeLanguage": "Tap this button to select 'French'"
+    "title": "Graphs",
+    "present": "Present"
   },
   "loginPage": {
-    "title": "My Page Title",
-    "changeLanguage": "Tap this button to select 'French'"
+    "title": "Account",
+    "sign_in": "Sign in",
+    "accept_privacy_to_continue": "Accept the privacy to continue",
+    "accept_privacy": "I Accept the privacy",
+    "verification_code": "Verification Code",
+    "error_code":"Wrong code",
+    "back_to_mail": "Enter another e-mail",
+    "no_info_offline": "Page not available offline",
+    "not_email": "It doesn't look like an e-mail address",
+    "error": "Error",
+    "offline_device": "Offline device"
   },
-  "legalePage": {
-    "title": "My Page Title",
-    "changeLanguage": "Tap this button to select 'French'"
+  "legalPage": {
+    "title": "Legal and Privacy",
+    "no_info_offline": "Page not available offline"
   },
   "messagesPage": {
-    "title": "My Page Title",
-    "changeLanguage": "Tap this button to select 'French'"
+    "title": "Alerts",
+    "no_info_offline": "Page not available offline"
   }
 }

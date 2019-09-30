@@ -73,6 +73,7 @@ class _MyAppState extends State<MyApp> {
 
             builder: (BuildContext context, AsyncSnapshot<Locale> snapshot){
 
+
               return new MaterialApp(
                   debugShowCheckedModeBanner: false,
                   theme: app_theme(),
@@ -337,6 +338,7 @@ void main() async {
   //Retrieve language information from shared preferences
   currLang = await getLanguage();
   await allTranslations.setNewLanguage(ListOfLangs[currLang]);
+
 
   //Retrieve map information from shared preferences
   currMapNum = await getMapType();

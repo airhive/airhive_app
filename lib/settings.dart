@@ -1,5 +1,9 @@
 part of "main.dart";
 
+//Defining list to store the options showed on settings page
+List<RadioModel> mapData = new List<RadioModel>();
+List<LanguageRadioModel> languageData = new List<LanguageRadioModel>();
+
 //Defining variables to define custom types of maps
 String _darkMap;
 String _nightMap;
@@ -58,6 +62,8 @@ Future<void> setLanguage(int langToSet) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   currLang = langToSet;
   allTranslations.setNewLanguage(ListOfLangs[currLang]);
+  languageData.forEach((element) => element.isSelected = false);
+  languageData[currLang].isSelected = true;
   prefs.setInt('languageNum', langToSet);
 
 }
@@ -164,20 +170,18 @@ class _SettingsPageState extends State<SettingsPage> {
     return false;
   }
 
-  List<RadioModel> mapData = new List<RadioModel>();
-  List<LanguageRadioModel> languageData = new List<LanguageRadioModel>();
 
-  void loadMapSettings() {
+  void loadRadioSettings() {
     //Initialise mapData list
-    mapData.add(new RadioModel(false, "immagini/normale.png", "Standard"));
-    mapData.add(new RadioModel(false, "immagini/satellite.png", "Satellite"));
-    mapData.add(new RadioModel(false, "immagini/ibrido.png", "Hybrid"));
-    mapData.add(new RadioModel(false, "immagini/topo.png", "Topographical"));
-    mapData.add(new RadioModel(false, "immagini/dark.png", "Dark"));
-    mapData.add(new RadioModel(false, "immagini/night.png", "Night"));
-    mapData.add(new RadioModel(false, "immagini/retro.png", "Vintage"));
-    mapData.add(new RadioModel(false, "immagini/silver.png", "Silver"));
-    mapData.add(new RadioModel(false, "immagini/aubergine.png", "Aubergine"));
+    mapData.add(new RadioModel(false, "immagini/normale.png", allTranslations.text('settingsPage.standard_map')));
+    mapData.add(new RadioModel(false, "immagini/satellite.png", allTranslations.text('settingsPage.satellite_map')));
+    mapData.add(new RadioModel(false, "immagini/ibrido.png", allTranslations.text('settingsPage.hybrid_map')));
+    mapData.add(new RadioModel(false, "immagini/topo.png", allTranslations.text('settingsPage.topographical_map')));
+    mapData.add(new RadioModel(false, "immagini/dark.png", allTranslations.text('settingsPage.dark_map')));
+    mapData.add(new RadioModel(false, "immagini/night.png", allTranslations.text('settingsPage.night_map')));
+    mapData.add(new RadioModel(false, "immagini/retro.png", allTranslations.text('settingsPage.retro_map')));
+    mapData.add(new RadioModel(false, "immagini/silver.png", allTranslations.text('settingsPage.silver_map')));
+    mapData.add(new RadioModel(false, "immagini/aubergine.png", allTranslations.text('settingsPage.aubergine_map')));
 
     //Initialize languageData list
     languageData.add(new LanguageRadioModel(false, 'it', "Italiano"));
@@ -189,21 +193,36 @@ class _SettingsPageState extends State<SettingsPage> {
 
   }
 
+  /*
+  void refreshRadioSetting(){
+    mapData[0].text = allTranslations.text('settingsPage.standard_map');
+    mapData[1].text = allTranslations.text('settingsPage.satellite_map');
+    mapData[2].text = allTranslations.text('settingsPage.hybrid_map');
+    mapData[3].text = allTranslations.text('settingsPage.topographical_map');
+    mapData[4].text = allTranslations.text('settingsPage.dark_map');
+    mapData[5].text = allTranslations.text('settingsPage.night_map');
+    mapData[6].text = allTranslations.text('settingsPage.retro_map');
+    mapData[7].text = allTranslations.text('settingsPage.silver_map');
+    mapData[8].text = allTranslations.text('settingsPage.aubergine_map');
+  }
+
+   */
+
+
+
+
 
 
 
   @override
   void initState() {
     super.initState();
-    loadMapSettings();
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
 
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
+    loadRadioSettings();
 
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -381,11 +400,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           new InkWell(
                             splashColor: Colors.yellow[700],
                             onTap: () {
-
                               setState(() {
                                 setLanguage(0);
-                                languageData.forEach((element) => element.isSelected = false);
-                                languageData[currLang].isSelected = true;
                               });
                             },
                             child: new LanguageRadioItem(languageData[0]),
@@ -397,8 +413,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
                               setState(() {
                                 setLanguage(1);
-                                languageData.forEach((element) => element.isSelected = false);
-                                languageData[currLang].isSelected = true;
                               });
                             },
                             child: new LanguageRadioItem(languageData[1]),
@@ -408,8 +422,6 @@ class _SettingsPageState extends State<SettingsPage> {
                             onTap: () {
                               setState(() {
                                 setLanguage(2);
-                                languageData.forEach((element) => element.isSelected = false);
-                                languageData[currLang].isSelected = true;
                               });
                             },
                             child: new LanguageRadioItem(languageData[2]),
@@ -465,7 +477,7 @@ class RadioItem extends StatelessWidget {
 class RadioModel {
   bool isSelected;
   final String buttonText;
-  final String text;
+  String text;
 
   RadioModel(this.isSelected, this.buttonText, this.text);
 }
@@ -511,7 +523,7 @@ class LanguageRadioItem extends StatelessWidget {
 class LanguageRadioModel {
   bool isSelected;
   final String buttonText;
-  final String text;
+  String text;
 
   LanguageRadioModel(this.isSelected, this.buttonText, this.text);
 }
