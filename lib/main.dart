@@ -324,6 +324,8 @@ int getCurrMap(){
   }
 }
 
+//Function to check the current language used
+
 
 //main
 void main() async {
@@ -331,6 +333,10 @@ void main() async {
   await allTranslations.init();
 
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
+
+  //Retrieve language information from shared preferences
+  currLang = await getLanguage();
+  await allTranslations.setNewLanguage(ListOfLangs[currLang]);
 
   //Retrieve map information from shared preferences
   currMapNum = await getMapType();

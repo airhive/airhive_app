@@ -10,8 +10,57 @@ String _aubergineMap;
 
 int currMap;
 
-int currLang;
+/*
+* Defining a list to store language codes:
+*   position  ->  Language
+*      0      ->  Italian
+*      1      ->  English
+*      2      ->  German
+ */
 
+const ListOfLangs = ["it", "en", "de"];
+int currLang;
+int getDefLang(){
+  String currLoc = Platform.localeName.toLowerCase();
+  int res = ListOfLangs.length;
+  for(var i = 0; i < ListOfLangs.length;){
+    if(currLoc == ListOfLangs[i]){
+      res = i;
+      break;
+    } else{
+      i++;
+    }
+
+  if(res<ListOfLangs.length){
+    return res;
+  } else {
+    return 2;
+  }
+
+  }
+}
+int defLangNum = getDefLang();
+
+//Defining a function to get the language from saved preferences (if not present set it to the default value)
+Future<int> getLanguage() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  int controlValue = prefs.getInt('languageNum');
+  if(controlValue != null) {
+    return controlValue;
+  } else {
+    prefs.setInt('languageNum', defLangNum);
+    return defLangNum;
+  }
+}
+
+//Defining a function to save a selected language into preferences and set it as current type of map
+Future<void> setLanguage(int langToSet) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  currLang = langToSet;
+  allTranslations.setNewLanguage(ListOfLangs[currLang]);
+  prefs.setInt('languageNum', langToSet);
+
+}
 
 
 /*
@@ -136,6 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
     languageData.add(new LanguageRadioModel(false, 'de', "Deutsch"));
 
     mapData[currMap].isSelected = true;
+    languageData[currLang].isSelected = true;
 
   }
 
@@ -330,12 +380,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
                           new InkWell(
                             splashColor: Colors.yellow[700],
-                            onTap: (){
-                              setState(() async {
+                            onTap: () {
+
+                              setState(() {
+                                setLanguage(0);
                                 languageData.forEach((element) => element.isSelected = false);
-                                await allTranslations.setNewLanguage("it");
-                                setState((){});
-                                currLang = 0;
                                 languageData[currLang].isSelected = true;
                               });
                             },
@@ -344,12 +393,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
                           new InkWell(
                             splashColor: Colors.yellow[700],
-                            onTap: (){
-                              setState(() async {
+                            onTap: () {
+
+                              setState(() {
+                                setLanguage(1);
                                 languageData.forEach((element) => element.isSelected = false);
-                                await allTranslations.setNewLanguage("en");
-                                setState((){});
-                                currLang = 1;
                                 languageData[currLang].isSelected = true;
                               });
                             },
@@ -358,11 +406,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           new InkWell(
                             splashColor: Colors.yellow[700],
                             onTap: () {
-                              setState(() async {
+                              setState(() {
+                                setLanguage(2);
                                 languageData.forEach((element) => element.isSelected = false);
-                                await allTranslations.setNewLanguage("de");
-                                setState((){});
-                                currLang = 2;
                                 languageData[currLang].isSelected = true;
                               });
                             },
@@ -437,7 +483,7 @@ class LanguageRadioItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           new Container(
-            height: 53.0,
+            height: 53.25,
             width: 75.0,
             child: new Center(
               child: new Image.asset('immagini/${_item.buttonText}.png'),
@@ -445,7 +491,7 @@ class LanguageRadioItem extends StatelessWidget {
             ),
             decoration: new BoxDecoration(
               border: new Border.all(
-                  width: 4.0,
+                  width: 4.5,
                   color: _item.isSelected
                       ? Colors.yellow[700]
                       : Colors.grey),
