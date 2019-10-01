@@ -20,8 +20,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 //Local imports
 import 'dynamic_models.dart';
@@ -347,13 +345,5 @@ void main() async {
 
   await _login(http.Client());
   //runApp(MyApp());
-  runApp(
-      MultiProvider(
-        providers:[
-          ChangeNotifierProvider<MapStyleModel>(builder: (context) => MapStyleModel(),
-          ),
-        ],
-        child: MyApp(),
-      )
-  );
+  runApp(MyApp());
 }

@@ -20,9 +20,11 @@ int currMap;
 *      0      ->  Italian
 *      1      ->  English
 *      2      ->  German
+*      3      ->  French
+*      4      ->  Spanish
  */
 
-const ListOfLangs = ["it", "en", "de"];
+const ListOfLangs = ["it", "en", "de", "fr", "es"];
 int currLang;
 int getDefLang(){
   String currLoc = Platform.localeName.toLowerCase();
@@ -187,6 +189,9 @@ class _SettingsPageState extends State<SettingsPage> {
     languageData.add(new LanguageRadioModel(false, 'it', "Italiano"));
     languageData.add(new LanguageRadioModel(false, 'gb', "English"));
     languageData.add(new LanguageRadioModel(false, 'de', "Deutsch"));
+    languageData.add(new LanguageRadioModel(false, 'fr', "Français"));
+    languageData.add(new LanguageRadioModel(false, 'es', "Español"));
+
 
     mapData[currMap].isSelected = true;
     languageData[currLang].isSelected = true;
@@ -233,7 +238,8 @@ class _SettingsPageState extends State<SettingsPage> {
               backgroundColor: Theme.of(context).primaryColor,
             ),
             body: ListView(
-                //crossAxisAlignment: CrossAxisAlignment.start,
+
+                scrollDirection: Axis.vertical,
 
                 children: <Widget>[
 
@@ -381,7 +387,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
 
                   new ConstrainedBox(
-                      constraints: BoxConstraints.expand(height: 120),
+                      constraints: BoxConstraints.expand(height: 250),
                       child: new GridView.count(
 
                         shrinkWrap: true,
@@ -419,6 +425,24 @@ class _SettingsPageState extends State<SettingsPage> {
                               });
                             },
                             child: new LanguageRadioItem(languageData[2]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: () {
+                              setState(() {
+                                setLanguage(3);
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[3]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: () {
+                              setState(() {
+                                setLanguage(4);
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[4]),
                           ),
 
                         ],
