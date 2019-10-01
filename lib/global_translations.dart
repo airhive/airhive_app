@@ -107,7 +107,7 @@ class Preferences {
 
 
 //Writing a singleton to handle translations
-const List<String> _kSupportedLanguages = ["en", "it", "de", "fr", "es"];
+const List<String> _kSupportedLanguages = ["en", "it", "de", "fr", "es", "ve"];
 const String _kDefaultLanguage = "en";
 
 class GlobalTranslations {

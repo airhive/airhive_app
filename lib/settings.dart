@@ -24,7 +24,7 @@ int currMap;
 *      4      ->  Spanish
  */
 
-const ListOfLangs = ["it", "en", "de", "fr", "es"];
+const ListOfLangs = ["it", "en", "de", "fr", "es", "ve"];
 int currLang;
 int getDefLang(){
   String currLoc = Platform.localeName.toLowerCase();
