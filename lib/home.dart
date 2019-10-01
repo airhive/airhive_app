@@ -503,10 +503,10 @@ class _HomePageState extends State<HomePage> {
                                        valori_sensore.caqi < 50 ? Colors.lime.withOpacity(0.85):
                                        valori_sensore.caqi < 75 ? Colors.yellow[500].withOpacity(0.85): Colors.deepOrange[600].withOpacity(0.85),
                                        child: Center(child:
-                                       valori_sensore.caqi < 25 ? Text(allTranslations.text('homepage.ottima_aria'), style: TextStyle(color: Colors.black),):
-                                       valori_sensore.caqi < 50 ? Text(allTranslations.text('homepage.buona_aria'), style: TextStyle(color: Colors.black),):
-                                       valori_sensore.caqi < 75 ? Text(allTranslations.text('homepage.cattiva_aria'), style: TextStyle(color: Colors.black),):
-                                       Text(allTranslations.text('homepage.pessima_aria'), style: TextStyle(color: Colors.black),)
+                                       valori_sensore.caqi < 25 ? Text(allTranslations.text('homePage.ottima_aria'), style: TextStyle(color: Colors.black),):
+                                       valori_sensore.caqi < 50 ? Text(allTranslations.text('homePage.buona_aria'), style: TextStyle(color: Colors.black),):
+                                       valori_sensore.caqi < 75 ? Text(allTranslations.text('homePage.cattiva_aria'), style: TextStyle(color: Colors.black),):
+                                       Text(allTranslations.text('homePage.pessima_aria'), style: TextStyle(color: Colors.black),)
                                        ),
                                      ),
                                      Container(
@@ -565,7 +565,7 @@ class _HomePageState extends State<HomePage> {
                                        height: 30,
                                        width: MediaQuery.of(context).size.width,
                                        color: Colors.white,
-                                       child: Center(child: Text("${allTranslations.text('homepage.aggiornato_alle')} $tempo_rilevazione", style: TextStyle(color: Colors.black),)),
+                                       child: Center(child: Text("${allTranslations.text('homePage.last_update')} $tempo_rilevazione", style: TextStyle(color: Colors.black),)),
                                      ),
                                      Container(
                                        height: 150,
