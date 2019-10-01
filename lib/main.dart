@@ -343,7 +343,19 @@ void main() async {
   currStyleNum = await getMapStyle();
   currMap = getCurrMap();
 
-  await _login(http.Client());
-  //runApp(MyApp());
+  try {
+    await _login(http.Client()).timeout(const Duration(seconds: 7));
+  } on TimeoutException catch (_) {
+    // Esce dallo splash se passano 7 secondi
+    String token_old = (await prefs.getString("token")) ?? "CIAONE";
+    connectionCheck();
+    conessioneassente = true;
+    LoginData res = LoginData(
+        success: false,
+        data:Data_login(AccountPermission: "false", UserAccountVerified: 0),
+        token: token_old);
+    login_token = token_old;
+    login_data = res.data;
+  }
   runApp(MyApp());
 }
