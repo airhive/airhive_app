@@ -1,0 +1,67 @@
+{
+  "sideMenu": {
+    "map_button": "Carte",
+    "account_button": "Compte",
+    "alerts_button": "Notifications",
+    "settings_button": "Paramètres",
+    "legal_button": "Légal et confidentialité"
+  },
+  "homePage": {
+    "map_button":"Carte",
+    "menu_button": "Menu",
+    "search_button": "Recherche",
+    "last_update": "Mis à jour à",
+    "rainfall": "Chute de pluie",
+    "temperature": "Température",
+    "wind": "Vent",
+    "blank_research_text": "Recherche",
+    "close": "Fermer",
+    "retry": "S'il vous plaît essayer à nouveau",
+    "functions_not_available": "Certaines fonctionnalités de l'application ne sont pas disponibles hors connexion",
+    "offline_device": "Appareil hors ligne",
+    "unknown_address": "Adresse non trouvée",
+    "ottima_aria": "La qualité de l'air est excellente",
+    "buona_aria": "La qualité de l'air est bonne",
+    "cattiva_aria": "La qualité de l'air est mauvaise",
+    "pessima_aria": "La qualité de l'air est très mauvaise"
+  },
+  "settingsPage": {
+    "title": "Paramètres",
+    "map_settings": "Style de carte",
+    "standard_map": "Standard",
+    "satellite_map": "Satellite",
+    "hybrid_map": "Hybride",
+    "topographical_map": "Topographique",
+    "dark_map": "Sombre",
+    "night_map": "Nuit",
+    "retro_map": "Vendange",
+    "silver_map": "Argent",
+    "aubergine_map": "Aubergine",
+    "language_settings": "Paramètres de langue"
+  },
+  "moreDataPage": {
+    "title": "Graphiques",
+    "present": "Courant"
+  },
+  "loginPage": {
+    "title": "Compte",
+    "sign_in": "Se connecter",
+    "accept_privacy_to_continue": "Acceptez la politique de confidentialité pour continuer",
+    "accept_privacy": "J'accepte la politique de confidentialité",
+    "verification_code": "Code de vérification",
+    "error_code":"Code incorrect",
+    "back_to_mail": "Entrez un autre e-mail",
+    "no_info_offline": "Page non disponible hors connexion",
+    "not_email": "Cela ne ressemble pas à une adresse e-mail",
+    "error": "Erreur",
+    "offline_device": "Appareil hors ligne"
+  },
+  "legalPage": {
+    "title": "Légal et confidentialité",
+    "no_info_offline": "Page non disponible hors connexion"
+  },
+  "messagesPage": {
+    "title": "Notifications",
+    "no_info_offline": "Page non disponible hors connexion"
+  }
+}

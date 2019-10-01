@@ -1,0 +1,67 @@
+{
+  "sideMenu": {
+    "map_button": "Mapa",
+    "account_button": "Cuenta",
+    "alerts_button": "Alertas",
+    "settings_button": "Configuraciones",
+    "legal_button": "Legal y privacidad"
+  },
+  "homePage": {
+    "map_button":"Mapa",
+    "menu_button": "Menú",
+    "search_button": "Busca",
+    "last_update": "Actualizado a las ",
+    "rainfall": "Precipitación",
+    "temperature": "Temperatura",
+    "wind": "Viento",
+    "blank_research_text": "Busca",
+    "close": "Cierra",
+    "retry": "Inténtelo de nuevo",
+    "functions_not_available": "Algunas funciones de la aplicación no están disponibles sin conexión",
+    "offline_device": "Dispositivo fuera de línea",
+    "unknown_address": "Dirección no encontrada",
+    "ottima_aria": "La calidad del aire es excelente",
+    "buona_aria": "La calidad del aire es buena",
+    "cattiva_aria": "La calidad del aire es mala",
+    "pessima_aria": "La calidad del aire es muy mala"
+  },
+  "settingsPage": {
+    "title": "IConfiguraciones",
+    "map_settings": "Estilo de mapa",
+    "standard_map": "Estándar",
+    "satellite_map": "Satélite",
+    "hybrid_map": "Híbrido",
+    "topographical_map": "Topográfica",
+    "dark_map": "Oscuro",
+    "night_map": "Noche",
+    "retro_map": "Vendimia",
+    "silver_map": "Plata",
+    "aubergine_map": "Berenjena",
+    "language_settings": "Configuraciones de idioma"
+  },
+  "moreDataPage": {
+    "title": "Gráficos",
+    "present": "Actual"
+  },
+  "loginPage": {
+    "title": "Cuenta",
+    "sign_in": "Iniciar sesión",
+    "accept_privacy_to_continue": "Acepta la política de privacidad para continuar",
+    "accept_privacy": "Doy mi consentimiento a la política de privacidad",
+    "verification_code": "Código de verificación",
+    "error_code":"Código incorrecto",
+    "back_to_mail": "Ingrese otro correo electrónico",
+    "no_info_offline": "Página no disponible sin conexión",
+    "not_email": "No parece una dirección de correo electrónico.",
+    "error": "Error",
+    "offline_device": "Dispositivo fuera de línea"
+  },
+  "legalPage": {
+    "title": "Legal y privacidad",
+    "no_info_offline": "Página no disponible sin conexión"
+  },
+  "messagesPage": {
+    "title": "Avvisi",
+    "no_info_offline": "Página no disponible sin conexión"
+  }
+}
