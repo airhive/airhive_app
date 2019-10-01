@@ -520,36 +520,50 @@ class _HomePageState extends State<HomePage> {
                                          child: Stack(
                                            children: <Widget> [
                                              Container(
-                                               height:160,
-                                                 child: new charts.PieChart(
-                                                   _PmData(),
-                                                   animate:true,
-                                                   defaultRenderer: new charts.ArcRendererConfig(
-                                                       arcWidth: 10,
-                                                       startAngle: 4 / 5 * 3.1415,
-                                                       arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
+                                                width: MediaQuery.of(context).size.width * 0.7,
+                                                child:Stack(
+                                                 children: <Widget>[
+                                                   Container(
+                                                     height:160,
+                                                       child: new charts.PieChart(
+                                                         _PmData(),
+                                                         animate:true,
+                                                         defaultRenderer: new charts.ArcRendererConfig(
+                                                             arcWidth: 10,
+                                                             startAngle: 4 / 5 * 3.1415,
+                                                             arcLength: (valori_sensore.caqi.toInt() / 100) * (7 * 3.1415) / 5
+                                                         ),
+                                                         behaviors: [
+                                                           new charts.ChartTitle(
+                                                             "Air quality index",
+                                                             titleStyleSpec: charts.TextStyleSpec(
+                                                               fontSize: 12, // size in Pts.
+                                                               color: charts.MaterialPalette.black),
+                                                             behaviorPosition: charts.BehaviorPosition.start,
+                                                             titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+                                                           ),
+                                                           // Per centrare
+                                                           new charts.ChartTitle(
+                                                             "",
+                                                             behaviorPosition: charts.BehaviorPosition.end,
+                                                           ),
+                                                         ],
+                                                     ),
                                                    ),
-                                                   behaviors: [
-                                                     new charts.ChartTitle(
-                                                       "Air quality index",
-                                                       titleStyleSpec: charts.TextStyleSpec(
-                                                         fontSize: 12, // size in Pts.
-                                                         color: charts.MaterialPalette.black),
-                                                       behaviorPosition: charts.BehaviorPosition.start,
-                                                       titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-                                                     ),
-                                                     // Per centrare
-                                                     new charts.ChartTitle(
-                                                       "",
-                                                       behaviorPosition: charts.BehaviorPosition.end,
-                                                     ),
-                                                   ],
-                                               ),
+                                                   Center(
+                                                       child: Text(valori_sensore.caqi.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
+                                                   ),
+                                                  ]
+                                              ),
                                              ),
-                                            Center(
-                                                 child: Text(valori_sensore.caqi.toStringAsFixed(2).toString(), style: TextStyle(color: Colors.black),)
-                                             ),
-                                             Align(
+                                              Align(
+                                                alignment: Alignment(0.63, 0.0),
+                                                child: valori_sensore.caqi < 25 ? Image.asset( "immagini/ape_ottimo.png", scale: 10,):
+                                                valori_sensore.caqi < 50 ? Image.asset( "immagini/ape_ok.png", scale: 10,):
+                                                valori_sensore.caqi < 75 ? Image.asset( "immagini/ape_mediocre.png", scale: 10,):
+                                                Image.asset( "immagini/ape_pessimo.png", scale: 10,),
+                                              ),
+                                              Align(
                                                  alignment: Alignment(1.0, -1.0),
                                                  child: Icon(Icons.info_outline, color: Colors.black),
                                              )
@@ -736,8 +750,8 @@ class _HomePageState extends State<HomePage> {
             onTap: (int index) {
               setState((){ this.index = index; });
               if(index == 0) {_scaffoldKey.currentState.openDrawer(); this.index = 1; index = 1;}
-              if(index != 2){ setState((){ apri_ricerca = false; });  }
-              if(index == 2){ setState((){ apri_ricerca = !apri_ricerca; });  }
+              if(index != 2){ setState((){ apri_ricerca = false; apri_info = false; });  }
+              if(index == 2){ setState((){ apri_ricerca = !apri_ricerca; apri_info = false;});  }
               if(!apri_ricerca && index == 2){ setState((){ this.index = 1; });  }
               },
             items: [
