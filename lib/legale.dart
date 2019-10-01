@@ -19,9 +19,14 @@ class _LegalePage extends State<LegalePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
+    final TranslationsBloc translationsBloc = BlocProvider.of<TranslationsBloc>(context);
+
     return new Scaffold(
            appBar: new AppBar(
-             title: new Text("Legale e privacy"),
+             title: new Text(allTranslations.text('legalPage.title')),
              backgroundColor: Theme.of(context).primaryColor,
            ),
            drawer: menulaterale(context),
@@ -42,7 +47,7 @@ class _LegalePage extends State<LegalePage> {
              },
            ),
           ],
-      ) : Text(Translations.of(context).text('no_info_offline')),
+      ) : Text(allTranslations.text('legalPage.no_info_offline')),
     );
   }
 }

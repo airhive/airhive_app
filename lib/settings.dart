@@ -1,5 +1,9 @@
 part of "main.dart";
 
+//Defining list to store the options showed on settings page
+List<RadioModel> mapData = new List<RadioModel>();
+List<LanguageRadioModel> languageData = new List<LanguageRadioModel>();
+
 //Defining variables to define custom types of maps
 String _darkMap;
 String _nightMap;
@@ -9,6 +13,60 @@ String _silverMap;
 String _aubergineMap;
 
 int currMap;
+
+/*
+* Defining a list to store language codes:
+*   position  ->  Language
+*      0      ->  Italian
+*      1      ->  English
+*      2      ->  German
+ */
+
+const ListOfLangs = ["it", "en", "de"];
+int currLang;
+int getDefLang(){
+  String currLoc = Platform.localeName.toLowerCase();
+  int res = ListOfLangs.length;
+  for(var i = 0; i < ListOfLangs.length;){
+    if(currLoc == ListOfLangs[i]){
+      res = i;
+      break;
+    } else{
+      i++;
+    }
+
+  if(res<ListOfLangs.length){
+    return res;
+  } else {
+    return 1;
+  }
+
+  }
+}
+int defLangNum = getDefLang();
+
+//Defining a function to get the language from saved preferences (if not present set it to the default value)
+Future<int> getLanguage() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  int controlValue = prefs.getInt('languageNum');
+  if(controlValue != null) {
+    return controlValue;
+  } else {
+    prefs.setInt('languageNum', defLangNum);
+    return defLangNum;
+  }
+}
+
+//Defining a function to save a selected language into preferences and set it as current type of map
+Future<void> setLanguage(int langToSet) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  currLang = langToSet;
+  allTranslations.setNewLanguage(ListOfLangs[currLang]);
+  languageData.forEach((element) => element.isSelected = false);
+  languageData[currLang].isSelected = true;
+  prefs.setInt('languageNum', langToSet);
+
+}
 
 
 /*
@@ -112,21 +170,31 @@ class _SettingsPageState extends State<SettingsPage> {
     return false;
   }
 
-  List<RadioModel> mapData = new List<RadioModel>();
 
-  void loadMapSettings() {
-    mapData.add(new RadioModel(false, "immagini/normale.png", "Standard"));
-    mapData.add(new RadioModel(false, "immagini/satellite.png", "Satellite"));
-    mapData.add(new RadioModel(false, "immagini/ibrido.png", "Hybrid"));
-    mapData.add(new RadioModel(false, "immagini/topo.png", "Topographical"));
-    mapData.add(new RadioModel(false, "immagini/dark.png", "Dark"));
-    mapData.add(new RadioModel(false, "immagini/night.png", "Night"));
-    mapData.add(new RadioModel(false, "immagini/retro.png", "Vintage"));
-    mapData.add(new RadioModel(false, "immagini/silver.png", "Silver"));
-    mapData.add(new RadioModel(false, "immagini/aubergine.png", "Aubergine"));
+  void loadRadioSettings() {
+    //Initialise mapData list
+    mapData.add(new RadioModel(false, "immagini/normale.png", allTranslations.text('settingsPage.standard_map')));
+    mapData.add(new RadioModel(false, "immagini/satellite.png", allTranslations.text('settingsPage.satellite_map')));
+    mapData.add(new RadioModel(false, "immagini/ibrido.png", allTranslations.text('settingsPage.hybrid_map')));
+    mapData.add(new RadioModel(false, "immagini/topo.png", allTranslations.text('settingsPage.topographical_map')));
+    mapData.add(new RadioModel(false, "immagini/dark.png", allTranslations.text('settingsPage.dark_map')));
+    mapData.add(new RadioModel(false, "immagini/night.png", allTranslations.text('settingsPage.night_map')));
+    mapData.add(new RadioModel(false, "immagini/retro.png", allTranslations.text('settingsPage.retro_map')));
+    mapData.add(new RadioModel(false, "immagini/silver.png", allTranslations.text('settingsPage.silver_map')));
+    mapData.add(new RadioModel(false, "immagini/aubergine.png", allTranslations.text('settingsPage.aubergine_map')));
+
+    //Initialize languageData list
+    languageData.add(new LanguageRadioModel(false, 'it', "Italiano"));
+    languageData.add(new LanguageRadioModel(false, 'gb', "English"));
+    languageData.add(new LanguageRadioModel(false, 'de', "Deutsch"));
+
     mapData[currMap].isSelected = true;
+    languageData[currLang].isSelected = true;
 
   }
+
+
+
 
 
 
@@ -134,11 +202,26 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    loadMapSettings();
+    loadRadioSettings();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    mapData[0].text = allTranslations.text('settingsPage.standard_map');
+    mapData[1].text = allTranslations.text('settingsPage.satellite_map');
+    mapData[2].text = allTranslations.text('settingsPage.hybrid_map');
+    mapData[3].text = allTranslations.text('settingsPage.topographical_map');
+    mapData[4].text = allTranslations.text('settingsPage.dark_map');
+    mapData[5].text = allTranslations.text('settingsPage.night_map');
+    mapData[6].text = allTranslations.text('settingsPage.retro_map');
+    mapData[7].text = allTranslations.text('settingsPage.silver_map');
+    mapData[8].text = allTranslations.text('settingsPage.aubergine_map');
+
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
 
 
     return WillPopScope(
@@ -146,22 +229,26 @@ class _SettingsPageState extends State<SettingsPage> {
         child: new Scaffold(
             drawer: menulaterale(context),
             appBar: new AppBar(
-              title: new Text(Translations.of(context).text('settings_title')),
+              title: new Text(allTranslations.text('settingsPage.title')),
               backgroundColor: Theme.of(context).primaryColor,
             ),
-            body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            body: ListView(
+                //crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: <Widget>[
 
                   new Container(
-                    child: Text(Translations.of(context).text('map_style_title'), style: new TextStyle(fontSize: 20),),
+                    child: Text(allTranslations.text('settingsPage.map_settings'), style: new TextStyle(fontSize: 20),),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
 
                   ),
 
-                  new Expanded(
+                  new ConstrainedBox(
+                    constraints: BoxConstraints.expand(height: 400),
                       child: new GridView.count(
+
+                        shrinkWrap: true,
+                        physics: new NeverScrollableScrollPhysics(),
 
                         crossAxisCount: 3,
                         children: <Widget>[
@@ -287,6 +374,56 @@ class _SettingsPageState extends State<SettingsPage> {
                         ],
 
                       )),
+                  new Container(
+                    child: Text(allTranslations.text('settingsPage.language_settings'), style: new TextStyle(fontSize: 20),),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+
+                  ),
+
+                  new ConstrainedBox(
+                      constraints: BoxConstraints.expand(height: 120),
+                      child: new GridView.count(
+
+                        shrinkWrap: true,
+                        physics: new NeverScrollableScrollPhysics(),
+
+                        crossAxisCount: 3,
+
+                        children: <Widget>[
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: () {
+                              setState(() {
+                                setLanguage(0);
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[0]),
+                          ),
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: () {
+
+                              setState(() {
+                                setLanguage(1);
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[1]),
+                          ),
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: () {
+                              setState(() {
+                                setLanguage(2);
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[2]),
+                          ),
+
+                        ],
+
+                      )),
 
                 ]
             )
@@ -301,7 +438,7 @@ class RadioItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: new EdgeInsets.all(10.0),
+      margin: new EdgeInsets.only(top: 10.0),
       child: new Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -334,7 +471,53 @@ class RadioItem extends StatelessWidget {
 class RadioModel {
   bool isSelected;
   final String buttonText;
-  final String text;
+  String text;
 
   RadioModel(this.isSelected, this.buttonText, this.text);
+}
+
+
+//Radio button model for language selection
+class LanguageRadioItem extends StatelessWidget {
+  final LanguageRadioModel _item;
+  LanguageRadioItem(this._item);
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: new EdgeInsets.all(10.0),
+      child: new Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          new Container(
+            height: 53.25,
+            width: 75.0,
+            child: new Center(
+              child: new Image.asset('immagini/${_item.buttonText}.png'),
+
+            ),
+            decoration: new BoxDecoration(
+              border: new Border.all(
+                  width: 4.5,
+                  color: _item.isSelected
+                      ? Colors.yellow[700]
+                      : Colors.grey),
+              borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
+            ),
+          ),
+          new Container(
+            margin: new EdgeInsets.only(top: 5.0),
+            child: new Text(_item.text),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class LanguageRadioModel {
+  bool isSelected;
+  final String buttonText;
+  String text;
+
+  LanguageRadioModel(this.isSelected, this.buttonText, this.text);
 }

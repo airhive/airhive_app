@@ -21,9 +21,12 @@ class _MessagesPage extends State<MessagesPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light,
+    ));
     return new Scaffold(
            appBar: new AppBar(
-             title: new Text(Translations.of(context).text('notifications_button_text')),
+             title: new Text(allTranslations.text('messagesPage.title')),
              backgroundColor: Theme.of(context).primaryColor,
            ),
            drawer: menulaterale(context),
@@ -44,7 +47,7 @@ class _MessagesPage extends State<MessagesPage> {
              },
            ),
           ],
-      ) : Text(Translations.of(context).text('no_info_offline')),
+      ) : Text(allTranslations.text('messagesPage.no_info_offline')),
     );
   }
 }

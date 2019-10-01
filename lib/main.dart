@@ -20,11 +20,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
-
-
+import 'package:rxdart/rxdart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 //Local imports
-import 'translations.dart';
 import 'dynamic_models.dart';
 
 part "home.dart";
@@ -33,16 +32,61 @@ part "legale.dart";
 part "settings.dart";
 part "messages.dart";
 part "moredata.dart";
+part "global_translations.dart";
+
+class MyApp extends StatefulWidget{
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
 
-class MyApp extends StatelessWidget {
+class _MyAppState extends State<MyApp> {
+  TranslationsBloc translationsBloc;
+
+  @override
+  void initState(){
+    super.initState();
+    translationsBloc = TranslationsBloc();
+
+  }
+
+  @override
+  void dispose(){
+    translationsBloc?.dispose();
+    super.dispose();
+  }
+
+  _onLocaleChanged() async {
+    // do anything you need to do if the language changes
+    print('Language has been changed to: ${allTranslations.currentLanguage}');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: app_theme(),
-      darkTheme: app_theme_dark(),
-      localizationsDelegates: [
+
+    return BlocProvider<TranslationsBloc>(
+        bloc: translationsBloc,
+        child: StreamBuilder<Locale>(
+            stream: translationsBloc.currentLocale,
+            initialData: allTranslations.locale,
+
+
+            builder: (BuildContext context, AsyncSnapshot<Locale> snapshot){
+
+
+              return new MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  theme: app_theme(),
+                  darkTheme: app_theme_dark(),
+                  locale: snapshot.data ?? allTranslations.locale,
+                  localizationsDelegates: [
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+                  supportedLocales: allTranslations.supportedLocales(),
+
+                  /*
+        localizationsDelegates: [
         const TranslationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -52,16 +96,20 @@ class MyApp extends StatelessWidget {
         const Locale('it', ''),
         const Locale('de', ''),
       ],
-      home: new HomePage(),
-      routes: <String, WidgetBuilder> {
-      '/homemap': (BuildContext context) => new HomePage(),
-      '/settings': (BuildContext context) => new SettingsPage(),
-      '/account': (BuildContext context) => new AccountPage(),
-      '/legal': (BuildContext context) => new LegalePage(),
-      '/messages': (BuildContext context) => new MessagesPage(),
-      '/moredata': (BuildContext context ) => new DataPage(),
-      }
-    );
+      */
+
+
+
+                  home: new HomePage(),
+                  routes: <String, WidgetBuilder> {
+                    '/homemap': (BuildContext context) => new HomePage(),
+                    '/settings': (BuildContext context) => new SettingsPage(),
+                    '/account': (BuildContext context) => new AccountPage(),
+                    '/legal': (BuildContext context) => new LegalePage(),
+                    '/messages': (BuildContext context) => new MessagesPage(),
+                    '/moredata': (BuildContext context ) => new DataPage(),
+                  }
+              );}));
   }
 }
 
@@ -74,7 +122,7 @@ ThemeData app_theme(){
     accentColor: Colors.yellow[700],
 
     iconTheme: IconThemeData(
-        color: Colors.white,
+      color: Colors.white,
     ),
 
     fontFamily: 'PassionOne', // cambia dappertutto
@@ -90,143 +138,145 @@ ThemeData app_theme(){
 
 //The dark theme for the app
 ThemeData app_theme_dark(){
- return ThemeData(
-   brightness: Brightness.dark,
-   primaryColor: Colors.black,
-   accentColor: Colors.white,
+  return ThemeData(
+    brightness: Brightness.dark,
+    primaryColor: Colors.black,
+    accentColor: Colors.white,
 
-   iconTheme: IconThemeData (
-     color: Colors.white,
-   ),
+    iconTheme: IconThemeData (
+      color: Colors.white,
+    ),
 
-   fontFamily: 'PassionOne',
+    fontFamily: 'PassionOne',
 
-   textTheme: TextTheme(
-     headline: TextStyle(fontSize:72.0, fontFamily: 'PassionOne'),
-     title: TextStyle(fontSize: 36.0, fontFamily: 'PassionOne'),
-     body1: TextStyle(fontSize: 14.0, fontFamily: 'OpenSans'),
+    textTheme: TextTheme(
+      headline: TextStyle(fontSize:72.0, fontFamily: 'PassionOne'),
+      title: TextStyle(fontSize: 36.0, fontFamily: 'PassionOne'),
+      body1: TextStyle(fontSize: 14.0, fontFamily: 'OpenSans'),
 
-   ),
- );
+    ),
+  );
 }
 
 
 // Genera il menu laterale nel giusto context
 Drawer menulaterale(context){
-  return Drawer(
-    child: new Container(
-      color: Theme.of(context).primaryColor,
-      child: new ListView(
-        children: <Widget> [
-          new DrawerHeader(
-            decoration: new BoxDecoration(
-                boxShadow: [
-                  new BoxShadow(
-                    color: Colors.black26,
-                  )],
-                color: Theme.of(context).primaryColor,
-            ),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-                },
-                child: new Image.asset(
-                  "immagini/airhive_white2.png",
-                  scale: 5.5,
-           ), ),
+  final TranslationsBloc translationsBloc = BlocProvider.of<TranslationsBloc>(context);
 
-          ),
-          new ListTile(
-            leading: Icon(Icons.map, color: Colors.white),
-            title: new Text(Translations.of(context).text('map_button_text'),
-                style: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  fontSize: 18,
-                )
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, '/homemap');
-            },
-          ),
-          new ListTile(
-            leading: Icon(Icons.account_box, color: Colors.white),
-            title: new Text(Translations.of(context).text('account_button_text'),
-                style: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  fontSize: 18,
-                )
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, '/account');
-            },
-          ),
-          new ListTile(
-            leading: Icon(Icons.markunread, color: Colors.white),
-            title: new Text(Translations.of(context).text('alerts_button_text'),
-                style: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  fontSize: 18,
-                )
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, '/messages');
-            },
-          ),
-          new Divider(height: 10, color: Colors.black26,),
-          new ListTile(
-            leading: Icon(Icons.settings, color: Colors.white),
-            title: new Text(Translations.of(context).text('settings_button_text'),
-                style: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  fontSize: 18,
-                )
-            ),
-            onTap: (){
-              Navigator.pushNamed(context, '/settings');
-            },
-          ),
-          new ListTile(
-            leading: Icon(Icons.receipt, color: Colors.white),
-            title: new Text(Translations.of(context).text('legal_privacy_button_text'),
-                style: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  fontSize: 18,
-                )
-            ),
-            onTap: (){
-              Navigator.pushNamed(context, '/legal');
-            },
-          ),
-          new Divider(height: 10, color: Colors.black26,),
-          new ListTile(
-            title: new Text('We are what we breathe',
-                style: TextStyle(
-                  fontFamily:"OpenSans",
-                  color: Colors.white,
-                  fontSize: 15,
-                )
-            ),
-            subtitle: new Text('Copyright © 2019 AirHive',
-              style: TextStyle(
-                fontFamily:"OpenSans",
-                color: Colors.white,
-                fontSize: 10,
-              )
-            ),
-          ),
-        ],
+  return Drawer(
+      child: new Container(
+          color: Theme.of(context).primaryColor,
+          child: new ListView(
+            children: <Widget> [
+              new DrawerHeader(
+                decoration: new BoxDecoration(
+                  boxShadow: [
+                    new BoxShadow(
+                      color: Colors.black26,
+                    )],
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: new Image.asset(
+                    "immagini/airhive_white2.png",
+                    scale: 5.5,
+                  ), ),
+
+              ),
+              new ListTile(
+                leading: Icon(Icons.map, color: Colors.white),
+                title: new Text(allTranslations.text('sideMenu.map_button'),
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 18,
+                    )
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, '/homemap');
+                },
+              ),
+              new ListTile(
+                leading: Icon(Icons.account_box, color: Colors.white),
+                title: new Text(allTranslations.text('sideMenu.account_button'),
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 18,
+                    )
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, '/account');
+                },
+              ),
+              new ListTile(
+                leading: Icon(Icons.markunread, color: Colors.white),
+                title: new Text(allTranslations.text('sideMenu.alerts_button'),
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 18,
+                    )
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, '/messages');
+                },
+              ),
+              new Divider(height: 10, color: Colors.black26,),
+              new ListTile(
+                leading: Icon(Icons.settings, color: Colors.white),
+                title: new Text(allTranslations.text('sideMenu.settings_button'),
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 18,
+                    )
+                ),
+                onTap: (){
+                  Navigator.pushNamed(context, '/settings');
+                },
+              ),
+              new ListTile(
+                leading: Icon(Icons.receipt, color: Colors.white),
+                title: new Text(allTranslations.text('sideMenu.legal_button'),
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 18,
+                    )
+                ),
+                onTap: (){
+                  Navigator.pushNamed(context, '/legal');
+                },
+              ),
+              new Divider(height: 10, color: Colors.black26,),
+              new ListTile(
+                title: new Text('We are what we breathe',
+                    style: TextStyle(
+                      fontFamily:"OpenSans",
+                      color: Colors.white,
+                      fontSize: 15,
+                    )
+                ),
+                subtitle: new Text('Copyright © 2019 AirHive',
+                    style: TextStyle(
+                      fontFamily:"OpenSans",
+                      color: Colors.white,
+                      fontSize: 10,
+                    )
+                ),
+              ),
+            ],
+          )
       )
-    )
   );
 }
 
@@ -244,8 +294,8 @@ Future<void> inviaposizione(http.Client client, double lat, double lng) async {
 Future<void> connectionCheck() async {
   try {
     final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        conessioneassente = false;
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      conessioneassente = false;
     }
   } on SocketException catch (_) {
     conessioneassente = true;
@@ -275,12 +325,20 @@ int getCurrMap(){
   }
 }
 
+//Function to check the current language used
+
 
 //main
 void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await allTranslations.init();
 
   mail_inviata = (await prefs.getString("mail_inviata")) ?? "no";
+
+  //Retrieve language information from shared preferences
+  currLang = await getLanguage();
+  await allTranslations.setNewLanguage(ListOfLangs[currLang]);
+
 
   //Retrieve map information from shared preferences
   currMapNum = await getMapType();
@@ -290,12 +348,12 @@ void main() async {
   await _login(http.Client());
   //runApp(MyApp());
   runApp(
-    MultiProvider(
-      providers:[
-        ChangeNotifierProvider<MapStyleModel>(builder: (context) => MapStyleModel(),
-        ),
-      ],
-      child: MyApp(),
-    )
+      MultiProvider(
+        providers:[
+          ChangeNotifierProvider<MapStyleModel>(builder: (context) => MapStyleModel(),
+          ),
+        ],
+        child: MyApp(),
+      )
   );
 }

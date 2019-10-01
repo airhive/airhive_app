@@ -1,0 +1,67 @@
+{
+  "sideMenu": {
+    "map_button": "Karte",
+    "account_button": "Konto",
+    "alerts_button": "Warnungen",
+    "settings_button": "Impostazioni",
+    "legal_button": "Rechtliches und Datenschutz"
+  },
+  "homePage": {
+    "map_button":"Karte",
+    "menu_button": "Menü",
+    "search_button": "Suche",
+    "last_update": "Aktualisiert um",
+    "rainfall": "Niederschlag",
+    "temperature": "Temperatur",
+    "wind": "Wind",
+    "blank_research_text": "Suche",
+    "close": "schließen",
+    "retry": "versuchen Sie es erneut",
+    "functions_not_available": "Einige Funktionen der App sind offline nicht verfügbar",
+    "offline_device": "DOffline-Gerät",
+    "unknown_address": "IAdresse nicht gefunden",
+    "ottima_aria": "Die Luftqualität ist ausgezeichnet",
+    "buona_aria": "Die Luftqualität ist gut",
+    "cattiva_aria": "Die Luftqualität ist schlecht",
+    "pessima_aria": "Die Luftqualität ist sehr schlecht"
+  },
+  "settingsPage": {
+    "title": "Einstellungen",
+    "map_settings": "Kartenstil",
+    "standard_map": "Standard",
+    "satellite_map": "Satellit",
+    "hybrid_map": "Hybrid",
+    "topographical_map": "Topographisch",
+    "dark_map": "Dunkel",
+    "night_map": "Nacht",
+    "retro_map": "Jahrgang",
+    "silver_map": "Silber",
+    "aubergine_map": "Aubergine",
+    "language_settings": "Spracheinstellungen"
+  },
+  "moreDataPage": {
+    "title": "Charts",
+    "present": "Strom"
+  },
+  "loginPage": {
+    "title": "Konto",
+    "sign_in": "Registrieren",
+    "accept_privacy_to_continue": "Akzeptieren Sie die Privatsphäre, um fortzufahren",
+    "accept_privacy": "Ich stimme der Privatsphäre zu",
+    "verification_code": "Bestätigungscode",
+    "error_code":"Falscher Code",
+    "back_to_mail": "Geben Sie eine andere E-Mail ein",
+    "no_info_offline": "Seite offline nicht verfügbar",
+    "not_email": "Es sieht nicht nach einer E-Mail-Adresse aus",
+    "error": "Fehler",
+    "offline_device": "Offline-Gerät"
+  },
+  "legalPage": {
+    "title": "Rechtliches und Datenschutz",
+    "no_info_offline": "Seite offline nicht verfügbar"
+  },
+  "messagesPage": {
+    "title": "Benachrichtigungen",
+    "no_info_offline": "Seite offline nicht verfügbar"
+  }
+}
