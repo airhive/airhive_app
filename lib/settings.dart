@@ -25,7 +25,7 @@ int currMap;
 *      5      ->  Veneto
  */
 
-const ListOfLangs = ["it", "en", "de", "fr", "es", "ve"];
+const ListOfLangs = ["it", "en", "de", "fr", "es", "km"];
 int currLang;
 int getDefLang(){
   String currLoc = Platform.localeName.toLowerCase();

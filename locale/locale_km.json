@@ -1,0 +1,67 @@
+{
+  "sideMenu": {
+    "map_button": "Mapa",
+    "account_button": "Profio",
+    "alerts_button": "Avisi",
+    "settings_button": "Impostasioni",
+    "legal_button": "Legałe e privacy"
+  },
+  "homePage": {
+    "map_button":"Mapa",
+    "menu_button": "Menu",
+    "search_button": "Cata",
+    "last_update": "Aggiornato alle",
+    "rainfall": "Presipitasion",
+    "temperature": "Temperatura",
+    "wind": "Vento",
+    "blank_research_text": "Cata",
+    "close": "Sara",
+    "retry": "Retenta",
+    "functions_not_available": "Alcune funsionalità dea app noe xe disponibili sensa conesion",
+    "offline_device": "Dispositivo offline",
+    "unknown_address": "No eo trovo",
+    "ottima_aria": "L'aria la xe otima",
+    "buona_aria": "L'aria la xe bona",
+    "cattiva_aria": "L'aria la xe cativa",
+    "pessima_aria": "L'aria la xe pesima"
+  },
+  "settingsPage": {
+    "title": "Impostasioni",
+    "map_settings": "Tipo de Mapa",
+    "standard_map": "Normae",
+    "satellite_map": "Satełite",
+    "hybrid_map": "Via de meso",
+    "topographical_map": "Topografico",
+    "dark_map": "Moro",
+    "night_map": "Note",
+    "retro_map": "Vecio",
+    "silver_map": "Arzento",
+    "aubergine_map": "Melansana",
+    "language_settings": "Impostasioni lengua"
+  },
+  "moreDataPage": {
+    "title": "Grafisi",
+    "present": "Atual"
+  },
+  "loginPage": {
+    "title": "Profio",
+    "sign_in": "Registrate",
+    "accept_privacy_to_continue": "Aseta ea privacy par continuar",
+    "accept_privacy": "Aconsento a ea privacy",
+    "verification_code": "Codise de verifega",
+    "error_code":"Codise errà",
+    "back_to_mail": "Inserisi n'altra e-mail",
+    "no_info_offline": "Pajina non disponibie sensa conesion",
+    "not_email": "Non me par n'indiriso e-mail",
+    "error": "Eror",
+    "offline_device": "Dispositivo sensa conesion"
+  },
+  "legalPage": {
+    "title": "Legałe e privacy",
+    "no_info_offline": "Pajina non disponibie sensa conesion"
+  },
+  "messagesPage": {
+    "title": "Avisi",
+    "no_info_offline": "Pajina non disponibie sensa conesion"
+  }
+}

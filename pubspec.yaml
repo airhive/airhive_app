@@ -76,6 +76,7 @@ flutter:
     - locale/locale_en.json
     - locale/locale_fr.json
     - locale/locale_es.json
+    - locale/locale_km.json
     - map_styles/gtav.txt
     - map_styles/dark.txt
     - map_styles/night.txt
