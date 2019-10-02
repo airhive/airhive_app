@@ -22,6 +22,7 @@ int currMap;
 *      2      ->  German
 *      3      ->  French
 *      4      ->  Spanish
+*      5      ->  Veneto
  */
 
 const ListOfLangs = ["it", "en", "de", "fr", "es", "ve"];
@@ -191,6 +192,7 @@ class _SettingsPageState extends State<SettingsPage> {
     languageData.add(new LanguageRadioModel(false, 'de', "Deutsch"));
     languageData.add(new LanguageRadioModel(false, 'fr', "Français"));
     languageData.add(new LanguageRadioModel(false, 'es', "Español"));
+    languageData.add(new LanguageRadioModel(false, 've', "Vèneto"));
 
 
     mapData[currMap].isSelected = true;
@@ -443,6 +445,16 @@ class _SettingsPageState extends State<SettingsPage> {
                               });
                             },
                             child: new LanguageRadioItem(languageData[4]),
+                          ),
+
+                          new InkWell(
+                            splashColor: Colors.yellow[700],
+                            onTap: () {
+                              setState(() {
+                                setLanguage(5);
+                              });
+                            },
+                            child: new LanguageRadioItem(languageData[5]),
                           ),
 
                         ],
