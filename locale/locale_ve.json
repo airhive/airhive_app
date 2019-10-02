@@ -10,20 +10,20 @@
     "map_button":"Mapa",
     "menu_button": "Menu",
     "search_button": "Cata",
-    "last_update": "Agiornato ae",
+    "last_update": "Ultimo canbiamento el",
     "rainfall": "Presipitasion",
     "temperature": "Temperatura",
     "wind": "Vento",
     "blank_research_text": "Cata",
     "close": "Sara",
     "retry": "Retenta",
-    "functions_not_available": "Alcune funsionalità dea app noe xe disponibili sensa conesion",
-    "offline_device": "Dispositivo sensa conesion",
+    "functions_not_available": "Alcune funsioni dea app noe xe disponibili sensa conesion",
+    "offline_device": "No ghe se conesion",
     "unknown_address": "No eo trovo",
-    "ottima_aria": "L'aria la xe otima",
-    "buona_aria": "L'aria la xe bona",
-    "cattiva_aria": "L'aria la xe cativa",
-    "pessima_aria": "L'aria la xe pesima"
+    "ottima_aria": "Ghe xe aria otima chive",
+    "buona_aria": "Ghe xe bona aria chive",
+    "cattiva_aria": "Ghe xe aria smarsa chive",
+    "pessima_aria": "L'aria xe ciodi chive"
   },
   "settingsPage": {
     "title": "Impostasioni",
@@ -45,8 +45,8 @@
   },
   "loginPage": {
     "title": "Profio",
-    "sign_in": "Registrate",
-    "accept_privacy_to_continue": "Aseta ea privacy par continuar",
+    "sign_in": "Va drento",
+    "accept_privacy_to_continue": "Aseta ea privacy pa continuar",
     "accept_privacy": "Aconsento a ea privacy",
     "verification_code": "Codise de verifega",
     "error_code":"Codise errà",
@@ -54,7 +54,7 @@
     "no_info_offline": "Pajina non disponibie sensa conesion",
     "not_email": "Non me par n'indiriso e-mail",
     "error": "Eror",
-    "offline_device": "Dispositivo sensa conesion"
+    "offline_device": "No ghe se conesion"
   },
   "legalPage": {
     "title": "Legałe e privacy",

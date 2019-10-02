@@ -438,15 +438,15 @@ class _HomePageState extends State<HomePage> {
                                   onPressed: () => {
                                     setState(() {
                                       if (vedo == 0) {
-                                        _markers = _oldmarker.union(_markerspm);
+                                        _markers = _markers.union(_markerspm);
                                         vedo = 1;
                                       }
                                       else if (vedo == 1){
-                                        _markers = _oldmarker.union(_markersno);
+                                        _markers = _markers.union(_markersno);
                                         vedo = 2;
                                       }
                                       else if (vedo == 2){
-                                        _markers = _oldmarker.union(_markerso3);
+                                        _markers = _markers.union(_markerso3);
                                         vedo = 3;
                                       }
                                       else if (vedo == 3){
