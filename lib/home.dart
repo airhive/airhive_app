@@ -558,10 +558,10 @@ class _HomePageState extends State<HomePage> {
                                              ),
                                               Align(
                                                 alignment: Alignment(0.63, 0.0),
-                                                child: valori_sensore.caqi < 25 ? Image.asset( "immagini/ape_ottimo_colore.png", scale: 10,):
-                                                valori_sensore.caqi < 50 ? Image.asset( "immagini/ape_ok_colore.png", scale: 10,):
-                                                valori_sensore.caqi < 75 ? Image.asset( "immagini/ape_mediocre_colore.png", scale: 10,):
-                                                Image.asset( "immagini/ape_pessimo_colore.png", scale: 10,),
+                                                child: valori_sensore.caqi < 25 ? Image.asset( "immagini/ape_ottimo_style.png", scale: 10,):
+                                                valori_sensore.caqi < 50 ? Image.asset( "immagini/ape_ok_style.png", scale: 10,):
+                                                valori_sensore.caqi < 75 ? Image.asset( "immagini/ape_mediocre_style.png", scale: 10,):
+                                                Image.asset( "immagini/ape_pessimo_style.png", scale: 10,),
                                               ),
                                               Align(
                                                  alignment: Alignment(1.0, -1.0),
