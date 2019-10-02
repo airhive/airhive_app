@@ -1,67 +1,67 @@
 {
   "sideMenu": {
-    "map_button": "Mappa",
-    "account_button": "Account",
-    "alerts_button": "Avvisi",
-    "settings_button": "Impostazioni",
-    "legal_button": "Legale e privacy"
+    "map_button": "Mapa",
+    "account_button": "Profio",
+    "alerts_button": "Avisi",
+    "settings_button": "Impostasioni",
+    "legal_button": "Legałe e privacy"
   },
   "homePage": {
-    "map_button":"Mappa",
+    "map_button":"Mapa",
     "menu_button": "Menu",
-    "search_button": "Cerca",
+    "search_button": "Cata",
     "last_update": "Aggiornato alle",
-    "rainfall": "Precipitazioni",
+    "rainfall": "Presipitasion",
     "temperature": "Temperatura",
     "wind": "Vento",
-    "blank_research_text": "Cerca",
-    "close": "Chiudi",
-    "retry": "Riprova",
-    "functions_not_available": "Alcune funzionalità della app non sono disponibili offline",
+    "blank_research_text": "Cata",
+    "close": "Sara",
+    "retry": "Retenta",
+    "functions_not_available": "Alcune funsionalità dea app noe xe disponibili sensa conesion",
     "offline_device": "Dispositivo offline",
-    "unknown_address": "Indirizzo non trovato",
-    "ottima_aria": "La qualità dell'aria è ottima",
-    "buona_aria": "La qualità dell'aria è buona",
-    "cattiva_aria": "La qualità dell'aria è cattiva",
-    "pessima_aria": "La qualità dell'aria è pessima"
+    "unknown_address": "No eo trovo",
+    "ottima_aria": "L'aria la xe otima",
+    "buona_aria": "L'aria la xe bona",
+    "cattiva_aria": "L'aria la xe cativa",
+    "pessima_aria": "L'aria la xe pesima"
   },
   "settingsPage": {
-    "title": "Impostazioni",
-    "map_settings": "Stile Mappa",
-    "standard_map": "Standard",
-    "satellite_map": "Satellite",
-    "hybrid_map": "Ibrido",
+    "title": "Impostasioni",
+    "map_settings": "Tipo de Mapa",
+    "standard_map": "Normae",
+    "satellite_map": "Satełite",
+    "hybrid_map": "Via de meso",
     "topographical_map": "Topografico",
-    "dark_map": "Scuro",
-    "night_map": "Notte",
-    "retro_map": "Vintage",
-    "silver_map": "Silver",
-    "aubergine_map": "Melanzana",
-    "language_settings": "Impostazioni lingua"
+    "dark_map": "Moro",
+    "night_map": "Note",
+    "retro_map": "Vecio",
+    "silver_map": "Arzento",
+    "aubergine_map": "Melansana",
+    "language_settings": "Impostasioni lengua"
   },
   "moreDataPage": {
-    "title": "Grafici",
-    "present": "Attuale"
+    "title": "Grafisi",
+    "present": "Atual"
   },
   "loginPage": {
-    "title": "Account",
-    "sign_in": "Registrati",
-    "accept_privacy_to_continue": "Accetta la privacy per proseguire",
-    "accept_privacy": "Acconsento alla privacy",
-    "verification_code": "Codice di verifica",
-    "error_code":"Codice errato",
-    "back_to_mail": "Inserisci un'altra e-mail",
-    "no_info_offline": "Pagina non disponibile offline",
-    "not_email": "Non sembra un indirizzo e-mail",
-    "error": "Errore",
-    "offline_device": "Dispositivo offline"
+    "title": "Profio",
+    "sign_in": "Registrate",
+    "accept_privacy_to_continue": "Aseta ea privacy par continuar",
+    "accept_privacy": "Aconsento a ea privacy",
+    "verification_code": "Codise de verifega",
+    "error_code":"Codise errà",
+    "back_to_mail": "Inserisi n'altra e-mail",
+    "no_info_offline": "Pajina non disponibie sensa conesion",
+    "not_email": "Non me par n'indiriso e-mail",
+    "error": "Eror",
+    "offline_device": "Dispositivo sensa conesion"
   },
   "legalPage": {
-    "title": "Legale e Privacy",
-    "no_info_offline": "Pagina non disponibile offline"
+    "title": "Legałe e privacy",
+    "no_info_offline": "Pajina non disponibie sensa conesion"
   },
   "messagesPage": {
-    "title": "Avvisi",
-    "no_info_offline": "Pagina non disponibile offline"
+    "title": "Avisi",
+    "no_info_offline": "Pajina non disponibie sensa conesion"
   }
 }
