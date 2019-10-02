@@ -17,13 +17,13 @@
     "blank_research_text": "Cata",
     "close": "Sara",
     "retry": "Retenta",
-    "functions_not_available": "Alcune funsionalità dea app noe xe disponibili sensa conesion",
-    "offline_device": "Dispositivo sensa conesion",
+    "functions_not_available": "Alcune funsioni dea app noe xe disponibili sensa conesion",
+    "offline_device": "No ghe se conesion",
     "unknown_address": "No eo trovo",
-    "ottima_aria": "L'aria la xe otima",
-    "buona_aria": "L'aria la xe bona",
-    "cattiva_aria": "L'aria la xe cativa",
-    "pessima_aria": "L'aria la xe pesima"
+    "ottima_aria": "Ghe xe aia otima chive",
+    "buona_aria": "Ghe xe bona chive",
+    "cattiva_aria": "Ghe xe aria smarsa chive",
+    "pessima_aria": "L'aria xe ciodi chive"
   },
   "settingsPage": {
     "title": "Impostasioni",
@@ -54,7 +54,7 @@
     "no_info_offline": "Pajina non disponibie sensa conesion",
     "not_email": "Non me par n'indiriso e-mail",
     "error": "Eror",
-    "offline_device": "Dispositivo sensa conesion"
+    "offline_device": "No ghe se conesion"
   },
   "legalPage": {
     "title": "Legałe e privacy",
