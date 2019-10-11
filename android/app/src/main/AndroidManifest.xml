@@ -13,7 +13,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="AirHive"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/logo_negativo">
         <!-- Occhio a questa roba -->
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <meta-data
